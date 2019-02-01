@@ -43,8 +43,19 @@ class App extends Component {
   }
 
   render() {
+    const {pullRequest} = this.state;
+  
     return (
-      <div className="App">
+      <div className="App">  
+      {pullRequest.map((item, index) => {
+      return (
+        <div key={index}>
+         <h3>{item.title}</h3> 
+         <h4>{item.date}</h4>
+         <h4>{item.comments}</h4>
+         <h4>{item.author}</h4>
+        </div>
+      )})}
         <Header />
         <Switch>
           <Route
