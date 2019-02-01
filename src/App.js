@@ -8,7 +8,6 @@ let repositoryId = '';
 const apiCall = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`
 
 
-
 class App extends Component {
   constructor (props){
     super (props);
@@ -32,20 +31,11 @@ class App extends Component {
             author: item.author.display_name,
             comments: item.comment_count,
           }
-        }
-        
-        
-        
-        )
-        // console.log (pullRequestInfo)
-        this.setState ({
-          // title: pullRequestInfo.title,
-          pullRequest: pullRequestInfo
-          // state: pullRequestInfo.state,
-        }
-        // console.log (this.state.title)
-        )
+        })
 
+        this.setState ({
+          pullRequest: pullRequestInfo
+        })
       })
   }
 
