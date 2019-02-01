@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import StatusTab from '../StatusTab';
+import PRlist from '../PRlist';
 
 class DetailsContainer extends Component {
 
@@ -12,6 +13,7 @@ class DetailsContainer extends Component {
                 <option>MERGED</option>
                 <option>DECLINED</option>
             </select>
+
             <StatusTab /*status onclick className*//>
             <StatusTab />
             <StatusTab />
