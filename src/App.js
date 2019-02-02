@@ -15,18 +15,18 @@ class App extends Component {
   constructor (props){
     super (props);
     this.state = {
-    pullRequest: [],
+    pullRequests: [],
     }
     console.log (this.state.title)
   }
-  
+
   componentDidMount (){
     fetch (apiCall)
       .then (response => response.json())
       .then (data => {
         console.log (data.values)
         const pullRequestInfo = data.values.map((item, index)=>{
-        
+
           return {
             state: item.state,
             date: item.created_on,
@@ -37,7 +37,7 @@ class App extends Component {
         })
 
         this.setState ({
-          pullRequest: pullRequestInfo
+          pullRequests: pullRequestInfo
         })
       })
   }
