@@ -12,7 +12,7 @@ class Header extends Component {
                     <nav>
                         <Link to="/">Summary</Link>
                         <Link to="/">Details</Link>       
-                </nav>
+                    </nav>
                 <select>
                     <option>REPOSITORY 1</option>
                     <option>REPOSITORY 2</option>

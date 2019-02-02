@@ -4,6 +4,7 @@ import './App.scss';
 import Header from './components/Header';
 import Summary from './components/Summary';
 import Footer from './components/Footer';
+import DetailsContainer from './components/DetailsContainer';
 
 let repositoryName = 'aui';
 
@@ -59,6 +60,7 @@ class App extends Component {
         </div>
       )})}
         <Header />
+        <main>
         <Switch>
           <Route
             exact
@@ -69,7 +71,17 @@ class App extends Component {
               )
             }}
           />
+          <Route
+            exact
+            path="/details"
+            render={() => {
+              return (
+                <DetailsContainer />
+              )
+            }}
+          />
         </Switch>
+        </main>
         <Footer />
       </div>
     );
