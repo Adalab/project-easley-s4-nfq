@@ -43,14 +43,14 @@ class App extends Component {
   }
 
   render() {
-    const {pullRequest} = this.state;
-  
+    const {pullRequests} = this.state;
+
     return (
-      <div className="App">  
-      {pullRequest.map((item, index) => {
+      <div className="App">
+      {pullRequests.map((item, index) => {
       return (
         <div key={index}>
-         <h3>{item.title}</h3> 
+         <h3>{item.title}</h3>
          <h4>{item.date}</h4>
          <h4>{item.comments}</h4>
          <img src={item.avatar} alt={item.author} />
