@@ -18,22 +18,21 @@ class App extends Component {
     this.state = {
     pullRequests: [],
     }
-    console.log (this.state.title)
   }
 
   componentDidMount (){
     fetch (apiCall)
       .then (response => response.json())
       .then (data => {
-        console.log (data.values)
         const pullRequestInfo = data.values.map((item, index)=>{
-
           return {
             state: item.state,
             date: item.created_on,
             title: item.title,
             author: item.author.display_name,
             comments: item.comment_count,
+            avatar: item.author.links.avatar.href,
+            branch: item.source.branch.name,
           }
         })
 
@@ -44,8 +43,21 @@ class App extends Component {
   }
 
   render() {
+    const {pullRequest} = this.state;
+  
     return (
-      <div className="App">
+      <div className="App">  
+      {pullRequest.map((item, index) => {
+      return (
+        <div key={index}>
+         <h3>{item.title}</h3> 
+         <h4>{item.date}</h4>
+         <h4>{item.comments}</h4>
+         <img src={item.avatar} alt={item.author} />
+         <h4>{item.author}</h4>
+         <h4>{item.branch}</h4>
+        </div>
+      )})}
         <Header />
         <Switch>
           <Route
