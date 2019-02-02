@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import './App.scss';
 import Header from './components/Header';
 import Summary from './components/Summary';
+import Footer from './components/Footer';
 
 let repositoryName = 'aui';
 
@@ -15,10 +16,10 @@ class App extends Component {
   constructor (props){
     super (props);
     this.state = {
-    pullRequest: [],
+    pullRequests: [],
     }
   }
-  
+
   componentDidMount (){
     fetch (apiCall)
       .then (response => response.json())
@@ -36,7 +37,7 @@ class App extends Component {
         })
 
         this.setState ({
-          pullRequest: pullRequestInfo
+          pullRequests: pullRequestInfo
         })
       })
   }
@@ -69,6 +70,7 @@ class App extends Component {
             }}
           />
         </Switch>
+        <Footer />
       </div>
     );
   }
