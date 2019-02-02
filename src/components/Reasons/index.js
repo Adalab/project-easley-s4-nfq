@@ -2,15 +2,15 @@ import React, { Component, Fragment } from 'react';
 import User from '../User';
 
 class Reasons extends Component {
-    render() { 
-        return ( 
+    render() {
+        return (
             <Fragment>
-            <div>Show reasons <i class="fas fa-angle-down"></i></div>
+            <div>Show reasons <i className="fas fa-angle-down"></i></div>
             <div>
             <h3>REASONS:</h3>
             <User />
             <p>
-                
+
             </p>
             </div>
             </Fragment>
