@@ -1,14 +1,14 @@
-#✨ PR project ✨
+# PR project ✨
 ## NFQ + ADALAB PROJECT
-![](src/images/nfq-logo.png) ![](src/images/logo-adalab-80px.png)
+![](./src/images/nfq-logo.png) ![](./src/images/logo-adalab-80px.png)
 1. Clone the repository from GitHub in your computer. Copy the repo link and paste it in your terminal after the command *git clone*, then press enter.
 
-![](src/images/gitclone.png)
-![](src/images/git_clone.png)
+![](./src/images/gitclone.png)
+![](./src/images/git_clone.png)
 
 2. Write `$ npm install` and press enter, in order to activate the necessary packages.
 
-![](src/images/npm_install.png)
+![](./src/images/npm_install.png)
 
 3. After these steps, your cloned repository is ready to use! And please don’t forget to make a “pull request” of your branch with modifications. Thanks ;)
 
