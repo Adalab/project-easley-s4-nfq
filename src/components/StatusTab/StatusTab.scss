@@ -7,6 +7,10 @@
   height: 60px;
   font-size: 18px;
 
+  .details__tab:hover {
+    cursor: pointer;
+  }
+
   @media all and (max-width:728px) {
     display: none;
   }
