@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import './StatusTab.scss';
 
 class StatusTab extends Component {
 
-    render() { 
+    render() {
         return (
-            <button>STATUS</button>
+            <button className="details__tab">{this.props.status}</button>
         );
     }
 }
