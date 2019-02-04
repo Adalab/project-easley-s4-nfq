@@ -51,12 +51,12 @@ class App extends Component {
       {pullRequests.map((item, index) => {
       return (
         <div key={index}>
-         <h3>{item.title}</h3>
-         <h4>{item.date}</h4>
-         <h4>{item.comments}</h4>
-         <img src={item.avatar} alt={item.author} />
-         <h4>{item.author}</h4>
-         <h4>{item.branch}</h4>
+        <h3>{item.title}</h3>
+        <h4>{item.date}</h4>
+        <h4>{item.comments}</h4>
+        <img src={item.avatar} alt={item.author} />
+        <h4>{item.author}</h4>
+        <h4>{item.branch}</h4>
         </div>
       )})}
         <Header />
