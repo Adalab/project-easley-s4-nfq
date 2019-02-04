@@ -67,7 +67,6 @@ class App extends Component {
       <div className="App">
         {pullRequests.map((item, index) => {
           const newFormatedDate = this.handleDate(item.date);
-          console.log(newFormatedDate)
           return (
             <div key={index}>
               <h3>{item.title}</h3>
