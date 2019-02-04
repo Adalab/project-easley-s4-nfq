@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import './App.scss';
-import Header from './components/Header';
-import Summary from './components/Summary';
-import Footer from './components/Footer';
-import DetailsContainer from './components/DetailsContainer';
-import { getPullRequestInfo } from './Services/RepositoryService';
+import React, { Component } from "react";
+import { Switch, Route } from "react-router-dom";
+import "./App.scss";
+import Header from "./components/Header";
+import Summary from "./components/Summary";
+import Footer from "./components/Footer";
+import DetailsContainer from "./components/DetailsContainer";
+import { getPullRequestInfo, prEndpoint } from "./Services/RepositoryService";
 
 
 class App extends Component {
@@ -13,27 +13,51 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
-    }
+      reviewers: []
+    };
   }
+
   componentDidMount() {
     getPullRequestInfo()
-      .then(data => {
-        const pullRequestInfo = data.values.map((item, index) => {
-          return {
-            state: item.state,
-            date: item.created_on,
-            title: item.title,
-            author: item.author.display_name,
-            comments: item.comment_count,
-            avatar: item.author.links.avatar.href,
-            branch: item.source.branch.name,
-          }
-        })
+    .then(data => {
+      const pullRequestInfo = data.values.map((item, index) => {
+        return {
+          id: item.id,
+          state: item.state,
+          date: item.created_on,
+          title: item.title,
+          author: item.author.display_name,
+          comments_number: item.comment_count,
+          avatar: item.author.links.avatar.href,
+          branch: item.source.branch.name,
+          develop: item.destination.branch.name,
+          uriReviewer: prEndpoint + item.id
+        };
+      });
+      this.setState({
+        pullRequests: pullRequestInfo
+      });
 
-        this.setState({
-          pullRequests: pullRequestInfo
-        })
-      })
+      const uriReviewer = this.state.pullRequests[0].uriReviewer;
+      console.log("uriReviewer", uriReviewer);
+      console.log("state pullrequests", this.state.pullRequests);
+
+      fetch(uriReviewer)
+        .then(response => response.json())
+        .then(data => {
+          console.log("data uriReviewer", data);
+          const pullRequestReviewer = data.reviewers.map((item, index) => {
+            return {
+              reviewer_name: item.display_name,
+              reviewer_avatar: item.links.avatar.href
+            };
+          });
+          this.setState({
+            reviewers: pullRequestReviewer
+          });
+          console.log(this.state.reviewers);
+        });
+    });
   }
 
   handleDate(date) {
@@ -48,29 +72,56 @@ class App extends Component {
       date: newDate,
       day: dayDate,
       month: monthDate,
-      year: yearDate,
-    }
-    return infoDate
+      year: yearDate
+    };
+    return infoDate;
   }
 
   render() {
     const { pullRequests } = this.state;
+    const { reviewers } = this.state;
 
     return (
       <div className="App">
-      {pullRequests.map((item, index) => {
-      return (
-        <div key={index}>
-         <h3 className="app--card-title">{item.title}</h3>
-         <h4 className="app--card-date">{item.date}</h4>
-         <h4 className="app--card-comments">{item.comments}</h4>
-         <div className="app--card-user">
-         <img className="app--card-image" src={item.avatar} alt={item.author} />
-         <h4 className="app--card-name">{item.author}</h4>
-          <h4 className="app--card-branch">{item.branch}</h4>
-         </div>
-        </div>
-      )})}
+        {pullRequests.map((pr, index) => {
+          return (
+            <div key={index}>
+              <h3 className="app--card-title">{pr.title}</h3>
+              <h4 className="app--card-date">{pr.date}</h4>
+              <h4 className="app--card-comments">{pr.comments}</h4>
+
+              <div className="app--card-user">
+                <img
+                  className="app--card-user-image"
+                  src={pr.avatar}
+                  alt={pr.author}
+                />
+                <h4 className="app--card-user-name">{pr.author}</h4>
+                <h4 className="app--card-user-branch">{pr.branch}</h4>
+              </div>
+
+              <div className="app--card-reviewer">
+                {reviewers.map((rv, index) => {
+                  return (
+                    <div key={index}>
+                      <img
+                        className="app--card-image-reviewer"
+                        src={rv.reviewer_avatar}
+                        alt={rv.reviewer_name}
+                      />
+                      <h4 className="app--card-name-reviewer">
+                        {rv.reviewer_name}
+                      </h4>
+                      <h4 className="app--card-branch-reviewer">
+                        {pr.develop}
+                      </h4>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
         <Header />
         <main>
           <Switch>
@@ -78,25 +129,20 @@ class App extends Component {
               exact
               path="/summary"
               render={() => {
-                return (
-                  <Summary />
-                )
+                return <Summary />;
               }}
             />
             <Route
               exact
               path="/"
               render={() => {
-                return (
-                  <DetailsContainer pullRequests={pullRequests} />
-                )
+                return <DetailsContainer pullRequests={pullRequests} />;
               }}
             />
           </Switch>
         </main>
+
         <Footer />
-
-
       </div>
     );
   }
