@@ -7,7 +7,7 @@ class PRcard extends Component {
         return (
             <div>
                 <span>22/01/2019</span>
-                <a href={`https://bitbucket.org/atlassian/${this.props.name}/pull-requests/${this.props.id}/_/diff`} rel="noopener noreferrer" target="_blank">
+                <a href={`https://bitbucket.org/${this.props.name}/pull-requests/${this.props.id}/_/diff`} rel="noopener noreferrer" target="_blank">
                 <span>
                 {this.props.commentsCount}
                 <i class="far fa-comment"></i>

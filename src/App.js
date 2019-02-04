@@ -35,7 +35,7 @@ class App extends Component {
             avatar: item.author.links.avatar.href,
             branch: item.source.branch.name,
             id: item.id,
-            name: item.destination.repository.name
+            name: item.destination.repository.full_name
           }
         })
         this.setState({
