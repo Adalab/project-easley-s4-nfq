@@ -7,12 +7,9 @@ import Footer from "./components/Footer";
 
 let repositoryName = "aui";
 
-let repositoryId = 2242;
+let repositoryId = '';
 
 const uri = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests`;
-
-const uriReviewer = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
-console.log("uriReviewer", uriReviewer);
 
 class App extends Component {
   constructor(props) {
@@ -30,15 +27,16 @@ class App extends Component {
         console.log("data uri", data);
         const pullRequestInfo = data.values.map((item, index) => {
           return {
+            id: item.id,
             state: item.state,
             date: item.created_on,
             title: item.title,
             author: item.author.display_name,
-            comments: item.comment_count,
+            comments_number: item.comment_count,
             avatar: item.author.links.avatar.href,
             branch: item.source.branch.name,
             develop: item.destination.branch.name,
-            uriReviewer: uri + "/" + item.id
+            uriReviewer: uri + "/" + item.id,
           };
         });
         this.setState({
