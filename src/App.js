@@ -50,6 +50,7 @@ class App extends Component {
       month: monthDate,
       year: yearDate,
     }
+    console.log(infoDate.date);
     return infoDate
   }
 
@@ -58,19 +59,6 @@ class App extends Component {
 
     return (
       <div className="App">
-      {pullRequests.map((item, index) => {
-      return (
-        <div key={index}>
-         <h3 className="app--card-title">{item.title}</h3>
-         <h4 className="app--card-date">{item.date}</h4>
-         <h4 className="app--card-comments">{item.comments}</h4>
-         <div className="app--card-user">
-         <img className="app--card-image" src={item.avatar} alt={item.author} />
-         <h4 className="app--card-name">{item.author}</h4>
-          <h4 className="app--card-branch">{item.branch}</h4>
-         </div>
-        </div>
-      )})}
         <Header />
         <main>
           <Switch>
