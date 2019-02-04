@@ -4,28 +4,22 @@ import './App.scss';
 import Header from './components/Header';
 import Summary from './components/Summary';
 import Footer from './components/Footer';
-
-let repositoryName = 'aui';
-
-let repositoryId = '';
-
-const uri = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`
+import DetailsContainer from './components/DetailsContainer';
+import { getPullRequestInfo } from './Services/RepositoryService';
 
 
 class App extends Component {
-  constructor (props){
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
-    pullRequests: [],
+      pullRequests: [],
     }
   }
-
-  componentDidMount (){
-    fetch (uri)
-      .then (response => response.json())
-      .then (data => {
-        console.log (data)
-        const pullRequestInfo = data.values.map((item, index)=>{
+  
+  componentDidMount() {
+    getPullRequestInfo()
+      .then(data => {
+        const pullRequestInfo = data.values.map((item, index) => {
           return {
             state: item.state,
             date: item.created_on,
@@ -37,14 +31,14 @@ class App extends Component {
           }
         })
 
-        this.setState ({
+        this.setState({
           pullRequests: pullRequestInfo
         })
       })
   }
 
   render() {
-    const {pullRequests} = this.state;
+    const { pullRequests } = this.state;
 
     return (
       <div className="App">
@@ -62,18 +56,31 @@ class App extends Component {
         </div>
       )})}
         <Header />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => {
-              return (
-                <Summary />
-              )
-            }}
-          />
-        </Switch>
+        <main>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return (
+                  <Summary />
+                )
+              }}
+            />
+            <Route
+              exact
+              path="/details"
+              render={() => {
+                return (
+                  <DetailsContainer />
+                )
+              }}
+            />
+          </Switch>
+        </main>
         <Footer />
+
+
       </div>
     );
   }
