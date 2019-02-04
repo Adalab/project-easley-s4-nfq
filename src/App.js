@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import DetailsContainer from './components/DetailsContainer';
 import { getPullRequestInfo } from './Services/RepositoryService';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +15,10 @@ class App extends Component {
       pullRequests: [],
     }
   }
-
+  
   componentDidMount() {
     getPullRequestInfo()
       .then(data => {
-        console.log(data);
         const pullRequestInfo = data.values.map((item, index) => {
           return {
             state: item.state,
@@ -42,18 +42,19 @@ class App extends Component {
 
     return (
       <div className="App">
-        {pullRequests.map((item, index) => {
-          return (
-            <div key={index}>
-              <h3>{item.title}</h3>
-              <h4>{item.date}</h4>
-              <h4>{item.comments}</h4>
-              <img src={item.avatar} alt={item.author} />
-              <h4>{item.author}</h4>
-              <h4>{item.branch}</h4>
-            </div>
-          )
-        })}
+      {pullRequests.map((item, index) => {
+      return (
+        <div key={index}>
+         <h3 className="app--card-title">{item.title}</h3>
+         <h4 className="app--card-date">{item.date}</h4>
+         <h4 className="app--card-comments">{item.comments}</h4>
+         <div className="app--card-user">
+         <img className="app--card-image" src={item.avatar} alt={item.author} />
+         <h4 className="app--card-name">{item.author}</h4>
+         <h4 className="app--card-branch">{item.branch}</h4>
+         </div>
+        </div>
+      )})}
         <Header />
         <main>
           <Switch>
