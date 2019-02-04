@@ -1,10 +1,89 @@
 import React, { Component } from 'react';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import './App.scss';
+import Header from './components/Header';
+import Summary from './components/Summary';
+import Footer from './components/Footer';
+import DetailsContainer from './components/DetailsContainer';
+import { getPullRequestInfo } from './Services/RepositoryService';
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pullRequests: [],
+    }
+  }
+  componentDidMount() {
+    getPullRequestInfo()
+      .then(data => {
+        const pullRequestInfo = data.values.map((item, index) => {
+          return {
+            state: item.state,
+            date: item.created_on,
+            title: item.title,
+            author: item.author.display_name,
+            comments: item.comment_count,
+            avatar: item.author.links.avatar.href,
+            branch: item.source.branch.name,
+          }
+        })
+
+        this.setState({
+          pullRequests: pullRequestInfo
+        })
+      })
+  }
+
+  handleDate(date) {
+    let newDate = date.substring(0, 10);
+    newDate = newDate.split("-");
+    newDate = newDate.reverse();
+    const dayDate = parseInt(newDate[0]);
+    const monthDate = parseInt(newDate[1]);
+    const yearDate = parseInt(newDate[2]);
+    newDate = newDate.join("-");
+    const infoDate = {
+      date: newDate,
+      day: dayDate,
+      month: monthDate,
+      year: yearDate,
+    }
+    console.log(infoDate.date);
+    return infoDate
+  }
+
   render() {
+    const { pullRequests } = this.state;
+
     return (
       <div className="App">
+        <Header />
+        <main>
+          <Switch>
+            <Route
+              exact
+              path="/summary"
+              render={() => {
+                return (
+                  <Summary />
+                )
+              }}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return (
+                  <DetailsContainer pullRequests={pullRequests} />
+                )
+              }}
+            />
+          </Switch>
+        </main>
+        <Footer />
+
 
       </div>
     );
