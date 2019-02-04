@@ -5,7 +5,7 @@ class PRlist extends Component {
     render() {
         return (
             <ul>
-                <PRcard />
+                <PRcard pullRequests={this.props.pullRequests}/>
             </ul>
         );
     }

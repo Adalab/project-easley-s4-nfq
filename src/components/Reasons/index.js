@@ -10,7 +10,7 @@ class Reasons extends Component {
           <div className="showreasons__title">Show reasons <i className="fas fa-angle-down"></i></div>
           <div>
             <h3 className="reason__title">REASONS:</h3>
-            <User />
+            <User pullRequests={this.props.pullRequests} />
             <p>
 
             </p>
