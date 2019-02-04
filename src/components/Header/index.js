@@ -15,11 +15,13 @@ class Header extends Component {
             <Link className="header_summary" to="/">Summary</Link>
             <Link className="header_details" to="/">Details</Link>
           </nav>
-          <select className="header_selector">
+          <div className="header_selector-container">
+          <select className="header_selector-items">
             <option>REPOSITORY 1</option>
             <option>REPOSITORY 2</option>
             <option>REPOSITORY 3</option>
           </select>
+          </div>
         </div>
       </header>
     );
