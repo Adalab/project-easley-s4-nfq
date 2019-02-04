@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Reasons from "../Reasons";
+import User from "../User";
 import "./PRcard.scss";
 
 class PRcard extends Component {
@@ -14,9 +14,13 @@ class PRcard extends Component {
         </div>
         <h3 className="prcard__title">PR title</h3>
         <div className="users__container">
+        <User
+        avatar={this.props.avatar}
+        author={this.props.author}
+        branch={this.props.branch}/>
           <i className="fas fa-arrow-right" />
+
         </div>
-        <Reasons pullRequests={this.props.pullRequests} />
       </div>
     );
   }

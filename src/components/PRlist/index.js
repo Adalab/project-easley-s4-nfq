@@ -2,13 +2,25 @@ import React, { Component } from 'react';
 import PRcard from '../PRcard';
 
 class PRlist extends Component {
-    render() {
-        return (
-            <ul>
-                <PRcard pullRequests={this.props.pullRequests}/>
-            </ul>
-        );
-    }
+  render() {
+    const { pullRequests } = this.props;
+    return (
+      <ul>
+        {pullRequests.map((item, index) => {
+          return (
+            <li key={index}>
+              <PRcard
+              avatar={item.avatar}
+              author={item.author}
+              branch={item.branch} />
+            </li>
+          )
+        })}
+      </ul>
+
+
+    );
+  }
 }
 
 export default PRlist;
