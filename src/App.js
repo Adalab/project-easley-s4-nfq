@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Summary from './components/Summary';
 import Footer from './components/Footer';
 import DetailsContainer from './components/DetailsContainer';
-import getPullRequestInfo from './Services/RepositoryService';
+import { getPullRequestInfo } from './Services/RepositoryService';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class App extends Component {
   componentDidMount() {
     getPullRequestInfo()
       .then(data => {
+        console.log(data);
         const pullRequestInfo = data.values.map((item, index) => {
           return {
             state: item.state,
