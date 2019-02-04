@@ -4,8 +4,8 @@ import PRlist from '../PRlist';
 
 class DetailsContainer extends Component {
 
-    render() { 
-        return ( 
+    render() {
+        return (
             <Fragment>
             <h2>REPOSITORIO SELECCIONADO</h2>
             <select>
@@ -17,7 +17,7 @@ class DetailsContainer extends Component {
             <StatusTab /*status onclick className*//>
             <StatusTab />
             <StatusTab />
-            <PRlist />
+            <PRlist name={this.props.name} id={this.props.id}/>
             </Fragment>
         );
     }
