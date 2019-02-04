@@ -5,12 +5,7 @@ import Header from './components/Header';
 import Summary from './components/Summary';
 import Footer from './components/Footer';
 import DetailsContainer from './components/DetailsContainer';
-
-let repositoryName = 'aui';
-
-let repositoryId = '';
-
-const apiCall = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`
+import { getPullRequestInfo } from './Services/RepositoryService';
 
 
 class App extends Component {
@@ -20,10 +15,8 @@ class App extends Component {
       pullRequests: [],
     }
   }
-
   componentDidMount() {
-    fetch(apiCall)
-      .then(response => response.json())
+    getPullRequestInfo()
       .then(data => {
         const pullRequestInfo = data.values.map((item, index) => {
           return {
@@ -65,19 +58,19 @@ class App extends Component {
 
     return (
       <div className="App">
-        {pullRequests.map((item, index) => {
-          const newFormatedDate = this.handleDate(item.date);
-          return (
-            <div key={index}>
-              <h3>{item.title}</h3>
-              <h4>{newFormatedDate.date}</h4>
-              <h4>{item.comments}</h4>
-              <img src={item.avatar} alt={item.author} />
-              <h4>{item.author}</h4>
-              <h4>{item.branch}</h4>
-            </div>
-          )
-        })}
+      {pullRequests.map((item, index) => {
+      return (
+        <div key={index}>
+         <h3 className="app--card-title">{item.title}</h3>
+         <h4 className="app--card-date">{item.date}</h4>
+         <h4 className="app--card-comments">{item.comments}</h4>
+         <div className="app--card-user">
+         <img className="app--card-image" src={item.avatar} alt={item.author} />
+         <h4 className="app--card-name">{item.author}</h4>
+         <h4 className="app--card-branch">{item.branch}</h4>
+         </div>
+        </div>
+      )})}
         <Header />
         <main>
           <Switch>
@@ -102,6 +95,8 @@ class App extends Component {
           </Switch>
         </main>
         <Footer />
+
+
       </div>
     );
   }
