@@ -67,7 +67,7 @@ class App extends Component {
          <div className="app--card-user">
          <img className="app--card-image" src={item.avatar} alt={item.author} />
          <h4 className="app--card-name">{item.author}</h4>
-         <h4 className="app--card-branch">{item.branch}</h4>
+          <h4 className="app--card-branch">{item.branch}</h4>
          </div>
         </div>
       )})}
@@ -76,7 +76,7 @@ class App extends Component {
           <Switch>
             <Route
               exact
-              path="/"
+              path="/summary"
               render={() => {
                 return (
                   <Summary />
@@ -85,10 +85,10 @@ class App extends Component {
             />
             <Route
               exact
-              path="/details"
+              path="/"
               render={() => {
                 return (
-                  <DetailsContainer />
+                  <DetailsContainer pullRequests={pullRequests} />
                 )
               }}
             />
