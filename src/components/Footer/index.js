@@ -13,7 +13,7 @@ class Footer extends Component {
 
         <nav className="app__footer-students">
 
-          <a className= "app__footer-student"
+          <a className="app__footer-student"
             href="https://github.com/claraharguindey"
             target="_blank"
             rel="noopener noreferrer"
@@ -22,7 +22,7 @@ class Footer extends Component {
             <span className="app__footer-student-name">Clara <span className="app__footer-student-lastname">Harguindey</span></span>
           </a>
 
-          <a className= "app__footer-student"
+          <a className="app__footer-student"
 
             href="https://github.com/inmasalcedo"
             target="_blank"
@@ -32,7 +32,7 @@ class Footer extends Component {
             <span className="app__footer-student-name">Inmaculada <span className="app__footer-student-lastname">Salcedo</span></span>
           </a>
 
-          <a className= "app__footer-student"
+          <a className="app__footer-student"
 
             href="https://github.com/elisamartinb"
             target="_blank"
@@ -42,7 +42,7 @@ class Footer extends Component {
             <span className="app__footer-student-name">Elisa <span className="app__footer-student-lastname">Martin</span></span>
           </a>
 
-          <a className= "app__footer-student"
+          <a className="app__footer-student"
 
             href="https://github.com/katia1802"
             target="_blank"

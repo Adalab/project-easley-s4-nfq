@@ -6,7 +6,6 @@ import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 import DetailsContainer from "./components/DetailsContainer";
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -34,17 +33,15 @@ class App extends Component {
   }
 
   getRepository() {
-    let repositoryId = '';
+    let repositoryId = "";
     let repositoryName = this.state.value;
-    console.log('this state', this.state.value);
 
-    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`
-    console.log(prEndpoint);
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
 
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
-        const pullRequestInfo = data.values.map((item, index) => {
+        const pullRequestInfo = data.values.map(item => {
           return {
             id: item.id,
             state: item.state,
@@ -56,7 +53,7 @@ class App extends Component {
             branch: item.source.branch.name,
             develop: item.destination.branch.name,
             uriReviewer: prEndpoint + item.id,
-            repository: item.destination.repository.full_name,
+            repository: item.destination.repository.full_name
           };
         });
         this.setState({
@@ -64,14 +61,11 @@ class App extends Component {
         });
 
         const uriReviewer = this.state.pullRequests[0].uriReviewer;
-        console.log("uriReviewer", uriReviewer);
-        console.log("state pullrequests", this.state.pullRequests);
 
         fetch(uriReviewer)
           .then(response => response.json())
           .then(data => {
-            console.log("data", data);
-            const pullRequestReviewer = data.reviewers.map((item, index) => {
+            const pullRequestReviewer = data.reviewers.map(item => {
               return {
                 reviewer_name: item.display_name,
                 reviewer_avatar: item.links.avatar.href
@@ -80,7 +74,6 @@ class App extends Component {
             this.setState({
               reviewers: pullRequestReviewer
             });
-            console.log(this.state.reviewers);
           });
       });
   }
@@ -106,7 +99,9 @@ class App extends Component {
               exact
               path="/"
               render={() => {
-                return <DetailsContainer pullRequests={pullRequests} value={value} />;
+                return (
+                  <DetailsContainer pullRequests={pullRequests} value={value} />
+                );
               }}
             />
           </Switch>

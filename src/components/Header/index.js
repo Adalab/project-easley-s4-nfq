@@ -16,11 +16,10 @@ class Header extends Component {
             <Link className="header_details" to="/">Details</Link>
           </nav>
           <div className="header_selector-container">
-          <select className="header_selector-items" value={this.props.value} onChange={this.props.changeRepository}>
-            <option value="aui">aui</option>
-            <option value="application-links">application-links</option>
-            <option>REPOSITORY 3</option>
-          </select>
+            <select className="header_selector-items" value={this.props.value} onChange={this.props.changeRepository}>
+              <option value="aui">aui</option>
+              <option value="application-links">application-links</option>
+            </select>
           </div>
         </div>
       </header>

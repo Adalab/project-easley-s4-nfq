@@ -7,16 +7,24 @@ class PRcard extends Component {
 
   render() {
     const {avatar, author, branch, date} = this.props;
-    console.log('props pr card',date)
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
           <span className="prcard__date">{handleDate(date).date}</span>
-          <span className="prcard__numcomments">
-            4<i className="far fa-comment" />
-          </span>
+          <a
+            href={`https://bitbucket.org/${
+              this.props.repository
+            }/pull-requests/${this.props.id}/_/diff`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span className="prcard__numcomments">
+              {this.props.comments}
+              <i className="far fa-comment" />
+            </span>
+          </a>
         </div>
-        <h3 className="prcard__title">PR title</h3>
+        <h3 className="prcard__title">{this.props.title}</h3>
         <div className="users__container">
         <User
         avatar={avatar}
@@ -24,6 +32,7 @@ class PRcard extends Component {
         branch={branch}/>
           <i className="fas fa-arrow-right" />
 
+          <User  />
         </div>
       </div>
     );

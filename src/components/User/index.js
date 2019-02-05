@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import './User.scss';
 
 class User extends Component {
   render() {
