@@ -85,70 +85,13 @@ class App extends Component {
       });
   }
 
-  handleDate(date) {
-    let newDate = date.substring(0, 10);
-    newDate = newDate.split("-");
-    newDate = newDate.reverse();
-    const dayDate = parseInt(newDate[0]);
-    const monthDate = parseInt(newDate[1]);
-    const yearDate = parseInt(newDate[2]);
-    newDate = newDate.join("-");
-    const infoDate = {
-      date: newDate,
-      day: dayDate,
-      month: monthDate,
-      year: yearDate
-    };
-    return infoDate;
-  }
 
   render() {
-    const { pullRequests } = this.state;
-    const { reviewers } = this.state;
-    const { value } = this.state;
+    const { pullRequests, value } = this.state;
     const changeRepository = this.changeRepository;
 
     return (
       <div className="App">
-        {pullRequests.map((pr, index) => {
-          return (
-            <div key={index}>
-              <h3 className="app--card-title">{pr.title}</h3>
-              <h4 className="app--card-date">{pr.date}</h4>
-              <h4 className="app--card-comments">{pr.comments}</h4>
-
-              <div className="app--card-user">
-                <img
-                  className="app--card-user-image"
-                  src={pr.avatar}
-                  alt={pr.author}
-                />
-                <h4 className="app--card-user-name">{pr.author}</h4>
-                <h4 className="app--card-user-branch">{pr.branch}</h4>
-              </div>
-
-              <div className="app--card-reviewer">
-                {reviewers.map((rv, index) => {
-                  return (
-                    <div key={index}>
-                      <img
-                        className="app--card-image-reviewer"
-                        src={rv.reviewer_avatar}
-                        alt={rv.reviewer_name}
-                      />
-                      <h4 className="app--card-name-reviewer">
-                        {rv.reviewer_name}
-                      </h4>
-                      <h4 className="app--card-branch-reviewer">
-                        {pr.develop}
-                      </h4>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
         <Header value={value} changeRepository={changeRepository} />
         <main>
           <Switch>

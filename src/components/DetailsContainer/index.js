@@ -4,11 +4,11 @@ import PRlist from '../PRlist';
 import './DetailsContainer.scss';
 
 class DetailsContainer extends Component {
-
     render() {
+      const {value, pullRequests} = this.props;
         return (
             <Fragment>
-            <h2 className="details__title">{this.props.value}</h2>
+            <h2 className="details__title">{value}</h2>
             <select className="details__select">
                 <option>OPEN</option>
                 <option>MERGED</option>
@@ -19,7 +19,7 @@ class DetailsContainer extends Component {
             <StatusTab status="MERGED"/>
             <StatusTab status="DECLINED" />
             </div>
-            <PRlist pullRequests={this.props.pullRequests}/>
+            <PRlist pullRequests={pullRequests}/>
             </Fragment>
         );
     }
