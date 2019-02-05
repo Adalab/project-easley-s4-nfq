@@ -5,7 +5,7 @@ class StatusTab extends Component {
 
     render() {
         return (
-            <button className="details__tab">{this.props.status}</button>
+            <button className={`details__tab ${this.props.selected}`}>{this.props.status}</button>
         );
     }
 }

@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import User from "../User";
 import "./PRcard.scss";
+import {handleDate} from '../../Utils/handleDate';
 
 class PRcard extends Component {
+
   render() {
+    const {avatar, author, branch, date} = this.props;
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
-          <span className="prcard__date">22/01/2019</span>
+          <span className="prcard__date">{handleDate(date).date}</span>
           <a
             href={`https://bitbucket.org/${
               this.props.repository
@@ -23,11 +26,10 @@ class PRcard extends Component {
         </div>
         <h3 className="prcard__title">{this.props.title}</h3>
         <div className="users__container">
-          <User
-            avatar={this.props.avatar}
-            author={this.props.author}
-            branch={this.props.branch}
-          />
+        <User
+        avatar={avatar}
+        author={author}
+        branch={branch}/>
           <i className="fas fa-arrow-right" />
 
           <User  />

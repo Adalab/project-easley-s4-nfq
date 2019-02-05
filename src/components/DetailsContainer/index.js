@@ -4,22 +4,22 @@ import PRlist from '../PRlist';
 import './DetailsContainer.scss';
 
 class DetailsContainer extends Component {
-
     render() {
+      const {value, pullRequests} = this.props;
         return (
             <Fragment>
-            <h2 className="details__title">{this.props.value}</h2>
+            <h2 className="details__title">{value}</h2>
             <select className="details__select">
                 <option>OPEN</option>
                 <option>MERGED</option>
                 <option>DECLINED</option>
             </select>
             <div className="details__wrapper--tab">
-            <StatusTab status="OPEN" />
-            <StatusTab status="MERGED" />
-            <StatusTab status="DECLINED" />
+            <StatusTab status="OPEN" selected="details__tab--selected "/>
+            <StatusTab status="MERGED" selected="" />
+            <StatusTab status="DECLINED" selected=""/>
             </div>
-            <PRlist pullRequests={this.props.pullRequests}/>
+            <PRlist pullRequests={pullRequests}/>
             </Fragment>
         );
     }
