@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import User from "../User";
 import "./PRcard.scss";
-import {handleDate} from '../../Utils/handleDate';
+import { handleDate } from '../../Utils/handleDate';
 
 class PRcard extends Component {
 
   render() {
-    const {avatar, author, branch, date} = this.props;
+    const { avatar, author, branch, date } = this.props;
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
@@ -14,7 +14,7 @@ class PRcard extends Component {
           <a
             href={`https://bitbucket.org/${
               this.props.repository
-            }/pull-requests/${this.props.id}/_/diff`}
+              }/pull-requests/${this.props.id}/_/diff`}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -26,13 +26,13 @@ class PRcard extends Component {
         </div>
         <h3 className="prcard__title">{this.props.title}</h3>
         <div className="users__container">
-        <User
-        avatar={avatar}
-        author={author}
-        branch={branch}/>
+          <User
+            avatar={avatar}
+            author={author}
+            branch={branch} />
           <i className="fas fa-arrow-right" />
 
-          <User  />
+          <User />
         </div>
       </div>
     );

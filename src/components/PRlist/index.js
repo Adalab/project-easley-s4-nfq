@@ -10,16 +10,16 @@ class PRlist extends Component {
           return (
             <li key={index}>
               <PRcard
-              repository={item.repository}
-              id={item.id}
-              avatar={item.avatar}
-              author={item.author}
-              branch={item.branch}
-              title={item.title}
-              comments={item.comments_number}
-              handleDate={handleDate}
-              date={item.date}
-               />
+                repository={item.repository}
+                id={item.id}
+                avatar={item.avatar}
+                author={item.author}
+                branch={item.branch}
+                title={item.title}
+                comments={item.comments_number}
+                handleDate={handleDate}
+                date={item.date}
+              />
             </li>
           )
         })}
