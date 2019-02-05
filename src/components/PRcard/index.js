@@ -29,7 +29,8 @@ class PRcard extends Component {
             branch={this.props.branch}
           />
           <i className="fas fa-arrow-right" />
-          <User />
+
+          <User  />
         </div>
       </div>
     );
