@@ -7,9 +7,12 @@ class PRlist extends Component {
     return (
       <ul>
         {pullRequests.map((item, index) => {
+              console.log(item);
           return (
             <li key={index}>
               <PRcard
+              repository={item.repository}
+              id={item.id}
               avatar={item.avatar}
               author={item.author}
               branch={item.branch}
