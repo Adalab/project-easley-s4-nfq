@@ -1,7 +1,6 @@
 {
   "name": "easley-s4-nfq",
   "version": "0.1.0",
-  "homepage": "./",
   "private": true,
   "dependencies": {
     "node-sass": "^4.11.0",
