@@ -15,8 +15,8 @@ class DetailsContainer extends Component {
                 <option>DECLINED</option>
             </select>
             <div className="details__wrapper--tab">
-            <StatusTab status="OPEN"/*status onclick*//>
-            <StatusTab status="MERGED"/>
+            <StatusTab status="OPEN" />
+            <StatusTab status="MERGED" />
             <StatusTab status="DECLINED" />
             </div>
             <PRlist pullRequests={this.props.pullRequests}/>
