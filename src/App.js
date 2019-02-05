@@ -1,87 +1,131 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import './App.scss';
-import Header from './components/Header';
-import Summary from './components/Summary';
-import Footer from './components/Footer';
-import DetailsContainer from './components/DetailsContainer';
-
-let repositoryName = 'aui';
-
-let repositoryId = '';
-
-const apiCall = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`
-
+import React, { Component } from "react";
+import { Switch, Route } from "react-router-dom";
+import "./App.scss";
+import Header from "./components/Header";
+import Summary from "./components/Summary";
+import Footer from "./components/Footer";
+import DetailsContainer from "./components/DetailsContainer";
 
 class App extends Component {
-  constructor (props){
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
-    pullRequests: [],
+      pullRequests: [],
+      reviewers: [],
+      value: "aui"
+    };
+    this.changeRepository = this.changeRepository.bind(this);
+  }
+
+  changeRepository(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  componentDidMount() {
+    this.getRepository();
+  }
+
+  componentDidUpdate(prepProps, prevState) {
+    if (this.state.value !== prevState.value) {
+      this.getRepository();
     }
   }
 
-  componentDidMount (){
-    fetch (apiCall)
-      .then (response => response.json())
-      .then (data => {
-        const pullRequestInfo = data.values.map((item, index)=>{
+  getRepository() {
+    let repositoryId = "";
+    let repositoryName = this.state.value;
+
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
+
+
+    fetch(prEndpoint)
+      .then(response => response.json())
+      .then(data => {
+        const pullRequestInfo = data.values.map((item) => {
           return {
+            id: item.id,
             state: item.state,
             date: item.created_on,
             title: item.title,
             author: item.author.display_name,
-            comments: item.comment_count,
+            comments_number: item.comment_count,
             avatar: item.author.links.avatar.href,
             branch: item.source.branch.name,
-          }
-        })
-
-        this.setState ({
+            develop: item.destination.branch.name,
+            uriReviewer: prEndpoint + item.id,
+            repository: item.destination.repository.full_name
+          };
+        });
+        this.setState({
           pullRequests: pullRequestInfo
-        })
-      })
+        });
+
+        const uriReviewer = this.state.pullRequests[0].uriReviewer;
+
+
+        fetch(uriReviewer)
+          .then(response => response.json())
+          .then(data => {
+
+            const pullRequestReviewer = data.reviewers.map((item) => {
+              return {
+                reviewer_name: item.display_name,
+                reviewer_avatar: item.links.avatar.href
+              };
+            });
+            this.setState({
+              reviewers: pullRequestReviewer
+            });
+            console.log(this.state.reviewers);
+          });
+      });
+  }
+
+  handleDate(date) {
+    let newDate = date.substring(0, 10);
+    newDate = newDate.split("-");
+    newDate = newDate.reverse();
+    const dayDate = parseInt(newDate[0]);
+    const monthDate = parseInt(newDate[1]);
+    const yearDate = parseInt(newDate[2]);
+    newDate = newDate.join("-");
+    const infoDate = {
+      date: newDate,
+      day: dayDate,
+      month: monthDate,
+      year: yearDate
+    };
+    return infoDate;
   }
 
   render() {
-    const {pullRequests} = this.state;
+    const { pullRequests, value } = this.state;
+    const changeRepository = this.changeRepository;
 
     return (
       <div className="App">
-      {pullRequests.map((item, index) => {
-      return (
-        <div key={index}>
-        <h3>{item.title}</h3>
-        <h4>{item.date}</h4>
-        <h4>{item.comments}</h4>
-        <img src={item.avatar} alt={item.author} />
-        <h4>{item.author}</h4>
-        <h4>{item.branch}</h4>
-        </div>
-      )})}
-        <Header />
+        <Header value={value} changeRepository={changeRepository} />
         <main>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => {
-              return (
-                <Summary />
-              )
-            }}
-          />
-          <Route
-            exact
-            path="/details"
-            render={() => {
-              return (
-                <DetailsContainer />
-              )
-            }}
-          />
-        </Switch>
+          <Switch>
+            <Route
+              exact
+              path="/summary"
+              render={() => {
+                return <Summary />;
+              }}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return (
+                  <DetailsContainer pullRequests={pullRequests} value={value} />
+                );
+              }}
+            />
+          </Switch>
         </main>
+
         <Footer />
       </div>
     );

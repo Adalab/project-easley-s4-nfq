@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 class User extends Component {
-    render() { 
-        return ( 
-            <div>
-                <img src="https://nfq.es/wp-content/themes/nfq/img/nfocate/inconformistas/05.png" alt="profile pic"/>
-                <p>User name</p>
-                <p>branch names</p>
-            </div>
-        
-        );
-    }
+  render() {
+    return (
+      <Fragment>
+        <div className="app--card-user">
+          <img className="app--card-image" src={this.props.avatar} alt={this.props.author} />
+          <h4 className="app--card-name">{this.props.author}</h4>
+          <h4 className="app--card-branch">{this.props.branch}</h4>
+        </div>
+      </Fragment>
+    );
+  }
 }
 
 export default User;
