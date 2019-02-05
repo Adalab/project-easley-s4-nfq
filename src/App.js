@@ -13,8 +13,10 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
-      reviewers: []
+      reviewers: [],
+      value: ""
     };
+    this.changeRepository = this.changeRepository.bind(this);
   }
 
   componentDidMount() {
@@ -77,9 +79,15 @@ class App extends Component {
     return infoDate;
   }
 
+  changeRepository(event) {
+    this.setState({value: event.target.value});
+  }
+
   render() {
     const { pullRequests } = this.state;
     const { reviewers } = this.state;
+    const { value } = this.state;
+    const changeRepository = this.changeRepository;
 
     return (
       <div className="App">
@@ -122,7 +130,7 @@ class App extends Component {
             </div>
           );
         })}
-        <Header />
+        <Header value={value} changeRepository={changeRepository} />
         <main>
           <Switch>
             <Route
@@ -136,7 +144,7 @@ class App extends Component {
               exact
               path="/"
               render={() => {
-                return <DetailsContainer pullRequests={pullRequests} />;
+                return <DetailsContainer pullRequests={pullRequests} value={value} />;
               }}
             />
           </Switch>

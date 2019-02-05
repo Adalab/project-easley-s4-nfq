@@ -8,7 +8,7 @@ class DetailsContainer extends Component {
     render() {
         return (
             <Fragment>
-            <h2 className="details__title">{this.props.repository}</h2>
+            <h2 className="details__title">{this.props.value}</h2>
             <select className="details__select">
                 <option>OPEN</option>
                 <option>MERGED</option>
@@ -19,7 +19,7 @@ class DetailsContainer extends Component {
             <StatusTab status="MERGED"/>
             <StatusTab status="DECLINED" />
             </div>
-            <PRlist pullRequests={this.props.pullRequests} />
+            <PRlist pullRequests={this.props.pullRequests}/>
             </Fragment>
         );
     }
