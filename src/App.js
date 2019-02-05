@@ -97,7 +97,7 @@ class App extends Component {
             />
             <Route
               exact
-              path="/"
+              path="/details"
               render={() => {
                 return (
                   <DetailsContainer pullRequests={pullRequests} value={value} />

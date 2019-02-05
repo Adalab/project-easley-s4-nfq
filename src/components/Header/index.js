@@ -13,7 +13,7 @@ class Header extends Component {
           </div>
           <nav className="header_nav">
             <Link className="header_summary" to="/">Summary</Link>
-            <Link className="header_details" to="/">Details</Link>
+            <Link className="header_details" to="/details">Details</Link>
           </nav>
           <div className="header_selector-container">
             <select className="header_selector-items" value={this.props.value} onChange={this.props.changeRepository}>
