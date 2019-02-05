@@ -15,6 +15,7 @@ class App extends Component {
       pullRequests: [],
       reviewers: []
     };
+    this.handleDate = this.handleDate.bind(this);
   }
 
   componentDidMount() {
@@ -79,6 +80,8 @@ class App extends Component {
 
   render() {
     const { pullRequests } = this.state;
+    const creationDate = this.handleDate();
+
     return (
       <div className="App">
         })}
@@ -96,7 +99,7 @@ class App extends Component {
               exact
               path="/"
               render={() => {
-                return <DetailsContainer pullRequests={pullRequests} />;
+                return <DetailsContainer pullRequests={pullRequests} creationDate={creationDate}/>;
               }}
             />
           </Switch>
