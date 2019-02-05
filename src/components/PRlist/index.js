@@ -5,7 +5,6 @@ class PRlist extends Component {
   render() {
     const { pullRequests } = this.props;
     const { creationDate } = this.props;
-    console.log(creationDate);
     return (
       <ul>
         {pullRequests.map((item, index) => {
