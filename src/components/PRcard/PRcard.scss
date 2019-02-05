@@ -40,7 +40,7 @@
 .prcard__date {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
-    padding-left: 16px;
+    padding-left: 0px;
       @media all and (min-width: 768px) {
     font-size: 18px;
   }
@@ -77,6 +77,13 @@
 }
 
 .green{
-  color: green;
-  background-color: yellow;
+  background-color:#2cd36c;
+}
+
+.yellow{
+  background-color:rgb(255, 251, 0);
+}
+
+.red{
+  background-color: #e5354b;
 }
