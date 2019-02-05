@@ -105,14 +105,14 @@ class App extends Component {
           <Switch>
             <Route
               exact
-              path="/summary"
+              path="/"
               render={() => {
                 return <Summary />;
               }}
             />
             <Route
               exact
-              path="/"
+              path="/details"
               render={() => {
                 return (
                   <DetailsContainer pullRequests={pullRequests} value={value} />
