@@ -13,16 +13,28 @@
     flex-direction: row;
     justify-content: space-between;
     position: relative;
+    background-color: white;
 }
 
-.dateandcomments__container::before {
-    content: "";
-    height: 14px;
-    width: 14px;
-    position: absolute;
-    background-color: black;
-    border-radius: 50%;
-    top: 3px;
+// .dateandcomments__container::before {
+//     content: "";
+//     height: 14px;
+//     width: 14px;
+//     position: absolute;
+//     background-color: black;
+//     border-radius: 50%;
+//     top: 3px;
+// }
+
+.fa-circle{
+  background-color: blue;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  z-index: 9;
+}
+.fa-circle::before{
+  content: "";
 }
 
 .prcard__date {
@@ -62,4 +74,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.green{
+  color: green;
+  background-color: yellow;
 }

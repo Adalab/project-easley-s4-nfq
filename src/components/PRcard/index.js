@@ -2,15 +2,23 @@ import React, { Component } from "react";
 import User from "../User";
 import "./PRcard.scss";
 import {handleDate} from '../../Utils/handleDate';
+//import Moment from 'react-moment';
+import moment from 'moment';
 
 class PRcard extends Component {
 
   render() {
     const {avatar, author, branch, date} = this.props;
+    console.log('date',date)
+    console.log('moments',moment(`${date}`).fromNow())
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
-          <span className="prcard__date">{handleDate(date).date}</span>
+        <i className="fas fa-circle"></i>
+        {handleDate(date).date}
+          {/* <span className={moment(`${date}`).fromNow() === "a day ago" || "two days ago" ? "prcard__date green" : "prcard__date"}>{handleDate(date).date}</span> */}
+          {/* <span>{moment("20111031", "YYYYMMDD").fromNow()}</span> */}
+          {/* <Moment fromNow ago>{date}</Moment> */}
           <a
             href={`https://bitbucket.org/${
               this.props.repository
