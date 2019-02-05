@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 import DetailsContainer from "./components/DetailsContainer";
-import { getPullRequestInfo, prEndpoint } from "./Services/RepositoryService";
 
 
 class App extends Component {
@@ -14,13 +13,34 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       reviewers: [],
-      value: ""
+      value: "aui"
     };
     this.changeRepository = this.changeRepository.bind(this);
   }
 
-  componentDidMount() {
-    getPullRequestInfo()
+  changeRepository(event) {
+    this.setState({value: event.target.value});
+  }
+
+  componentDidUpdate(prevState) {
+    if (this.state.value !== prevState.value) {
+    this.getRepository();
+    }
+  }
+  componentDidMount(){
+    this.getRepository();
+  }
+
+  getRepository() {
+    let repositoryId = '';
+    let repositoryName = this.state.value;
+    console.log('this state', this.state.value);
+
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`
+    console.log(prEndpoint);
+
+    fetch(prEndpoint)
+    .then(response => response.json())
     .then(data => {
       const pullRequestInfo = data.values.map((item, index) => {
         return {
@@ -33,7 +53,8 @@ class App extends Component {
           avatar: item.author.links.avatar.href,
           branch: item.source.branch.name,
           develop: item.destination.branch.name,
-          uriReviewer: prEndpoint + item.id
+          uriReviewer: prEndpoint + item.id,
+          repository: item.destination.repository.full_name,
         };
       });
       this.setState({
@@ -47,7 +68,7 @@ class App extends Component {
       fetch(uriReviewer)
         .then(response => response.json())
         .then(data => {
-          console.log("data uriReviewer", data);
+          console.log("data", data);
           const pullRequestReviewer = data.reviewers.map((item, index) => {
             return {
               reviewer_name: item.display_name,
@@ -77,10 +98,6 @@ class App extends Component {
       year: yearDate
     };
     return infoDate;
-  }
-
-  changeRepository(event) {
-    this.setState({value: event.target.value});
   }
 
   render() {
