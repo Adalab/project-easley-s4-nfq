@@ -37,11 +37,10 @@ class App extends Component {
 
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
 
-
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
-        const pullRequestInfo = data.values.map((item) => {
+        const pullRequestInfo = data.values.map(item => {
           return {
             id: item.id,
             state: item.state,
@@ -62,12 +61,10 @@ class App extends Component {
 
         const uriReviewer = this.state.pullRequests[0].uriReviewer;
 
-
         fetch(uriReviewer)
           .then(response => response.json())
           .then(data => {
-
-            const pullRequestReviewer = data.reviewers.map((item) => {
+            const pullRequestReviewer = data.reviewers.map(item => {
               return {
                 reviewer_name: item.display_name,
                 reviewer_avatar: item.links.avatar.href
@@ -76,7 +73,6 @@ class App extends Component {
             this.setState({
               reviewers: pullRequestReviewer
             });
-            console.log(this.state.reviewers);
           });
       });
   }
