@@ -31,7 +31,6 @@ class PRcard extends Component {
             author={author}
             branch={branch} />
           <i className="fas fa-arrow-right" />
-
           <User />
         </div>
       </div>
