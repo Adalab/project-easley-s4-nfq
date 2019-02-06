@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       reviewers: [],
-      value: "aui"
+      value: "aui",
+      isLoading: true
     };
     this.changeRepository = this.changeRepository.bind(this);
   }
@@ -56,7 +57,8 @@ class App extends Component {
           };
         });
         this.setState({
-          pullRequests: pullRequestInfo
+          pullRequests: pullRequestInfo,
+          isLoading: false
         });
 
         const uriReviewer = this.state.pullRequests[0].uriReviewer;
@@ -78,7 +80,7 @@ class App extends Component {
   }
 
   render() {
-    const { pullRequests, value } = this.state;
+    const { pullRequests, value, isLoading } = this.state;
     const changeRepository = this.changeRepository;
 
     return (
@@ -98,7 +100,11 @@ class App extends Component {
               path="/details"
               render={() => {
                 return (
-                  <DetailsContainer pullRequests={pullRequests} value={value} />
+                  <DetailsContainer
+                  pullRequests={pullRequests}
+                  value={value}
+                  isLoading={isLoading}
+                  />
                 );
               }}
             />
