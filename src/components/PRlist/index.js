@@ -19,7 +19,7 @@ class PRlist extends Component {
               comments={item.comments_number}
               handleDate={handleDate}
               date={item.date}
-               />
+              />
             </li>
           )
         })}
