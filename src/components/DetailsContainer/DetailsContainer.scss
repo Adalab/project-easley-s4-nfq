@@ -1,9 +1,11 @@
 .details__title {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 40px;
+  color: rgb(133, 133, 133);
   text-align: center;
   padding-top: 60px;
   padding-bottom: 20px;
+  text-transform: uppercase;
   @media all and (min-width:1280px) {
     padding-top: 80px;
   }
