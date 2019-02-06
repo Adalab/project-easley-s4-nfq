@@ -8,29 +8,30 @@ class PRcard extends Component {
 
   render() {
     const { avatar, author, branch, date } = this.props;
+    console.log('moments',moment(`${date}`).fromNow())
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
           <div className="date__container">
 
             {moment(`${date}`).fromNow() === "a day ago"
-              || moment(`${date}`).fromNow() === "two days ago" ? (
+              || moment(`${date}`).fromNow() === "2 days ago" ? (
                 <i className="fas fa-circle green"></i>
               ) : ("")
             }
 
-            {moment(`${date}`).fromNow() === "three days ago"
-              || moment(`${date}`).fromNow() === "four days ago"
-              || moment(`${date}`).fromNow() === "five days ago" ? (
+            {moment(`${date}`).fromNow() === "3 days ago"
+              || moment(`${date}`).fromNow() === "4 days ago"
+              || moment(`${date}`).fromNow() === "5 days ago" ? (
                 <i className="fas fa-circle yellow"></i>
               ) : ("")
             }
 
             {moment(`${date}`).fromNow() !== "a day ago"
-              && moment(`${date}`).fromNow() !== "two days ago"
-              && moment(`${date}`).fromNow() !== "three days ago"
-              && moment(`${date}`).fromNow() !== "four days ago"
-              && moment(`${date}`).fromNow() !== "five days ago" ? (
+              && moment(`${date}`).fromNow() !== "2 days ago"
+              && moment(`${date}`).fromNow() !== "3 days ago"
+              && moment(`${date}`).fromNow() !== "4 days ago"
+              && moment(`${date}`).fromNow() !== "5 days ago" ? (
                 <i className="fas fa-circle red"></i>
               ) : ("")
             }
