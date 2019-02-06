@@ -21,7 +21,6 @@ class App extends Component {
     this.setState({ value: event.target.value });
   }
 
-
   componentDidMount() {
     this.getRepository();
   }
@@ -77,7 +76,6 @@ class App extends Component {
           });
       });
   }
-
 
   render() {
     const { pullRequests, value } = this.state;

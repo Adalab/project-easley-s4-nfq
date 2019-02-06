@@ -1,4 +1,3 @@
-
 function handleDate(date) {
   let newDate = date.substring(0, 10);
   newDate = newDate.split("-");

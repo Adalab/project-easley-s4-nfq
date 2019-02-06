@@ -15,23 +15,34 @@
     flex-direction: row;
     justify-content: space-between;
     position: relative;
+    background-color: white;
 }
 
-.dateandcomments__container::before {
-    content: "";
-    height: 14px;
-    width: 14px;
-    position: absolute;
-    background-color: black;
-    border-radius: 50%;
-    top: 3px;
+// .dateandcomments__container::before {
+//     content: "";
+//     height: 14px;
+//     width: 14px;
+//     position: absolute;
+//     background-color: black;
+//     border-radius: 50%;
+//     top: 3px;
+// }
+
+.fa-circle{
+  background-color: blue;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  z-index: 9;
+}
+.fa-circle::before{
+  content: "";
 }
 
 .prcard__date {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
-    padding-left: 16px;
-    color:white;
+    padding-left: 0px;
       @media all and (min-width: 768px) {
     font-size: 18px;
   }
@@ -67,4 +78,16 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.green{
+  background-color:#2cd36c;
+}
+
+.yellow{
+  background-color:rgb(255, 251, 0);
+}
+
+.red{
+  background-color: #e5354b;
 }
