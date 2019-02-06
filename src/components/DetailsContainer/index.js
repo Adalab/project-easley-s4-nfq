@@ -5,7 +5,7 @@ import './DetailsContainer.scss';
 
 class DetailsContainer extends Component {
     render() {
-      const {value, pullRequests} = this.props;
+      const {value, pullRequests, isLoading} = this.props;
         return (
             <Fragment>
             <h2 className="details__title">{value}</h2>
@@ -19,7 +19,10 @@ class DetailsContainer extends Component {
             <StatusTab status="MERGED" selected="" />
             <StatusTab status="DECLINED" selected=""/>
             </div>
-            <PRlist pullRequests={pullRequests}/>
+            <PRlist
+            pullRequests={pullRequests}
+            isLoading={isLoading}
+            />
             </Fragment>
         );
     }
