@@ -8,7 +8,6 @@ class PRcard extends Component {
 
   render() {
     const { avatar, author, branch, date } = this.props;
-    console.log('moments',moment(`${date}`).fromNow())
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">

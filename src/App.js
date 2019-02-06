@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       reviewers: [],
-      value: "aui"
+      value: "aui",
+      isLoading: true
     };
     this.changeRepository = this.changeRepository.bind(this);
   }
@@ -57,7 +58,7 @@ class App extends Component {
           };
         });
         this.setState({
-          pullRequests: pullRequestInfo
+          pullRequests: pullRequestInfo,
         });
 
         const uriReviewer = this.state.pullRequests[0].uriReviewer;
