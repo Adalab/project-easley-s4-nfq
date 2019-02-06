@@ -40,6 +40,7 @@ class App extends Component {
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         const pullRequestInfo = data.values.map(item => {
           return {
             id: item.id,

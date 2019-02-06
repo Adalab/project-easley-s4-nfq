@@ -38,7 +38,7 @@ class PRcard extends Component {
 
             <span className="prcard__date">{handleDate(date).date}</span>
           </div>
-          <a
+          <a className="prcard__commentanchor"
             href={`https://bitbucket.org/${
               this.props.repository
               }/pull-requests/${this.props.id}/_/diff`}
