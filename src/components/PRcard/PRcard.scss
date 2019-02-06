@@ -60,6 +60,7 @@
     font-family: 'Roboto', sans-serif;
     padding-top: 20px;
     padding-bottom: 20px;
+    margin-bottom: 50px;
     @media all and (min-width: 768px) {
         text-align: center;
         padding-bottom: 0px;
@@ -87,4 +88,9 @@
 
 .red{
   background-color: #e5354b;
+}
+
+.fa-arrow-right {
+  font-size: 50px;
+  padding-top: 40px;
 }
