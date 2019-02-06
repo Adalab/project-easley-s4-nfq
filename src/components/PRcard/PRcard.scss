@@ -1,11 +1,13 @@
 .prcard__container{
-  border: 1px solid black;
+  background-color: rgb(22, 22, 22);
   border-top: 0px;
   min-height: 300px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+
+  border-bottom: 1px solid gray;
 }
 
 .dateandcomments__container {
@@ -29,6 +31,7 @@
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     padding-left: 16px;
+    color:white;
       @media all and (min-width: 768px) {
     font-size: 18px;
   }
@@ -37,6 +40,8 @@
 .prcard__numcomments {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
+    color: white;
+    text-decoration: none;
     @media all and (min-width: 768px) {
       font-size: 18px;
   }
@@ -44,9 +49,9 @@
 
 .prcard__title {
     font-size: 18px;
-    font-family: 'Roboto', sans-serif;
+    color: #53abe1;
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     @media all and (min-width: 768px) {
         text-align: center;
         padding-bottom: 0px;

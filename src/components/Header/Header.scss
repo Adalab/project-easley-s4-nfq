@@ -5,6 +5,7 @@
   z-index: 1;
   padding: 10px;
   font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
 }
 
 .header_display {
@@ -48,14 +49,16 @@
   width: 100%;
   display: flex;
   justify-content: center;
+
 }
 
 .header_selector-items {
   font-size: 18px;
   height: 45px;
-  background-color: #ffffff;
+  background-color: rgba(0,0,0,0.3);
   border-radius: 10px;
   text-transform: uppercase;
+
 }
 
 @media all and (min-width:768px) {

@@ -5,3 +5,13 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.App {
+  background: linear-gradient(124deg, #fdfdfd, #ffffff, #b4b4b4, #dbdbda, #959595, #909292, #7d7c80, #b1afb1, #f0eded);
+  background-size: 1800% 1800%;
+  animation: rainbow 20s ease infinite;
+}
+@keyframes rainbow {
+  0%{background-position:0% 82%}
+  50%{background-position:100% 19%}
+  100%{background-position:0% 82%}
+}
