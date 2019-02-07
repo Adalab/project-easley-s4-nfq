@@ -35,6 +35,7 @@ class App extends Component {
 
   getToken() {
     const body = "grant_type=client_credentials";
+    const bodyrefresh = "grant_type=refresh_token";
     const bt = btoa("TUTYrqhpFN5Tg29dpe:XGJgEeD7j8bdGJyDYLfT3VmU9RN3ZxQw");
     const auth = `Basic ${bt}`;
 
