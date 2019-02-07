@@ -37,10 +37,12 @@ class App extends Component {
     let repositoryName = this.state.value;
 
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
+    // const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=MERGED`;
 
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
+        console.log('total data',data)
         const pullRequestInfo = data.values.map(item => {
           return {
             id: item.id,
