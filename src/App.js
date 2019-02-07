@@ -12,9 +12,12 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       reviewers: [],
-      value: "aui"
+      value: "aui",
+      tab: "1",
     };
     this.changeRepository = this.changeRepository.bind(this);
+    this.handleTab = this.handleTab.bind(this);
+    this.hideTab = this.hideTab.bind(this);
   }
 
   changeRepository(event) {
@@ -77,6 +80,20 @@ class App extends Component {
       });
   }
 
+  handleTab(event) {
+    const { value } = event.currentTarget.attributes.tab;
+    this.state.tab === value
+      ? this.setState({ tab: "0" })
+      : this.setState({ tab: value });
+  }
+
+  hideTab(tab) {
+    let hideTab = "";
+    const openTab = this.state.tab;
+    tab !== openTab ? (hideTab = "details__tab--selected") : (hideTab = "");
+    return hideTab;
+  }
+
   render() {
     const { pullRequests, value } = this.state;
     const changeRepository = this.changeRepository;
@@ -98,7 +115,13 @@ class App extends Component {
               path="/details"
               render={() => {
                 return (
-                  <DetailsContainer pullRequests={pullRequests} value={value} />
+                  <DetailsContainer
+                  pullRequests={pullRequests}
+                  value={value}
+                  handleTab={this.handleTab}
+                  hideTab={this.hideTab}
+                  tab="1"
+                  />
                 );
               }}
             />

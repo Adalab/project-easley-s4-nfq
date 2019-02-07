@@ -5,7 +5,8 @@ import './DetailsContainer.scss';
 
 class DetailsContainer extends Component {
   render() {
-    const { value, pullRequests } = this.props;
+    const { value, pullRequests, tab, handleTab, hideTab } = this.props;
+    const hideTabResult = hideTab(tab);
     return (
       <Fragment>
         <h2 className="details__title">{value}</h2>
@@ -15,9 +16,24 @@ class DetailsContainer extends Component {
           <option>DECLINED</option>
         </select>
         <div className="details__wrapper--tab">
-          <StatusTab status="OPEN" selected="details__tab--selected " />
-          <StatusTab status="MERGED" selected="" />
-          <StatusTab status="DECLINED" selected="" />
+          <StatusTab
+          tab={tab}
+          handleTab={handleTab}
+          hideTabResult={hideTabResult}
+          status="OPEN"
+          selected={`${hideTabResult}`} />
+          <StatusTab
+          tab={tab}
+          handleTab={handleTab}
+          hideTabResult={hideTabResult}
+          status="MERGED"
+          selected={`${hideTabResult}`} />
+          <StatusTab
+          tab={tab}
+          handleTab={handleTab}
+          hideTabResult={hideTabResult}
+          status="DECLINED"
+          selected={`${hideTabResult}`} />
         </div>
         <PRlist pullRequests={pullRequests} />
       </Fragment>
