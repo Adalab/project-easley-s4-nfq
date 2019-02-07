@@ -27,6 +27,7 @@ class Header extends Component {
             >
               <option value="aui">aui</option>
               <option value="application-links">application-links</option>
+              <option value="ekergy">ekergy</option>
             </select>
           </div>
         </div>

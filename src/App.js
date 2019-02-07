@@ -12,9 +12,58 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       reviewers: [],
-      value: "aui"
-    };
+      value:'aui',
+      token: '',
+      availablesRepos:[
+        {'name' : 'aui',
+        'isPrivate' : false},
+        {'name' : 'application-links',
+        'isPrivate' : false},
+        {'name' : 'ekergy',
+        'isPrivate' : true}]
+      };
     this.changeRepository = this.changeRepository.bind(this);
+  }
+
+  getToken() {
+
+  // const getPRfromPrivateRepositoryUri = "https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests";
+
+  const body = "grant_type=client_credentials"
+  const bt = btoa("TUTYrqhpFN5Tg29dpe:XGJgEeD7j8bdGJyDYLfT3VmU9RN3ZxQw")
+  const auth = `Basic ${bt}`
+
+  fetch(`https://bitbucket.org/site/oauth2/access_token`, {
+      "method": 'POST',
+      "body": body,
+      "headers": {
+          "Authorization": auth,
+          "Content-Type": 'application/x-www-form-urlencoded'
+      }
+  })
+      .then(response => response.json())
+      .then(data => {
+          const token = data.access_token
+          const refresh = data.refresh_token
+          this.setState({
+            token: token
+          })
+          // const headerAuthorization = "Bearer " + this.state.token;
+          // return fetch(getPRfromPrivateRepositoryUri, {
+          //     "headers": {
+          //         Authorization: headerAuthorization
+          //     }
+          // }).then(response => response.json())
+      })
+    }
+
+  checkIfSelectedRepoIsPrivate(){
+    const {availablesRepos, value} = this.state;
+    const selectedRepo = availablesRepos.find(repo => {
+      return repo.name === value
+    })
+  console.log(selectedRepo.isPrivate);
+  return selectedRepo.isPrivate;
   }
 
   changeRepository(event) {
@@ -23,21 +72,33 @@ class App extends Component {
 
   componentDidMount() {
     this.getRepository();
+    this.getToken();
   }
 
-  componentDidUpdate(prepProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
+
       this.getRepository();
+    }
+
+    if(this.state.token && this.state.token !== prevState.token  ) {
     }
   }
 
   getRepository() {
     let repositoryId = "";
     let repositoryName = this.state.value;
+    const isPrivate = true // this.checkIfSelectedRepoIsPrivate();
+    const headerAuthorization = "Bearer " + this.state.token;
 
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
+    const privateEndPoint = "https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests";
 
-    fetch(prEndpoint)
+    fetch(privateEndPoint, isPrivate? {
+      "headers": {
+          Authorization: headerAuthorization
+      }
+  }:{"headers": {}})
       .then(response => response.json())
       .then(data => {
         const pullRequestInfo = data.values.map(item => {
@@ -59,21 +120,21 @@ class App extends Component {
           pullRequests: pullRequestInfo
         });
 
-        const uriReviewer = this.state.pullRequests[0].uriReviewer;
+        // const uriReviewer = this.state.pullRequests[0].uriReviewer;
 
-        fetch(uriReviewer)
-          .then(response => response.json())
-          .then(data => {
-            const pullRequestReviewer = data.reviewers.map(item => {
-              return {
-                reviewer_name: item.display_name,
-                reviewer_avatar: item.links.avatar.href
-              };
-            });
-            this.setState({
-              reviewers: pullRequestReviewer
-            });
-          });
+        // fetch(uriReviewer)
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     const pullRequestReviewer = data.reviewers.map(item => {
+        //       return {
+        //         reviewer_name: item.display_name,
+        //         reviewer_avatar: item.links.avatar.href
+        //       };
+        //     });
+        //     this.setState({
+        //       reviewers: pullRequestReviewer
+        //     });
+          // });
       });
   }
 
