@@ -44,16 +44,7 @@ class App extends Component {
           // console.log("item", item);
           return {
             id: item.id,
-            state: item.state,
-            date: item.created_on,
-            title: item.title,
-            author: item.author.display_name,
-            comments_number: item.comment_count,
-            avatar: item.author.links.avatar.href,
-            branch: item.source.branch.name,
-            develop: item.destination.branch.name,
             uriReviewer: prEndpoint + item.id,
-            repository: item.destination.repository.full_name
           };
         });
         this.setState({
@@ -72,7 +63,19 @@ class App extends Component {
             .then(response => response.json())
             .then(dataWithReviewers => {
               console.log("dataWithReviewers", dataWithReviewers);
-              return this.state.allFinalData.push(dataWithReviewers)
+              return (
+              //   {
+              //   state: dataWithReviewers.state,
+              //   date: dataWithReviewers.created_on,
+              //   title: dataWithReviewers.title,
+              //   author: dataWithReviewers.author.display_name,
+              //   comments_number: dataWithReviewers.comment_count,
+              //   avatar: dataWithReviewers.author.links.avatar.href,
+              //   branch: dataWithReviewers.source.branch.name,
+              //   develop: dataWithReviewers.destination.branch.name,
+              //   repository: dataWithReviewers.destination.repository.full_name
+              // },
+              this.state.allFinalData.push(dataWithReviewers))
             })
         )});
       });
@@ -81,7 +84,7 @@ class App extends Component {
   render() {
     const { allFinalData, value } = this.state;
     const changeRepository = this.changeRepository;
-
+    console.log ('allFinalData',allFinalData)
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />

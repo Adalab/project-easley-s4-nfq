@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import User from "../User";
+import Reviewers from '../Reviewers';
 import "./PRcard.scss";
 import { handleDate } from '../../Utils/handleDate';
 import moment from 'moment';
@@ -7,8 +8,8 @@ import moment from 'moment';
 class PRcard extends Component {
 
   render() {
-    const { avatar, author, branch, date } = this.props;
-    console.log('moments',moment(`${date}`).fromNow())
+    const { avatar, author, branch, date, reviewers } = this.props;
+    console.log ('aqui', reviewers)
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
@@ -58,7 +59,21 @@ class PRcard extends Component {
             author={author}
             branch={branch} />
           <i className="fas fa-arrow-right" />
-          <User />
+
+          {reviewers.map ((rv,index) => {
+                return(
+                  <div key={index}>
+                  <Reviewers
+                  rvAvatar= {rv.links.avatar.href}
+                  rvName= {rv.display_name}
+                  develop = {this.props.develop}
+                  />
+                  </div>
+                )
+              })}
+
+
+          />
         </div>
       </div>
     );
