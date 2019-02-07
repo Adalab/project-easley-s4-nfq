@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
-      reviewers: [],
+      allFinalData: [],
       value: "aui"
     };
     this.changeRepository = this.changeRepository.bind(this);
@@ -40,7 +40,8 @@ class App extends Component {
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
-        const pullRequestInfo = data.values.map(item => {
+        const onePullRequest = data.values.map(item => {
+          // console.log("item", item);
           return {
             id: item.id,
             state: item.state,
@@ -56,29 +57,29 @@ class App extends Component {
           };
         });
         this.setState({
-          pullRequests: pullRequestInfo
+          pullRequests: onePullRequest
         });
+        // console.log ('this.state.pullRequests', this.state.pullRequests)
 
-        const uriReviewer = this.state.pullRequests[0].uriReviewer;
+        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+          return pullrequest.uriReviewer;
+          }
+        ); //Aqui hay un array con 2 urisForFetchReviewers
 
-        fetch(uriReviewer)
-          .then(response => response.json())
-          .then(data => {
-            const pullRequestReviewer = data.reviewers.map(item => {
-              return {
-                reviewer_name: item.display_name,
-                reviewer_avatar: item.links.avatar.href
-              };
-            });
-            this.setState({
-              reviewers: pullRequestReviewer
-            });
-          });
+        urisForFetchReviewers.map((uri, index) => { //Aqui mapeo cada uri
+          return (
+          fetch(uri)
+            .then(response => response.json())
+            .then(dataWithReviewers => {
+              console.log("dataWithReviewers", dataWithReviewers);
+              return this.state.allFinalData.push(dataWithReviewers)
+            })
+        )});
       });
   }
 
   render() {
-    const { pullRequests, value } = this.state;
+    const { allFinalData, value } = this.state;
     const changeRepository = this.changeRepository;
 
     return (
@@ -98,7 +99,7 @@ class App extends Component {
               path="/details"
               render={() => {
                 return (
-                  <DetailsContainer pullRequests={pullRequests} value={value} />
+                  <DetailsContainer pullRequests={allFinalData} value={value} />
                 );
               }}
             />
