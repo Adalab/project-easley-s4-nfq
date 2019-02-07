@@ -3,7 +3,7 @@ import PRcard from '../PRcard';
 
 class PRlist extends Component {
   render() {
-    const { pullRequests, handleDate } = this.props;
+    const { pullRequests, handleDate, isLoading } = this.props;
     return (
       <ul>
         {pullRequests.map((item, index) => {
@@ -19,6 +19,7 @@ class PRlist extends Component {
               comments={item.comments_number}
               handleDate={handleDate}
               date={item.date}
+              isLoading={isLoading}
               />
             </li>
           )

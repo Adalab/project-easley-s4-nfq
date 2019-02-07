@@ -7,8 +7,7 @@ import moment from 'moment';
 class PRcard extends Component {
 
   render() {
-    const { avatar, author, branch, date } = this.props;
-    console.log('moments',moment(`${date}`).fromNow())
+    const { avatar, author, branch, date, isLoading } = this.props;
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
@@ -56,7 +55,9 @@ class PRcard extends Component {
           <User
             avatar={avatar}
             author={author}
-            branch={branch} />
+            branch={branch}
+            isLoading={isLoading}
+          />
           <i className="fas fa-arrow-right" />
           <User />
         </div>
