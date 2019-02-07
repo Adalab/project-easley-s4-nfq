@@ -9,7 +9,6 @@ class PRcard extends Component {
 
   render() {
     const { avatar, author, branch, date, reviewers } = this.props;
-    console.log ('aqui', reviewers)
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
@@ -61,6 +60,8 @@ class PRcard extends Component {
           <i className="fas fa-arrow-right" />
 
           {reviewers.map ((rv,index) => {
+                      console.log ('aqui', reviewers)
+
                 return(
                   <div key={index}>
                   <Reviewers
