@@ -36,8 +36,8 @@ class App extends Component {
     let repositoryId = "";
     let repositoryName = this.state.value;
 
-    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
-    // const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=MERGED`;
+    // const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}?state=MERGED?size`;
 
     fetch(prEndpoint)
       .then(response => response.json())
