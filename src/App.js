@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       allFinalData: [],
-      value: "aui"
+      value: "aui",
+      isLoading: true
     };
     this.changeRepository = this.changeRepository.bind(this);
   }
@@ -41,50 +42,35 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         const onePullRequest = data.values.map(item => {
-          // console.log("item", item);
           return {
             id: item.id,
             uriReviewer: prEndpoint + item.id,
           };
         });
         this.setState({
-          pullRequests: onePullRequest
+          pullRequests: onePullRequest,
+          isLoading: false
         });
-        // console.log ('this.state.pullRequests', this.state.pullRequests)
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
           return pullrequest.uriReviewer;
           }
-        ); //Aqui hay un array con 2 urisForFetchReviewers
+        );
 
-        urisForFetchReviewers.map((uri, index) => { //Aqui mapeo cada uri
+        urisForFetchReviewers.map(uri => {
           return (
           fetch(uri)
             .then(response => response.json())
             .then(dataWithReviewers => {
-              console.log("dataWithReviewers", dataWithReviewers);
-              return (
-              //   {
-              //   state: dataWithReviewers.state,
-              //   date: dataWithReviewers.created_on,
-              //   title: dataWithReviewers.title,
-              //   author: dataWithReviewers.author.display_name,
-              //   comments_number: dataWithReviewers.comment_count,
-              //   avatar: dataWithReviewers.author.links.avatar.href,
-              //   branch: dataWithReviewers.source.branch.name,
-              //   develop: dataWithReviewers.destination.branch.name,
-              //   repository: dataWithReviewers.destination.repository.full_name
-              // },
-              this.state.allFinalData.push(dataWithReviewers))
+              return this.state.allFinalData.push(dataWithReviewers)
             })
         )});
       });
   }
 
   render() {
-    const { allFinalData, value } = this.state;
+    const { allFinalData, value, isLoading } = this.state;
     const changeRepository = this.changeRepository;
-    console.log ('allFinalData',allFinalData)
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -102,7 +88,11 @@ class App extends Component {
               path="/details"
               render={() => {
                 return (
-                  <DetailsContainer pullRequests={allFinalData} value={value} />
+                  <DetailsContainer
+                  pullRequests={allFinalData}
+                  value={value}
+                  isLoading={isLoading}
+                  />
                 );
               }}
             />

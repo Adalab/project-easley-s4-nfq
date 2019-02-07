@@ -21,7 +21,7 @@ class Reviewers extends Component {
     } else {
       return (
         <Fragment>
-          <img src="https://image.flaticon.com/icons/svg/9/9463.svg" />
+          <img src="https://image.flaticon.com/icons/svg/9/9463.svg" alt = ""/>
           {reviewers.map((rv, index) => {
             return (
               <div key={index}>

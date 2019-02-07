@@ -7,7 +7,7 @@ import moment from "moment";
 
 class PRcard extends Component {
   render() {
-    const { avatar, author, branch, date, reviewers } = this.props;
+    const { avatar, author, branch, date, isLoading, reviewers } = this.props;
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
@@ -54,7 +54,12 @@ class PRcard extends Component {
         </div>
         <h3 className="prcard__title">{this.props.title}</h3>
         <div className="users__container">
-          <User avatar={avatar} author={author} branch={branch} />
+          <User
+            avatar={avatar}
+            author={author}
+            branch={branch}
+            isLoading={isLoading}
+          />
           <i className="fas fa-arrow-right" />
           <Reviewers
           reviewers = {reviewers}
