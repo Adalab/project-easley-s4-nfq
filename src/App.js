@@ -88,13 +88,13 @@ class App extends Component {
   getRepository() {
     let repositoryId = "";
     let repositoryName = this.state.value;
-    const isPrivate = true // this.checkIfSelectedRepoIsPrivate();
+    const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
 
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
     const privateEndPoint = "https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests";
 
-    fetch(privateEndPoint, isPrivate? {
+    fetch(isPrivate ? privateEndPoint : prEndpoint, isPrivate? {
       "headers": {
           Authorization: headerAuthorization
       }
