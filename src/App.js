@@ -46,8 +46,13 @@ class App extends Component {
         Authorization: auth,
         "Content-Type": "application/x-www-form-urlencoded"
       }
+      // !response.ok
+      // thrwo resp
     })
-      .then(response => response.json())
+      .then(response => {
+        console.log('response',response)
+        response.json()
+      })
       .then(data => {
         const token = data.access_token;
         const refresh = data.refresh_token;
