@@ -15,14 +15,20 @@ class App extends Component {
       value: "aui",
       isLoading: true,
       tab: "OPEN",
+      next: "",
     };
     this.changeRepository = this.changeRepository.bind(this);
     this.handleTab = this.handleTab.bind(this);
     this.hideTab = this.hideTab.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   handleTab(tab) {
     this.setState({ tab: tab })
+  }
+
+  handleNext(next) {
+    this.setState({ next: next})
   }
 
   changeRepository(event) {
@@ -40,6 +46,9 @@ class App extends Component {
     if (this.state.tab !== prevState.tab) {
       this.getRepository();
     }
+    if (this.state.next !== prevState.next) {
+      this.getRepository();
+    }
   }
 
   getRepository() {
@@ -50,6 +59,7 @@ class App extends Component {
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
+        const nextUri = data.next;
         const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
@@ -59,7 +69,8 @@ class App extends Component {
 
         this.setState({
           pullRequests: onePullRequest,
-          isLoading: false
+          isLoading: false,
+          next: nextUri
         });
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
@@ -94,8 +105,9 @@ class App extends Component {
   }
 
   render() {
-    const { allFinalData, value, isLoading, tab } = this.state;
+    const { allFinalData, value, isLoading, tab, next } = this.state;
     const changeRepository = this.changeRepository;
+    console.log('next', next);
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -120,6 +132,8 @@ class App extends Component {
                   handleTab={this.handleTab}
                   hideTab={this.hideTab}
                   tab={tab}
+                  next={next}
+                  handleNext={this.handleNext}
                   />
                 );
               }}
