@@ -33,10 +33,9 @@ class App extends Component {
   }
 
   getRepository() {
-    let repositoryId = "";
     let repositoryName = this.state.value;
     console.log('repositoryName',repositoryName);
-    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/`;
 
     console.log('prEndpoint',prEndpoint);
     fetch(prEndpoint)
@@ -58,7 +57,7 @@ class App extends Component {
           return pullrequest.uriReviewer;
           }
         );
-        
+
         const prWithReviewers = [];
         urisForFetchReviewers.map(uri => {
 
