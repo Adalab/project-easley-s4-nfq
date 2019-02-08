@@ -145,7 +145,6 @@ class App extends Component {
           console.log('isPrivate',isPrivate)
 
           return (
-            //fetch(uri)
             fetch(
              uri,
               isPrivate
