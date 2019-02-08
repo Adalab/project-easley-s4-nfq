@@ -11,6 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
+      allFinalData: [],
       value: "aui",
       token: "",
       refresh_token: "",
@@ -33,11 +34,16 @@ class App extends Component {
     this.changeRepository = this.changeRepository.bind(this);
   }
 
+  componentDidMount() {
+    this.getRepository();
+    this.getToken();
+  }
+
   getToken(refreshToken) {
     let body = ""
-    if(refreshToken === "true"){
+    if (refreshToken === "true") {
       body = `grant_type=refresh_token&refresh_token=${this.state.refresh_token}`;
-    }else{
+    } else {
       body = "grant_type=client_credentials";
     }
     const bt = btoa("TUTYrqhpFN5Tg29dpe:XGJgEeD7j8bdGJyDYLfT3VmU9RN3ZxQw");
@@ -53,6 +59,7 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log('token',data)
         const token = data.access_token;
         const refresh = data.refresh_token;
         this.setState({
@@ -74,10 +81,7 @@ class App extends Component {
     this.setState({ value: event.target.value });
   }
 
-  componentDidMount() {
-    this.getRepository();
-    this.getToken();
-  }
+
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
@@ -86,7 +90,6 @@ class App extends Component {
 
     if (this.state.token && this.state.token !== prevState.token) {
     }
-
 
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
@@ -99,57 +102,82 @@ class App extends Component {
     const headerAuthorization = "Bearer " + this.state.token;
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
     const privateEndPoint =
-      "https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests";
+      "https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/";
 
     fetch(
       isPrivate ? privateEndPoint : prEndpoint,
       isPrivate
         ? {
-            headers: {
-              Authorization: headerAuthorization
-            }
+          headers: {
+            Authorization: headerAuthorization
           }
+        }
         : { headers: {} }
     )
       .then(response => {
-        if(!response.ok){
+        if (!response.ok) {
           throw response
         }
         return response.json()
       })
       .then(data => {
-        const pullRequestInfo = data.values.map(item => {
+        const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
-            state: item.state,
-            date: item.created_on,
-            title: item.title,
-            author: item.author.display_name,
-            comments_number: item.comment_count,
-            avatar: item.author.links.avatar.href,
-            branch: item.source.branch.name,
-            develop: item.destination.branch.name,
-            uriReviewer: prEndpoint + item.id,
-            repository: item.destination.repository.full_name
+            uriReviewer: isPrivate ? privateEndPoint + item.id : prEndpoint + item.id
           };
         });
+
         this.setState({
-          pullRequests: pullRequestInfo,
+          pullRequests: onePullRequest,
           isLoading: false
+        });
+
+        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+          return pullrequest.uriReviewer;
+        }
+        );
+
+        const prWithReviewers = [];
+        urisForFetchReviewers.map(uri => {
+          console.log('uri',uri, )
+          console.log('headerauth',headerAuthorization)
+          console.log('isPrivate',isPrivate)
+
+          return (
+            //fetch(uri)
+            fetch(
+             uri,
+              isPrivate
+                ? {
+                  headers: {
+                    Authorization: headerAuthorization
+                  }
+                }
+                : { headers: {} }
+            )
+              .then(response => response.json())
+              .then(dataWithReviewers => {
+                prWithReviewers.push(dataWithReviewers);
+                return this.setState({
+                  allFinalData: prWithReviewers
+                })
+              })
+          )
         });
       })
       .catch(function (error) {
-        console.log('error',error);
-        if(error.status === 401){
-          this.getToken("true")
+        console.log('error', error);
+        if (error.status === 401) {
+          this.getToken("true");
         }
       })
+    //console.log('prWithReviewers',prWithReviewers)
   }
 
   render() {
-    const { pullRequests, value, isLoading } = this.state;
+    const { allFinalData, value, isLoading } = this.state;
     const changeRepository = this.changeRepository;
-
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -168,7 +196,7 @@ class App extends Component {
               render={() => {
                 return (
                   <DetailsContainer
-                    pullRequests={pullRequests}
+                    pullRequests={allFinalData}
                     value={value}
                     isLoading={isLoading}
                   />

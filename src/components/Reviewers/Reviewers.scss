@@ -1,0 +1,23 @@
+.app--card-reviewer{
+  margin-left: 10px;
+  border-radius: 10px;
+  border: 2px solid grey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app--card-image-reviewer{
+  border-radius: 50%;
+  max-width: 70px;
+  height: 70px;
+
+}
+
+.app--card-image-reviewers{
+  border-radius: 50%;
+  max-width: 70px;
+  height: 70px;
+}
+
