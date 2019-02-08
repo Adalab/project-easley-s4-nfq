@@ -51,14 +51,7 @@ class App extends Component {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     })
-      .then(response => {
-        console.log('response',response)
-        if(!response.ok){
-          //console.log('response no ok primero')
-         // console.log('error',error)
-        }
-        return response.json()
-      })
+      .then(response => response.json())
       .then(data => {
         const token = data.access_token;
         const refresh = data.refresh_token;
@@ -119,7 +112,6 @@ class App extends Component {
         : { headers: {} }
     )
       .then(response => {
-        console.log('response del fetch privado',response)
         if(!response.ok){
           throw response
         }
@@ -147,11 +139,12 @@ class App extends Component {
         });
       })
       .catch(function (error) {
-        console.log('error del catch',error);
+        console.log('error',error);
         if(error.status === 401){
           this.getToken("true")
         }
       })
+
   }
 
   render() {
