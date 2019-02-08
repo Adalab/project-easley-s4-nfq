@@ -11,9 +11,9 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
-      reviewers: [],
       value: "aui",
       token: "",
+      refresh_token: "",
       availablesRepos: [
         {
           name: "aui",
@@ -33,9 +33,13 @@ class App extends Component {
     this.changeRepository = this.changeRepository.bind(this);
   }
 
-  getToken() {
-    const body = "grant_type=client_credentials";
-    const bodyrefresh = "grant_type=refresh_token";
+  getToken(refreshToken) {
+    let body = ""
+    if(refreshToken === "true"){
+      body = `grant_type=refresh_token&refresh_token=${this.state.refresh_token}`;
+    }else{
+      body = "grant_type=client_credentials";
+    }
     const bt = btoa("TUTYrqhpFN5Tg29dpe:XGJgEeD7j8bdGJyDYLfT3VmU9RN3ZxQw");
     const auth = `Basic ${bt}`;
 
@@ -46,18 +50,21 @@ class App extends Component {
         Authorization: auth,
         "Content-Type": "application/x-www-form-urlencoded"
       }
-      // !response.ok
-      // thrwo resp
     })
       .then(response => {
         console.log('response',response)
-        response.json()
+        if(!response.ok){
+          //console.log('response no ok primero')
+         // console.log('error',error)
+        }
+        return response.json()
       })
       .then(data => {
         const token = data.access_token;
         const refresh = data.refresh_token;
         this.setState({
-          token: token
+          token: token,
+          refresh_token: refresh
         });
       });
   }
@@ -86,6 +93,10 @@ class App extends Component {
 
     if (this.state.token && this.state.token !== prevState.token) {
     }
+
+
+    if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
+    }
   }
 
   getRepository() {
@@ -93,7 +104,6 @@ class App extends Component {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
     const privateEndPoint =
       "https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests";
@@ -108,7 +118,13 @@ class App extends Component {
           }
         : { headers: {} }
     )
-      .then(response => response.json())
+      .then(response => {
+        console.log('response del fetch privado',response)
+        if(!response.ok){
+          throw response
+        }
+        return response.json()
+      })
       .then(data => {
         const pullRequestInfo = data.values.map(item => {
           return {
@@ -129,7 +145,13 @@ class App extends Component {
           pullRequests: pullRequestInfo,
           isLoading: false
         });
-      });
+      })
+      .catch(function (error) {
+        console.log('error del catch',error);
+        if(error.status === 401){
+          this.getToken("true")
+        }
+      })
   }
 
   render() {
