@@ -144,7 +144,6 @@ class App extends Component {
           this.getToken("true")
         }
       })
-
   }
 
   render() {
