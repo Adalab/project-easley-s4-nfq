@@ -3,7 +3,6 @@ import React, { Component, Fragment } from "react";
 class Reviewers extends Component {
   render() {
     const { reviewers } = this.props;
-    console.log("develop", this.props.develop);
     if (reviewers.length === 1) {
       return (
         <Fragment>

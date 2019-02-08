@@ -53,10 +53,12 @@ class App extends Component {
           pullRequests: onePullRequest,
           isLoading: false
         });
+
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
           return pullrequest.uriReviewer;
           }
         );
+        
         const prWithReviewers = [];
         urisForFetchReviewers.map(uri => {
 
