@@ -11,8 +11,9 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
-      reviewers: [],
-      value: "aui"
+      allFinalData: [],
+      value: "aui",
+      isLoading: true
     };
     this.changeRepository = this.changeRepository.bind(this);
   }
@@ -40,47 +41,36 @@ class App extends Component {
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
-        const pullRequestInfo = data.values.map(item => {
+        const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
-            state: item.state,
-            date: item.created_on,
-            title: item.title,
-            author: item.author.display_name,
-            comments_number: item.comment_count,
-            avatar: item.author.links.avatar.href,
-            branch: item.source.branch.name,
-            develop: item.destination.branch.name,
             uriReviewer: prEndpoint + item.id,
-            repository: item.destination.repository.full_name
           };
         });
         this.setState({
-          pullRequests: pullRequestInfo
+          pullRequests: onePullRequest,
+          isLoading: false
         });
 
-        const uriReviewer = this.state.pullRequests[0].uriReviewer;
+        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+          return pullrequest.uriReviewer;
+          }
+        );
 
-        fetch(uriReviewer)
-          .then(response => response.json())
-          .then(data => {
-            const pullRequestReviewer = data.reviewers.map(item => {
-              return {
-                reviewer_name: item.display_name,
-                reviewer_avatar: item.links.avatar.href
-              };
-            });
-            this.setState({
-              reviewers: pullRequestReviewer
-            });
-          });
+        urisForFetchReviewers.map(uri => {
+          return (
+          fetch(uri)
+            .then(response => response.json())
+            .then(dataWithReviewers => {
+              return this.state.allFinalData.push(dataWithReviewers)
+            })
+        )});
       });
   }
 
   render() {
-    const { pullRequests, value } = this.state;
+    const { allFinalData, value, isLoading } = this.state;
     const changeRepository = this.changeRepository;
-
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -98,7 +88,11 @@ class App extends Component {
               path="/details"
               render={() => {
                 return (
-                  <DetailsContainer pullRequests={pullRequests} value={value} />
+                  <DetailsContainer
+                  pullRequests={allFinalData}
+                  value={value}
+                  isLoading={isLoading}
+                  />
                 );
               }}
             />
