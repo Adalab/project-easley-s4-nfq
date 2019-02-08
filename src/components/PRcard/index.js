@@ -1,47 +1,48 @@
 import React, { Component } from "react";
 import User from "../User";
+import Reviewers from "../Reviewers";
 import "./PRcard.scss";
-import { handleDate } from '../../Utils/handleDate';
-import moment from 'moment';
+import { handleDate } from "../../Utils/handleDate";
+import moment from "moment";
 
 class PRcard extends Component {
-
   render() {
-    const { avatar, author, branch, date } = this.props;
-    console.log('moments',moment(`${date}`).fromNow())
+    const { avatar, author, branch, date, isLoading, reviewers } = this.props;
     return (
       <div className="prcard__container">
         <div className="dateandcomments__container">
           <div className="date__container">
+            {moment(`${date}`).fromNow() === "a day ago" ||
+            moment(`${date}`).fromNow() === "2 days ago" ? (
+              <i className="fas fa-circle green" />
+            ) : (
+              ""
+            )}
 
-            {moment(`${date}`).fromNow() === "a day ago"
-              || moment(`${date}`).fromNow() === "2 days ago" ? (
-                <i className="fas fa-circle green"></i>
-              ) : ("")
-            }
+            {moment(`${date}`).fromNow() === "3 days ago" ||
+            moment(`${date}`).fromNow() === "4 days ago" ||
+            moment(`${date}`).fromNow() === "5 days ago" ? (
+              <i className="fas fa-circle yellow" />
+            ) : (
+              ""
+            )}
 
-            {moment(`${date}`).fromNow() === "3 days ago"
-              || moment(`${date}`).fromNow() === "4 days ago"
-              || moment(`${date}`).fromNow() === "5 days ago" ? (
-                <i className="fas fa-circle yellow"></i>
-              ) : ("")
-            }
-
-            {moment(`${date}`).fromNow() !== "a day ago"
-              && moment(`${date}`).fromNow() !== "2 days ago"
-              && moment(`${date}`).fromNow() !== "3 days ago"
-              && moment(`${date}`).fromNow() !== "4 days ago"
-              && moment(`${date}`).fromNow() !== "5 days ago" ? (
-                <i className="fas fa-circle red"></i>
-              ) : ("")
-            }
+            {moment(`${date}`).fromNow() !== "a day ago" &&
+            moment(`${date}`).fromNow() !== "2 days ago" &&
+            moment(`${date}`).fromNow() !== "3 days ago" &&
+            moment(`${date}`).fromNow() !== "4 days ago" &&
+            moment(`${date}`).fromNow() !== "5 days ago" ? (
+              <i className="fas fa-circle red" />
+            ) : (
+              ""
+            )}
 
             <span className="prcard__date">{handleDate(date).date}</span>
           </div>
           <a
             href={`https://bitbucket.org/${
               this.props.repository
-              }/pull-requests/${this.props.id}/_/diff`}
+            }/pull-requests/${this.props.id}/_/diff`}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -56,9 +57,13 @@ class PRcard extends Component {
           <User
             avatar={avatar}
             author={author}
-            branch={branch} />
+            branch={branch}
+            isLoading={isLoading}
+          />
           <i className="fas fa-arrow-right" />
-          <User />
+          <Reviewers
+          reviewers = {reviewers}
+          destinationbranch={this.props.destinationbranch}/>
         </div>
       </div>
     );

@@ -3,22 +3,25 @@ import PRcard from '../PRcard';
 
 class PRlist extends Component {
   render() {
-    const { pullRequests, handleDate } = this.props;
+    const { pullRequests, handleDate, isLoading } = this.props;
     return (
       <ul>
         {pullRequests.map((item, index) => {
           return (
             <li key={index}>
               <PRcard
-              repository={item.repository}
+              repository={item.destination.repository.full_name}
               id={item.id}
-              avatar={item.avatar}
-              author={item.author}
-              branch={item.branch}
+              avatar={item.author.links.avatar.href}
+              author={item.author.display_name}
+              branch={item.source.branch.name}
               title={item.title}
-              comments={item.comments_number}
+              comments={item.comment_count}
               handleDate={handleDate}
-              date={item.date}
+              date={item.created_on}
+              reviewers = {item.reviewers}
+              destinationbranch = {item.destination.branch.name}
+              isLoading={isLoading}
               />
             </li>
           )

@@ -11,8 +11,9 @@ class App extends Component {
     super(props);
     this.state = {
       pullRequests: [],
-      reviewers: [],
+      allFinalData: [],
       value: "aui",
+      isLoading: true,
       tab: "open",
     };
     this.changeRepository = this.changeRepository.bind(this);
@@ -28,7 +29,7 @@ class App extends Component {
     this.getRepository();
   }
 
-  componentDidUpdate(prepProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
       this.getRepository();
     }
@@ -41,43 +42,40 @@ class App extends Component {
 
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/`;
 
+    console.log('prEndpoint',prEndpoint);
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
-        const pullRequestInfo = data.values.map(item => {
+        const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
-            state: item.state,
-            date: item.created_on,
-            title: item.title,
-            author: item.author.display_name,
-            comments_number: item.comment_count,
-            avatar: item.author.links.avatar.href,
-            branch: item.source.branch.name,
-            develop: item.destination.branch.name,
             uriReviewer: prEndpoint + item.id,
-            repository: item.destination.repository.full_name
           };
         });
+
         this.setState({
-          pullRequests: pullRequestInfo
+          pullRequests: onePullRequest,
+          isLoading: false
         });
 
-        const uriReviewer = this.state.pullRequests[0].uriReviewer;
+        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+          return pullrequest.uriReviewer;
+          }
+        );
 
-        fetch(uriReviewer)
-          .then(response => response.json())
-          .then(data => {
-            const pullRequestReviewer = data.reviewers.map(item => {
-              return {
-                reviewer_name: item.display_name,
-                reviewer_avatar: item.links.avatar.href
-              };
-            });
-            this.setState({
-              reviewers: pullRequestReviewer
-            });
-          });
+        const prWithReviewers = [];
+        urisForFetchReviewers.map(uri => {
+
+          return (
+          fetch(uri)
+            .then(response => response.json())
+            .then(dataWithReviewers => {
+              prWithReviewers.push(dataWithReviewers);
+              return this.setState({
+                allFinalData: prWithReviewers
+              })
+            })
+        )});
       });
   }
 
@@ -96,9 +94,8 @@ class App extends Component {
   }
 
   render() {
-    const { pullRequests, value, tab } = this.state;
+    const { allFinalData, value, isLoading, tab } = this.state;
     const changeRepository = this.changeRepository;
-
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -117,8 +114,9 @@ class App extends Component {
               render={() => {
                 return (
                   <DetailsContainer
-                  pullRequests={pullRequests}
+                  pullRequests={allFinalData}
                   value={value}
+                  isLoading={isLoading}
                   handleTab={this.handleTab}
                   hideTab={this.hideTab}
                   tab={tab}
