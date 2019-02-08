@@ -20,7 +20,7 @@ class PRlist extends Component {
               handleDate={handleDate}
               date={item.created_on}
               reviewers = {item.reviewers}
-              develop = {item.destination.branch.name}
+              destinationbranch = {item.destination.branch.name}
               isLoading={isLoading}
               />
             </li>

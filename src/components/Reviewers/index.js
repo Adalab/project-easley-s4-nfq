@@ -5,7 +5,6 @@ import './Reviewers.scss';
 class Reviewers extends Component {
   render() {
     const { reviewers } = this.props;
-    console.log("develop", this.props.develop);
     if (reviewers.length === 1) {
       return (
         <Fragment>
@@ -32,7 +31,7 @@ class Reviewers extends Component {
               </div>
             );
           })}
-          <h4 className="app--card-develop">{this.props.develop}</h4>
+          <h4 className="app--card-develop">{this.props.destinationbranch}</h4>
           </div>
         </Fragment>
       );
