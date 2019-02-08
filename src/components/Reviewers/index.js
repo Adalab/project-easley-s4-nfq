@@ -7,11 +7,11 @@ class Reviewers extends Component {
     if (reviewers.length === 1) {
       return (
         <Fragment>
-          {reviewers.map((rv, index) => {
+          {reviewers.map((reviewer, index) => {
             return (
               <div key={index}>
-                <img src={rv.links.avatar.href} alt={rv.display_name} />
-                <h4>{rv.display_name}</h4>
+                <img src={reviewer.links.avatar.href} alt={reviewer.display_name} />
+                <h4>{reviewer.display_name}</h4>
                 <h4>{this.props.destinationbranch}</h4>
               </div>
             );
@@ -22,10 +22,10 @@ class Reviewers extends Component {
       return (
         <Fragment>
           <img src="https://image.flaticon.com/icons/svg/9/9463.svg" alt = "reviewers photo"/>
-          {reviewers.map((rv, index) => {
+          {reviewers.map((reviewer, index) => {
             return (
               <div key={index}>
-                <h4>{rv.display_name}</h4>
+                <h4>{reviewer.display_name}</h4>
               </div>
             );
           })}
