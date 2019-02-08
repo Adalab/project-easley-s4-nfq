@@ -14,11 +14,15 @@ class App extends Component {
       allFinalData: [],
       value: "aui",
       isLoading: true,
-      tab: "open",
+      tab: "OPEN",
     };
     this.changeRepository = this.changeRepository.bind(this);
     this.handleTab = this.handleTab.bind(this);
     this.hideTab = this.hideTab.bind(this);
+  }
+
+  handleTab(tab) {
+    this.setState({ tab: tab })
   }
 
   changeRepository(event) {
@@ -33,23 +37,23 @@ class App extends Component {
     if (this.state.value !== prevState.value) {
       this.getRepository();
     }
+    if (this.state.tab !== prevState.tab) {
+      this.getRepository();
+    }
   }
-
-
 
   getRepository() {
     let repositoryName = this.state.value;
 
-    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/`;
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}`;
 
-    console.log('prEndpoint',prEndpoint);
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
         const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
-            uriReviewer: prEndpoint + item.id,
+            uriReviewer: `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?state=${this.state.tab}`,
           };
         });
 
@@ -77,10 +81,6 @@ class App extends Component {
             })
         )});
       });
-  }
-
-  handleTab(tab) {
-    this.setState({ tab: tab })
   }
 
   hideTab(tab) {

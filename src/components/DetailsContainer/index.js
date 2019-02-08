@@ -17,19 +17,19 @@ class DetailsContainer extends Component {
             </select>
             <div className="details__wrapper--tab">
             <StatusTab
-            tab="open"
+            tab="OPEN"
             handleTab={handleTab}
             hideTabResult={hideTabResult}
             status="OPEN"
             selected={`${hideTabResult}`}/>
             <StatusTab
-            tab="merged"
+            tab="MERGED"
             handleTab={handleTab}
             hideTabResult={hideTabResult}
             status="MERGED"
             selected={`${hideTabResult}`} />
             <StatusTab
-            tab="declined"
+            tab="DECLINED"
             handleTab={handleTab}
             hideTabResult={hideTabResult}
             status="DECLINED"
