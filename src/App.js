@@ -26,7 +26,7 @@ class App extends Component {
     this.getRepository();
   }
 
-  componentDidUpdate(prepProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
       this.getRepository();
     }
@@ -35,9 +35,10 @@ class App extends Component {
   getRepository() {
     let repositoryId = "";
     let repositoryName = this.state.value;
-
+    console.log('repositoryName',repositoryName);
     const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/${repositoryId}`;
 
+    console.log('prEndpoint',prEndpoint);
     fetch(prEndpoint)
       .then(response => response.json())
       .then(data => {
@@ -47,22 +48,26 @@ class App extends Component {
             uriReviewer: prEndpoint + item.id,
           };
         });
+
         this.setState({
           pullRequests: onePullRequest,
           isLoading: false
         });
-
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
           return pullrequest.uriReviewer;
           }
         );
-
+        const prWithReviewers = [];
         urisForFetchReviewers.map(uri => {
+
           return (
           fetch(uri)
             .then(response => response.json())
             .then(dataWithReviewers => {
-              return this.state.allFinalData.push(dataWithReviewers)
+              prWithReviewers.push(dataWithReviewers);
+              return this.setState({
+                allFinalData: prWithReviewers
+              })
             })
         )});
       });
