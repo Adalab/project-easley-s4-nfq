@@ -72,17 +72,17 @@ class PRcard extends Component {
 }
 
 PRcard.propTypes = {
-  repository:
-  id:
-  avatar:
-  author:
-  branch:
-  title:
-  comments:
-  handleDate:
-  date:
-  reviewers :
-  destinationbranch:
+  repository:  PropTypes.string,
+  id: PropTypes.number,
+  avatar: PropTypes.string,
+  author: PropTypes.string,
+  branch: PropTypes.string,
+  title: PropTypes.string,
+  comments: PropTypes.string,
+  handleDate: PropTypes.func,
+  date: PropTypes.string,
+  reviewers : PropTypes.string,
+  destinationbranch: PropTypes.string,
   isLoading: PropTypes.bool,
 }
 
