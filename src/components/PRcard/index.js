@@ -4,6 +4,7 @@ import Reviewers from "../Reviewers";
 import "./PRcard.scss";
 import { handleDate } from "../../Utils/handleDate";
 import moment from "moment";
+import PropTypes from 'prop-types';
 
 class PRcard extends Component {
   render() {
@@ -13,36 +14,36 @@ class PRcard extends Component {
         <div className="dateandcomments__container">
           <div className="date__container">
             {moment(`${date}`).fromNow() === "a day ago" ||
-            moment(`${date}`).fromNow() === "2 days ago" ? (
-              <i className="fas fa-circle green" />
-            ) : (
-              ""
-            )}
+              moment(`${date}`).fromNow() === "2 days ago" ? (
+                <i className="fas fa-circle green" />
+              ) : (
+                ""
+              )}
 
             {moment(`${date}`).fromNow() === "3 days ago" ||
-            moment(`${date}`).fromNow() === "4 days ago" ||
-            moment(`${date}`).fromNow() === "5 days ago" ? (
-              <i className="fas fa-circle yellow" />
-            ) : (
-              ""
-            )}
+              moment(`${date}`).fromNow() === "4 days ago" ||
+              moment(`${date}`).fromNow() === "5 days ago" ? (
+                <i className="fas fa-circle yellow" />
+              ) : (
+                ""
+              )}
 
             {moment(`${date}`).fromNow() !== "a day ago" &&
-            moment(`${date}`).fromNow() !== "2 days ago" &&
-            moment(`${date}`).fromNow() !== "3 days ago" &&
-            moment(`${date}`).fromNow() !== "4 days ago" &&
-            moment(`${date}`).fromNow() !== "5 days ago" ? (
-              <i className="fas fa-circle red" />
-            ) : (
-              ""
-            )}
+              moment(`${date}`).fromNow() !== "2 days ago" &&
+              moment(`${date}`).fromNow() !== "3 days ago" &&
+              moment(`${date}`).fromNow() !== "4 days ago" &&
+              moment(`${date}`).fromNow() !== "5 days ago" ? (
+                <i className="fas fa-circle red" />
+              ) : (
+                ""
+              )}
 
             <span className="prcard__date">{handleDate(date).date}</span>
           </div>
           <a
             href={`https://bitbucket.org/${
               this.props.repository
-            }/pull-requests/${this.props.id}/_/diff`}
+              }/pull-requests/${this.props.id}/_/diff`}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -62,12 +63,27 @@ class PRcard extends Component {
           />
           <i className="fas fa-arrow-right" />
           <Reviewers
-          reviewers = {reviewers}
-          destinationbranch={this.props.destinationbranch}/>
+            reviewers={reviewers}
+            destinationbranch={this.props.destinationbranch} />
         </div>
       </div>
     );
   }
+}
+
+PRcard.propTypes = {
+  repository:
+  id:
+  avatar:
+  author:
+  branch:
+  title:
+  comments:
+  handleDate:
+  date:
+  reviewers :
+  destinationbranch:
+  isLoading: PropTypes.bool,
 }
 
 export default PRcard;
