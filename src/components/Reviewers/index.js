@@ -40,4 +40,8 @@ class Reviewers extends Component {
   }
 }
 
+Reviewers.PropTypes = {
+  reviewers: PropTypes.array,
+  destinationbranch: PropTypes.string
+}
 export default Reviewers;
