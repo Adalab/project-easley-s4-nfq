@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import './User.scss';
-import Loader from '../Loader'
+import Loader from '../Loader';
+import PropTypes from 'prop-types';
 
 class User extends Component {
   render() {
