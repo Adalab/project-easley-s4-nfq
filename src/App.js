@@ -59,7 +59,6 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('token',data)
         const token = data.access_token;
         const refresh = data.refresh_token;
         this.setState({
@@ -78,7 +77,10 @@ class App extends Component {
   }
 
   changeRepository(event) {
-    this.setState({ value: event.target.value });
+    this.setState({
+      value: event.target.value,
+      isLoading: true
+     });
   }
 
 
@@ -130,7 +132,7 @@ class App extends Component {
 
         this.setState({
           pullRequests: onePullRequest,
-          isLoading: false
+         // isLoading: false
         });
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
@@ -155,7 +157,8 @@ class App extends Component {
               .then(dataWithReviewers => {
                 prWithReviewers.push(dataWithReviewers);
                 return this.setState({
-                  allFinalData: prWithReviewers
+                  allFinalData: prWithReviewers,
+                  isLoading: false
                 })
               })
           )

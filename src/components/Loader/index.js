@@ -1,9 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import "./Loader.scss";
+import NfqLogo from '../../images/nfq-logo.png'
 
 class Loader extends Component {
   render() {
-    return <p>Loading...</p>;
+    return (
+      <Fragment>
+        <div>
+        <p>Loading...</p>
+        <img src={NfqLogo} alt="nfq-logo"/>
+        </div>
+      </Fragment>
+    )
   }
 }
 
