@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
+import PropTypes from 'prop-types';
 
 class Header extends Component {
   render() {
@@ -36,4 +37,8 @@ class Header extends Component {
   }
 }
 
+Header.propTypes = {
+  value: PropTypes.string,
+  changeRepository: PropTypes.func
+}
 export default Header;

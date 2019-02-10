@@ -140,10 +140,6 @@ class App extends Component {
 
         const prWithReviewers = [];
         urisForFetchReviewers.map(uri => {
-          console.log('uri',uri, )
-          console.log('headerauth',headerAuthorization)
-          console.log('isPrivate',isPrivate)
-
           return (
             fetch(
              uri,
