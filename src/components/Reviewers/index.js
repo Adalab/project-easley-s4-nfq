@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import './Reviewers.scss';
+import PropTypes from 'prop-types';
 
 
 class Reviewers extends Component {

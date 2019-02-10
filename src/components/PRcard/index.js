@@ -64,7 +64,8 @@ class PRcard extends Component {
           <i className="fas fa-arrow-right" />
           <Reviewers
             reviewers={reviewers}
-            destinationbranch={this.props.destinationbranch} />
+            destinationbranch={this.props.destinationbranch}
+          />
         </div>
       </div>
     );
