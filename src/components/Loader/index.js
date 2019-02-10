@@ -6,7 +6,7 @@ class Loader extends Component {
   render() {
     return (
       <Fragment>
-        <div>
+        <div className="loader__container">
         <p>Loading...</p>
         <img src={NfqLogo} alt="nfq-logo"/>
         </div>
