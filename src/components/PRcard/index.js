@@ -78,7 +78,7 @@ PRcard.propTypes = {
   author: PropTypes.string,
   branch: PropTypes.string,
   title: PropTypes.string,
-  comments: PropTypes.string,
+  comments: PropTypes.number,
   handleDate: PropTypes.func,
   date: PropTypes.string,
   reviewers : PropTypes.string,

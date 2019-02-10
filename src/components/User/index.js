@@ -26,8 +26,10 @@ class User extends Component {
 }
 
 User.propTypes = {
-  avatar: PropTypes.arrayOf(PropTypes.object),
+  avatar: PropTypes.string,
   author: PropTypes.string,
+  branch: PropTypes.string,
+  isLoading: PropTypes.bool
 }
 
 export default User;
