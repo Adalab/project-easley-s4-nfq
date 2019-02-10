@@ -82,7 +82,7 @@ PRcard.propTypes = {
   comments: PropTypes.number,
   handleDate: PropTypes.func,
   date: PropTypes.string,
-  reviewers : PropTypes.string,
+  reviewers : PropTypes.array,
   destinationbranch: PropTypes.string,
   isLoading: PropTypes.bool,
 }
