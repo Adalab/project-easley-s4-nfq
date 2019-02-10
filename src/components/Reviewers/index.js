@@ -40,7 +40,7 @@ class Reviewers extends Component {
   }
 }
 
-Reviewers.PropTypes = {
+Reviewers.propTypes = {
   reviewers: PropTypes.array,
   destinationbranch: PropTypes.string
 }
