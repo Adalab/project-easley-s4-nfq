@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import StatusTab from '../StatusTab';
 import PRlist from '../PRlist';
 import './DetailsContainer.scss';
+import PropTypes from 'prop-types';
 
 class DetailsContainer extends Component {
     render() {
@@ -26,6 +27,12 @@ class DetailsContainer extends Component {
             </Fragment>
         );
     }
+}
+
+DetailsContainer.propTypes = {
+  pullRequests: PropTypes.arrayOf(PropTypes.object),
+  value: PropTypes.string,
+  isLoading: PropTypes.bool,
 }
 
 export default DetailsContainer;
