@@ -171,7 +171,6 @@ class App extends Component {
           this.getToken("true");
         }
       })
-    //console.log('prWithReviewers',prWithReviewers)
   }
 
   render() {
