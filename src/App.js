@@ -14,8 +14,9 @@ class App extends Component {
       allFinalData: [],
       value: "aui",
       tab: "OPEN",
-      token: "",
-      refresh_token: "",
+      token: '',
+      refresh_token: '',
+      UriNextPage: '',
       availablesRepos: [
         {
           name: "aui",
@@ -34,6 +35,7 @@ class App extends Component {
     };
     this.changeRepository = this.changeRepository.bind(this);
     this.handleTab = this.handleTab.bind(this);
+    this.getNextPullRequests = this.getNextPullRequests.bind(this);
   }
 
   handleTab(tab) {
@@ -89,8 +91,6 @@ class App extends Component {
     });
   }
 
-
-
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
       this.getRepository();
@@ -105,12 +105,22 @@ class App extends Component {
     }
   }
 
-  getRepository() {
+  getNextPullRequests () {
+    const {UriNextPage}= this.state;
+    if (UriNextPage !== ""){
+      this.getRepository(UriNextPage);
+    }
+  }
+
+  getRepository(nextUri) {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}/`;
-    const privateEndPoint =
+
+    const prEndpoint = nextUri ||
+      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}`;
+
+    const privateEndPoint = nextUri ||
       `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=${this.state.tab}`;
 
     fetch(
@@ -130,20 +140,26 @@ class App extends Component {
         return response.json()
       })
       .then(data => {
+        const nextUri = data.next;
+
         const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
-            uriReviewer: isPrivate? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?state=${this.state.tab}`: `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?state=${this.state.tab}`
+            uriReviewer: isPrivate
+              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?state=${this.state.tab}`
+              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?state=${this.state.tab}`
           };
         });
 
         this.setState({
           pullRequests: onePullRequest,
           isLoading: false,
+          UriNextPage: nextUri
         });
 
+
+
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
-          console.log('pullrequest', pullrequest.uriReviewer);
           return pullrequest.uriReviewer;
         }
         );
@@ -182,7 +198,6 @@ class App extends Component {
   render() {
     const { allFinalData, value, isLoading, tab } = this.state;
     const changeRepository = this.changeRepository;
-    console.log('allfinaldata', allFinalData);
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -201,6 +216,7 @@ class App extends Component {
               render={() => {
                 return (
                   <DetailsContainer
+                  getNextPullRequests = {this.getNextPullRequests}
                   pullRequests={allFinalData}
                   value={value}
                   isLoading={isLoading}

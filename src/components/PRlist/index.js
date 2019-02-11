@@ -8,7 +8,6 @@ class PRlist extends Component {
     return (
       <ul>
         {pullRequests.map((item, index) => {
-          console.log('item', item);
           return (
             <li key={index}>
               <PRcard
