@@ -16,7 +16,8 @@ class App extends Component {
       tab: "OPEN",
       token: '',
       refresh_token: '',
-      UriNextPage: '',
+      uriNextPage: '',
+      uriPrevPage: '',
       availablesRepos: [
         {
           name: "aui",
@@ -36,6 +37,7 @@ class App extends Component {
     this.changeRepository = this.changeRepository.bind(this);
     this.handleTab = this.handleTab.bind(this);
     this.getNextPullRequests = this.getNextPullRequests.bind(this);
+    this.getPreviousPullRequests = this.getPreviousPullRequests.bind(this);
   }
 
   handleTab(tab) {
@@ -105,10 +107,17 @@ class App extends Component {
     }
   }
 
-  getNextPullRequests () {
-    const {UriNextPage}= this.state;
-    if (UriNextPage !== ""){
-      this.getRepository(UriNextPage);
+  getNextPullRequests() {
+    const {uriNextPage}= this.state;
+    if (uriNextPage !== ""){
+      this.getRepository(uriNextPage)
+    }
+  }
+
+  getPreviousPullRequests(){
+    const{uriPrevPage} = this.state;
+    if (uriPrevPage){
+      this.getRepository(uriPrevPage)
     }
   }
 
@@ -141,6 +150,7 @@ class App extends Component {
       })
       .then(data => {
         const nextUri = data.next;
+        const prevUri = data.previous;
 
         const onePullRequest = data.values.map(item => {
           return {
@@ -154,7 +164,8 @@ class App extends Component {
         this.setState({
           pullRequests: onePullRequest,
           isLoading: false,
-          UriNextPage: nextUri
+          uriNextPage: nextUri,
+          uriPrevPage: prevUri
         });
 
 
@@ -217,6 +228,7 @@ class App extends Component {
                 return (
                   <DetailsContainer
                   getNextPullRequests = {this.getNextPullRequests}
+                  getPreviousPullRequests = {this.getPreviousPullRequests}
                   pullRequests={allFinalData}
                   value={value}
                   isLoading={isLoading}

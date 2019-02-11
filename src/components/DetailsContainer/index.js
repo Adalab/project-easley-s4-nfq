@@ -7,12 +7,14 @@ import PropTypes from 'prop-types';
 
 class DetailsContainer extends Component {
     render() {
-      const {value, pullRequests, handleTab, isLoading, getNextPullRequests } = this.props;
+      const {value, pullRequests, handleTab, isLoading, getNextPullRequests, getPreviousPullRequests } = this.props;
         return (
             <Fragment>
             <h2 className="details__title">{value}</h2>
             <ButtonPagination
             getNextPullRequests={getNextPullRequests}
+            getPreviousPullRequests={getPreviousPullRequests}
+
             />
             <select className="details__select">
                 <option>OPEN</option>
