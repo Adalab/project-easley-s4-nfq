@@ -15,6 +15,9 @@ class App extends Component {
       value: "aui",
       token: "",
       refresh_token: "",
+      addClassOPEN: "details__tab--selected",
+      addClassMERGED: "",
+        addClassDECLINED: "",
       availablesRepos: [
         {
           name: "aui",
@@ -32,11 +35,37 @@ class App extends Component {
       isLoading: true
     };
     this.changeRepository = this.changeRepository.bind(this);
+    this.handleTab = this.handleTab.bind(this);
   }
 
   componentDidMount() {
     this.getRepository();
     this.getToken();
+  }
+
+  handleTab(event){
+    const selectedTab = event.target.className
+    if(selectedTab.includes("OPEN")){
+      this.setState({
+        addClassOPEN: "details__tab--selected",
+        addClassMERGED: "",
+        addClassDECLINED: "",
+      });
+    }
+    if(selectedTab.includes("MERGED")){
+      this.setState({
+        addClassOPEN: "",
+        addClassMERGED: "details__tab--selected",
+        addClassDECLINED: "",
+      });
+    }
+    if(selectedTab.includes("DECLINED")){
+      this.setState({
+        addClassOPEN: "",
+        addClassMERGED: "",
+        addClassDECLINED: "details__tab--selected",
+      });
+    }
   }
 
   getToken(refreshToken) {
@@ -195,6 +224,10 @@ class App extends Component {
                     pullRequests={allFinalData}
                     value={value}
                     isLoading={isLoading}
+                    handleTab={this.handleTab}
+                    addClassOPEN={this.state.addClassOPEN}
+                    addClassMERGED={this.state.addClassMERGED}
+                    addClassDECLINED={this.state.addClassDECLINED}
                   />
                 );
               }}
