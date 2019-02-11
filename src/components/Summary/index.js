@@ -5,7 +5,7 @@ class Summary extends Component {
   render() {
     return (
       <div>
-        <p>Summary</p>
+        <p></p>
       </div>
     );
   }
