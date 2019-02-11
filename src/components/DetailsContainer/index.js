@@ -9,6 +9,7 @@ class DetailsContainer extends Component {
   render() {
     const {
       value,
+      tab,
       pullRequests,
       handleTab,
       isLoading,
@@ -26,9 +27,11 @@ class DetailsContainer extends Component {
           <option>DECLINED</option>
         </select>
         <div className="details__wrapper--tab">
-          <StatusTab tab="OPEN" handleTab={handleTab} status="OPEN" />
-          <StatusTab tab="MERGED" handleTab={handleTab} status="MERGED" />
-          <StatusTab tab="DECLINED" handleTab={handleTab} status="DECLINED" />
+          <StatusTab tab="OPEN"
+          handleTab={handleTab}
+          selectedTab={tab} />
+          <StatusTab tab="MERGED" handleTab={handleTab} selectedTab={tab} />
+          <StatusTab tab="DECLINED" handleTab={handleTab} selectedTab={tab} />
         </div>
 
         <ButtonPagination

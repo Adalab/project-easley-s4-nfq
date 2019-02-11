@@ -5,17 +5,28 @@ import PropTypes from 'prop-types';
 class StatusTab extends Component {
   constructor(props) {
     super(props);
-  this.onClick = this.onClick.bind(this);
+
+    this.onClick = this.onClick.bind(this);
+    this.addClass = this.addClass.bind(this);
   }
 
   onClick(event) {
-    const { tab, handleTab } = this.props;
+    const { tab, handleTab} = this.props;
     handleTab(tab);
+
 }
+  addClass(){
+    const {selectedTab, tab} = this.props;
+    return selectedTab === tab
+      ? "details__tab--selected"
+      : ""
+  }
+
+
   render() {
-    const {status , selected } = this.props
+    const {tab, selectedTab} = this.props
     return (
-      <button onClick={this.onClick} className={`details__tab ${selected}`}>{status}</button>
+      <button className={`details__tab ${this.addClass()} ${selectedTab}`} onClick={this.onClick}>{tab}</button>
     );
   }
 }
