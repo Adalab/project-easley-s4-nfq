@@ -207,7 +207,7 @@ class App extends Component {
   }
 
   render() {
-    const { allFinalData, value, isLoading, tab } = this.state;
+    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage } = this.state;
     const changeRepository = this.changeRepository;
     return (
       <div className="App">
@@ -229,6 +229,8 @@ class App extends Component {
                   <DetailsContainer
                   getNextPullRequests = {this.getNextPullRequests}
                   getPreviousPullRequests = {this.getPreviousPullRequests}
+                  uriNextPage={uriNextPage}
+                  uriPrevPage={uriPrevPage}
                   pullRequests={allFinalData}
                   value={value}
                   isLoading={isLoading}

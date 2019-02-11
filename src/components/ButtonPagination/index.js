@@ -5,12 +5,12 @@ class ButtonPagination extends Component {
 
   render() {
 
-    const {getNextPullRequests, getPreviousPullRequests} = this.props;
+    const {getNextPullRequests, getPreviousPullRequests,  uriNextPage, uriPrevPage} = this.props;
 
     return (
       <div className="button_container">
-      <button onClick={getPreviousPullRequests} className="previous">Prev</button>
-      <button onClick={getNextPullRequests} className="next">Next</button>
+       {uriPrevPage && <button onClick={getPreviousPullRequests} className="previous">Prev</button>}
+      {uriNextPage && <button onClick={getNextPullRequests} className="next">Next</button>}
       </div>
      );
   }
