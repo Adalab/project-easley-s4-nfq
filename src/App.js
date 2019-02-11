@@ -131,8 +131,7 @@ class App extends Component {
         });
 
         this.setState({
-          pullRequests: onePullRequest,
-          // isLoading: false
+          pullRequests: onePullRequest
         });
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
