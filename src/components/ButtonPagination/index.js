@@ -13,12 +13,12 @@ class ButtonPagination extends Component {
     return (
       <div className="button_container">
         {uriPrevPage && (
-          <button className="prcard__prev-button" onClick={getPreviousPullRequests}>
+          <button className="prcard__button" onClick={getPreviousPullRequests}>
             Prev
           </button>
         )}
         {uriNextPage && (
-          <button className="prcard__next-button" onClick={getNextPullRequests}>
+          <button className="prcard__button" onClick={getNextPullRequests}>
             Next
           </button>
         )}
