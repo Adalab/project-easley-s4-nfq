@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PRcard from '../PRcard';
+import PropTypes from 'prop-types';
 
 class PRlist extends Component {
   render() {
@@ -7,6 +8,7 @@ class PRlist extends Component {
     return (
       <ul>
         {pullRequests.map((item, index) => {
+          console.log('item', item);
           return (
             <li key={index}>
               <PRcard
@@ -33,4 +35,8 @@ class PRlist extends Component {
   }
 }
 
+PRlist.propTypes = {
+  pullRequests: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool,
+}
 export default PRlist;

@@ -3,15 +3,15 @@ import StatusTab from '../StatusTab';
 import PRlist from '../PRlist';
 import './DetailsContainer.scss';
 import ButtonPagination from '../ButtonPagination';
+import PropTypes from 'prop-types';
 
 class DetailsContainer extends Component {
     render() {
-      const {value, pullRequests, tab, handleTab, hideTab, isLoading, next, handleNext} = this.props;
-      const hideTabResult = hideTab(tab);
+      const {value, pullRequests, handleTab, isLoading } = this.props;
         return (
             <Fragment>
             <h2 className="details__title">{value}</h2>
-            <ButtonPagination next={next} handleNext={handleNext}/>
+            <ButtonPagination />
             <select className="details__select">
                 <option>OPEN</option>
                 <option>MERGED</option>
@@ -41,6 +41,12 @@ class DetailsContainer extends Component {
             </Fragment>
         );
     }
+}
+
+DetailsContainer.propTypes = {
+  pullRequests: PropTypes.arrayOf(PropTypes.object).isRequired,
+  value: PropTypes.string,
+  isLoading: PropTypes.bool,
 }
 
 export default DetailsContainer;

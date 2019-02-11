@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from 'prop-types';
 import User from "../User";
 import "./Reasons.scss";
 
@@ -20,5 +21,7 @@ class Reasons extends Component {
     );
   }
 }
-
+Reasons.propTypes = {
+  pullRequests: PropTypes.arrayOf(PropTypes.object).isRequired
+}
 export default Reasons;
