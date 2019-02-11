@@ -94,16 +94,6 @@ class App extends Component {
       });
   }
 
-  hideTab(tab) {
-    let hideTab = "";
-    const openTab = this.state.tab;
-    if(tab !== openTab) {
-
-    }
-    tab !== openTab ? (hideTab = "details__tab--selected") : (hideTab = "");
-    return hideTab;
-  }
-
   render() {
     const { allFinalData, value, isLoading, tab, next } = this.state;
     const changeRepository = this.changeRepository;
@@ -130,7 +120,6 @@ class App extends Component {
                   value={value}
                   isLoading={isLoading}
                   handleTab={this.handleTab}
-                  hideTab={this.hideTab}
                   tab={tab}
                   next={next}
                   handleNext={this.handleNext}

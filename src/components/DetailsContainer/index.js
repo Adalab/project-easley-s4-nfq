@@ -21,21 +21,18 @@ class DetailsContainer extends Component {
             <StatusTab
             tab="OPEN"
             handleTab={handleTab}
-            hideTabResult={hideTabResult}
             status="OPEN"
-            selected={`${hideTabResult}`}/>
+            />
             <StatusTab
             tab="MERGED"
             handleTab={handleTab}
-            hideTabResult={hideTabResult}
             status="MERGED"
-            selected={`${hideTabResult}`} />
+            />
             <StatusTab
             tab="DECLINED"
             handleTab={handleTab}
-            hideTabResult={hideTabResult}
             status="DECLINED"
-            selected={`${hideTabResult}`}/>
+            />
             </div>
             <PRlist
             pullRequests={pullRequests}
