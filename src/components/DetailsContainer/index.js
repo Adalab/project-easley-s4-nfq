@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 class DetailsContainer extends Component {
     render() {
-      const {value, pullRequests, isLoading, handleTab, addClassOPEN, addClassMERGED, addClassDECLINED} = this.props;
+      const {value, pullRequests, isLoading, handleTabLine, addClassOPEN, addClassMERGED, addClassDECLINED} = this.props;
         return (
             <Fragment>
             <h2 className="details__title">{value}</h2>
@@ -16,9 +16,9 @@ class DetailsContainer extends Component {
                 <option>DECLINED</option>
             </select>
             <div className="details__wrapper--tab">
-            <StatusTab status="OPEN" addClass={addClassOPEN} selected="" handleTab={handleTab}/>
-            <StatusTab status="MERGED" addClass={addClassMERGED} selected="" handleTab={handleTab}/>
-            <StatusTab status="DECLINED" addClass={addClassDECLINED} selected="" handleTab={handleTab}/>
+            <StatusTab status="OPEN" addClass={addClassOPEN} selected="" handleTabLine={handleTabLine}/>
+            <StatusTab status="MERGED" addClass={addClassMERGED} selected="" handleTabLine={handleTabLine}/>
+            <StatusTab status="DECLINED" addClass={addClassDECLINED} selected="" handleTabLine={handleTabLine}/>
             </div>
             <PRlist
             pullRequests={pullRequests}

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 class StatusTab extends Component {
   render() {
-    const {status , selected, handleTab, addClass} = this.props
+    const {status , selected, handleTabLine, addClass} = this.props
     return (
-      <button className={`details__tab ${addClass} ${status}`} onClick={handleTab}>{status}</button>
+      <button className={`details__tab ${addClass} ${status}`} onClick={handleTabLine}>{status}</button>
     );
   }
 }

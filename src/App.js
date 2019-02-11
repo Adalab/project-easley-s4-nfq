@@ -35,7 +35,7 @@ class App extends Component {
       isLoading: true
     };
     this.changeRepository = this.changeRepository.bind(this);
-    this.handleTab = this.handleTab.bind(this);
+    this.handleTabLine = this.handleTabLine.bind(this);
   }
 
   componentDidMount() {
@@ -43,8 +43,9 @@ class App extends Component {
     this.getToken();
   }
 
-  handleTab(event){
+  handleTabLine(event){
     const selectedTab = event.target.className
+    console.log('event target',event.target.className)
     if(selectedTab.includes("OPEN")){
       this.setState({
         addClassOPEN: "details__tab--selected",
@@ -203,6 +204,7 @@ class App extends Component {
   render() {
     const { allFinalData, value, isLoading } = this.state;
     const changeRepository = this.changeRepository;
+    console.log('all final data',allFinalData)
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -224,7 +226,7 @@ class App extends Component {
                     pullRequests={allFinalData}
                     value={value}
                     isLoading={isLoading}
-                    handleTab={this.handleTab}
+                    handleTabLine={this.handleTabLine}
                     addClassOPEN={this.state.addClassOPEN}
                     addClassMERGED={this.state.addClassMERGED}
                     addClassDECLINED={this.state.addClassDECLINED}
