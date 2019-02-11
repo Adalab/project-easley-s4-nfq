@@ -1,10 +1,22 @@
 .button_container {
   display: flex;
-  justify-content: center;
   background-color: white;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
+  justify-content: flex-end;
   margin-right: auto;
-  border-right: 1px solid black;
-  border-left: 1px solid black;
+  padding-right: 10px;
+}
+
+.prcard__button {
+  color: white;
+  width: 35px;
+  background-color: #757575;
+  border: 1px solid #757575;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 4px;
+  margin: 12px 5px;
+  height: 35px;
+  font-size: 19px;
+  text-align: center;
 }
