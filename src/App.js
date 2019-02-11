@@ -80,7 +80,7 @@ class App extends Component {
     this.setState({
       value: event.target.value,
       isLoading: true
-     });
+    });
   }
 
 
@@ -132,7 +132,7 @@ class App extends Component {
 
         this.setState({
           pullRequests: onePullRequest,
-         // isLoading: false
+          // isLoading: false
         });
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
@@ -144,7 +144,7 @@ class App extends Component {
         urisForFetchReviewers.map(uri => {
           return (
             fetch(
-             uri,
+              uri,
               isPrivate
                 ? {
                   headers: {

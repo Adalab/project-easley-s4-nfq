@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 class Reviewers extends Component {
   render() {
-    const { reviewers } = this.props;
+    const { reviewers, destinationbranch } = this.props;
     if (reviewers.length === 1) {
       return (
         <Fragment>
@@ -32,7 +32,7 @@ class Reviewers extends Component {
               </div>
             );
           })}
-          <h4 className="app--card-develop">{this.props.destinationbranch}</h4>
+          <h4 className="app--card-develop">{destinationbranch}</h4>
           </div>
         </Fragment>
       );
@@ -41,7 +41,7 @@ class Reviewers extends Component {
 }
 
 Reviewers.propTypes = {
-  reviewers: PropTypes.array,
+  reviewers: PropTypes.array.isRequired,
   destinationbranch: PropTypes.string
 }
 export default Reviewers;

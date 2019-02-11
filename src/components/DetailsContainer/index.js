@@ -30,7 +30,7 @@ class DetailsContainer extends Component {
 }
 
 DetailsContainer.propTypes = {
-  pullRequests: PropTypes.arrayOf(PropTypes.object),
+  pullRequests: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.string,
   isLoading: PropTypes.bool,
 }
