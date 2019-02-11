@@ -109,7 +109,7 @@ class App extends Component {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}/`;
+    const prEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}`;
     const privateEndPoint =
       `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=${this.state.tab}`;
 
@@ -133,7 +133,10 @@ class App extends Component {
         const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
-            uriReviewer: isPrivate? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?state=${this.state.tab}`: `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?state=${this.state.tab}`
+            uriReviewer: isPrivate ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/`
+            + item.id + `/?state=${this.state.tab}` :
+            `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/`
+             + item.id + `/?state=${this.state.tab}`
           };
         });
 
@@ -143,7 +146,6 @@ class App extends Component {
         });
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
-          console.log('pullrequest', pullrequest.uriReviewer);
           return pullrequest.uriReviewer;
         }
         );
@@ -182,7 +184,6 @@ class App extends Component {
   render() {
     const { allFinalData, value, isLoading, tab } = this.state;
     const changeRepository = this.changeRepository;
-    console.log('allfinaldata', allFinalData);
     return (
       <div className="App">
         <Header value={value} changeRepository={changeRepository} />
@@ -201,11 +202,11 @@ class App extends Component {
               render={() => {
                 return (
                   <DetailsContainer
-                  pullRequests={allFinalData}
-                  value={value}
-                  isLoading={isLoading}
-                  handleTab={this.handleTab}
-                  tab={tab}
+                    pullRequests={allFinalData}
+                    value={value}
+                    isLoading={isLoading}
+                    handleTab={this.handleTab}
+                    tab={tab}
                   />
                 );
               }}

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 class DetailsContainer extends Component {
     render() {
-      const {value, pullRequests, handleTab, isLoading } = this.props;
+      const {value,tab, pullRequests,handleTab, isLoading} = this.props;
         return (
             <Fragment>
             <h2 className="details__title">{value}</h2>
@@ -21,17 +21,17 @@ class DetailsContainer extends Component {
             <StatusTab
             tab="OPEN"
             handleTab={handleTab}
-            status="OPEN"
+            selectedTab={tab}
             />
             <StatusTab
             tab="MERGED"
             handleTab={handleTab}
-            status="MERGED"
+            selectedTab={tab}
             />
             <StatusTab
             tab="DECLINED"
             handleTab={handleTab}
-            status="DECLINED"
+            selectedTab={tab}
             />
             </div>
             <PRlist
