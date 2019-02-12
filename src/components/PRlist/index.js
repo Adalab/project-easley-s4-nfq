@@ -26,6 +26,7 @@ class PRlist extends Component {
               isLoading={isLoading}
               reason={item.reason}
               state={item.state}
+              declined={item.updated_on}
               />
             </li>
           )
