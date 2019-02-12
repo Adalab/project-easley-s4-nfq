@@ -22,6 +22,7 @@
   text-transform: uppercase;
   margin-top: 5px;
   font-size: 18px;
+  padding: 10px;
 }
 
 .app--card-branch{
@@ -30,6 +31,16 @@
   text-transform: capitalize;
 
   font-weight: 100;
+}
+
+.reason__user {
+  display: flex;
+  flex-direction: row;
+  width: 370px;
+  height: 10px;
+  padding: 20px;
+  min-height: 100px;
+  margin-bottom: 20px;
 }
 
 @media all and (min-width: 1200px) {

@@ -13,10 +13,10 @@ class Reasons extends Component {
           <div className="showreasons__title">
             Show reasons <i className="fas fa-angle-down" />
           </div>
+          <User avatar={avatar} author={author} date={date} reasonClass="reason__user" />
           <div>
             <h3 className="reason__title">REASONS: {reason}</h3>
           </div>
-          <User avatar={avatar} author={author} date={date} />
         </div>)}
       </Fragment>
     );
