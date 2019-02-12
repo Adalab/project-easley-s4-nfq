@@ -3,16 +3,20 @@
 }
 
 .showreasons__title{
-  width: 120px;
+  width: 100%;
+  padding: 30px 0;
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  color: rgb(104, 101, 101);
 }
 
 .reason__title{
   font-size: 18px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  color: rgb(104, 101, 101);
   @media all and (min-width: 768px) {
     font-size: 20px;
  }

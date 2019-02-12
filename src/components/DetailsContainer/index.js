@@ -55,7 +55,7 @@ class DetailsContainer extends Component {
           uriPrevPage={uriPrevPage}
         />
 
-        <PRlist pullRequests={pullRequests} isLoading={isLoading} />
+        <PRlist pullRequests={pullRequests} isLoading={isLoading}/>
 
         <ButtonPagination
           getNextPullRequests={getNextPullRequests}

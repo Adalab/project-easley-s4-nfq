@@ -6,6 +6,7 @@ import { handleDate } from "../../Utils/handleDate";
 import moment from "moment";
 import PropTypes from 'prop-types';
 import Loader from '../Loader';
+import Reasons from "../Reasons";
 
 class PRcard extends Component {
   render() {
@@ -71,6 +72,9 @@ class PRcard extends Component {
                   reviewers={reviewers}
                   destinationbranch={this.props.destinationbranch}
                 />
+              </div>
+              <div>
+                <Reasons reason={this.props.reason} state={this.props.state}/>
               </div>
             </Fragment>
           )}
