@@ -1,16 +1,13 @@
 .details__tab {
   flex-grow: 1;
-  background-color: white;
-  border-radius: 0px;
-  border: 1px solid black;
+  background-color: rgb(235, 235, 235);
+  color:#272D34 ;
+  border: 0px;
   width: 100%;
-  height: 60px;
+  height: 78px;
   font-size: 18px;
-  outline: none;
-  text-decoration: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
   &:hover {
     cursor: pointer;
   }
@@ -21,4 +18,13 @@
 }
 .details__tab--selected {
   border-bottom: 0px;
+  background-color: white;
+}
+
+.details__tab--left {
+  border-top-left-radius: 30px;
+}
+
+.details__tab--right {
+  border-top-right-radius: 30px;
 }

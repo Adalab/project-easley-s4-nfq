@@ -24,15 +24,15 @@ class Reviewers extends Component {
       return (
         <Fragment>
           <div className="app--card-reviewer">
-          <img className="app--card-image-reviewers" src="https://image.flaticon.com/icons/svg/9/9463.svg" alt = ""/>
+          <img className="app--card-image-reviewer" src="https://image.flaticon.com/icons/svg/9/9463.svg" alt = ""/>
           {reviewers.map((rv, index) => {
             return (
               <div key={index}>
-                <h4 className="app--card-name-reviewers">{rv.display_name}</h4>
+                <h4 className="app--card-name">{rv.display_name}</h4>
               </div>
             );
           })}
-          <h4 className="app--card-develop">{destinationbranch}</h4>
+          <h4 className="app--card-branch">{destinationbranch}</h4>
           </div>
         </Fragment>
       );

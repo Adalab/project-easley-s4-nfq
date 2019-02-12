@@ -27,11 +27,25 @@ class DetailsContainer extends Component {
           <option>DECLINED</option>
         </select>
         <div className="details__wrapper--tab">
-          <StatusTab tab="OPEN"
+          <StatusTab
+          tab="OPEN"
           handleTab={handleTab}
-          selectedTab={tab} />
-          <StatusTab tab="MERGED" handleTab={handleTab} selectedTab={tab} />
-          <StatusTab tab="DECLINED" handleTab={handleTab} selectedTab={tab} />
+          selectedTab={tab}
+          position="details__tab--left"
+          />
+
+          <StatusTab
+          tab="MERGED"
+          handleTab={handleTab}
+          selectedTab={tab}
+          />
+
+          <StatusTab
+          tab="DECLINED"
+          handleTab={handleTab}
+          selectedTab={tab}
+          position= "details__tab--right"
+          />
         </div>
 
         <ButtonPagination

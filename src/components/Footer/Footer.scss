@@ -1,10 +1,11 @@
 .app__footer {
     height: 40px;
-    max-width: 320px;
+    min-width: 100%;
+    background-color: white;
     display: flex;
     justify-content: space-around;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 40px auto 0 auto;
+    box-shadow:  0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .app__footer-logo {
@@ -57,10 +58,6 @@
 }
 
 @media all and (min-width: 1200px) {
-    .app__footer {
-        height: 60px;
-        max-width: 1200px;
-    }
     .footer-logo-image {
         height: 40px;
     }

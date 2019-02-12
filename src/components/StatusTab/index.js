@@ -24,9 +24,9 @@ class StatusTab extends Component {
 
 
   render() {
-    const {tab, selectedTab} = this.props
+    const {tab, selectedTab, position} = this.props
     return (
-      <button className={`details__tab ${this.addClass()} ${selectedTab}`} onClick={this.onClick}>{tab}</button>
+      <button className={`details__tab ${this.addClass()} ${selectedTab} ${position}`} onClick={this.onClick}>{tab}</button>
     );
   }
 }

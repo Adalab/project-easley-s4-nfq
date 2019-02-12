@@ -1,26 +1,35 @@
 .app--card-reviewer{
+  text-transform: uppercase;
   margin-left: 10px;
   border-radius: 10px;
-  border: 2px solid grey;
-  width: 220px;
-  min-height: 185px;
+  width: 250px;
+  min-height: 200px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 10px 10px 5px #aaaaaa;
+  box-shadow: 4px 4px 20px #aaaaaa;
 }
 
 .app--card-image-reviewer{
+  text-transform: uppercase;
   border-radius: 50%;
   max-width: 70px;
   height: 70px;
 }
 
-.app--card-image-reviewers{
-  border-radius: 50%;
-  max-width: 70px;
-  height: 70px;
+.app--card-name{
+
+  text-transform: uppercase;
+  margin-top: 5px;
+  font-size: 18px;
+}
+
+.app--card-branch{
+  margin-top: 5px;
+  font-size: 18px;
+
+  font-weight: 100;
 }
 
