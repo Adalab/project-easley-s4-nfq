@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class User extends Component {
   render() {
-    const {avatar, author, branch} =  this.props
+    const {avatar, author, branch, date} =  this.props
     return (
       <Fragment>
         <div className="app--card-user">
@@ -14,7 +14,7 @@ class User extends Component {
                 alt={author || "reviewers"}
               />
           <h4 className="app--card-name">{author || "reviewers"}</h4>
-          <h4 className="app--card-branch">{branch || "Develop"}</h4>
+          <h4 className="app--card-branch">{branch || date || "Develop"}</h4>
         </div>
       </Fragment>
     )

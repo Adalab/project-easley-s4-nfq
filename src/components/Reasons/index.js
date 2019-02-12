@@ -4,10 +4,11 @@ import "./Reasons.scss";
 
 class Reasons extends Component {
   render() {
-    const { reason, state } = this.props;
+    const { reason, state, avatar, author, date } = this.props;
     if (state === "DECLINED") {
       return (
       <Fragment>
+        {reason && (
         <div className="reasons__container">
           <div className="showreasons__title">
             Show reasons <i className="fas fa-angle-down" />
@@ -15,8 +16,8 @@ class Reasons extends Component {
           <div>
             <h3 className="reason__title">REASONS: {reason}</h3>
           </div>
-          <User />
-        </div>
+          <User avatar={avatar} author={author} date={date} />
+        </div>)}
       </Fragment>
     );
     } else {

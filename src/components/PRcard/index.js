@@ -10,7 +10,7 @@ import Reasons from "../Reasons";
 
 class PRcard extends Component {
   render() {
-    const { avatar, author, branch, date, isLoading, reviewers } = this.props;
+    const { avatar, author, branch, date, isLoading, reviewers, reason, state } = this.props;
     return (
       <div className="prcard__container">
         {this.props.isLoading ? (
@@ -74,7 +74,13 @@ class PRcard extends Component {
                 />
               </div>
               <div>
-                <Reasons reason={this.props.reason} state={this.props.state}/>
+                <Reasons
+                reason={reason}
+                state={state}
+                avatar={avatar}
+                author={author}
+                date={date}
+                />
               </div>
             </Fragment>
           )}
