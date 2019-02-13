@@ -18,6 +18,7 @@ class App extends Component {
       refresh_token: '',
       uriNextPage: '',
       uriPrevPage: '',
+      allDataFromPagination: [],
       availablesRepos: [
         {
           name: "aui",
@@ -45,6 +46,7 @@ class App extends Component {
        tab: tab,
        isLoading: true
        })
+       this.getAlldatafromPagination()
   }
 
   componentDidMount() {
@@ -96,6 +98,20 @@ class App extends Component {
     });
   }
 
+  getAlldatafromPagination(){
+    const {allDataFromPagination, uriNextPage, allFinalData} = this.state
+    console.log('this.state.uriNextPage',uriNextPage)
+    // while(uriNextPage !== ""){
+    //   this.getRepository();
+    //   allDataFromPagination.push(allFinalData)
+    // }
+    //necesito el array con todos los reviewers pero de todas las peticiones
+    //allFinalData: prWithReviewers, en allFinalData estan todos los datos pero solo de 1 peticion
+    //quiero un array con todos los allFinalData
+    console.log('all date in the state expected',allDataFromPagination)
+  }
+
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
       this.getRepository();
@@ -104,6 +120,12 @@ class App extends Component {
       this.getRepository();
     }
     if (this.state.token && this.state.token !== prevState.token) {
+    }
+//me guarda un array de arrays pero tb me los pinta y solo los quiero guardar
+    if (this.state.uriNextPage !== prevState.uriNextPage) {
+      this.getRepository(this.state.uriNextPage)
+      this.state.allDataFromPagination.push(this.state.allFinalData)
+      console.log('this-state-alldatapagitnacion',this.state.allDataFromPagination)
     }
 
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
@@ -130,7 +152,7 @@ class App extends Component {
     const headerAuthorization = "Bearer " + this.state.token;
 
     const prEndpoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}`;
+      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagination=50&state=${this.state.tab}`;
 
     const privateEndPoint = nextUri ||
       `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=${this.state.tab}`;
@@ -159,8 +181,8 @@ class App extends Component {
           return {
             id: item.id,
             uriReviewer: isPrivate
-              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?state=${this.state.tab}`
-              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?state=${this.state.tab}`
+              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagination=50&state=${this.state.tab}`
+              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagination=50&state=${this.state.tab}`
           };
         });
 
