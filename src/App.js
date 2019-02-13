@@ -12,8 +12,64 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       allFinalData: [],
-      pullRequests2: [],
-      allFinalData2: [],
+      // pullRequests2: [],
+      // allFinalData2: [],
+      repoSelected : {
+        //open: [],
+        "OPENPullRequests": [],
+        "OPENallFinalData": [],
+        "MERGEDSize": "",
+        "MERGED": [],
+        "MERGEDPullRequests": [],
+       "MERGEDallFinalData": [],
+        "uriNextPageMERGED": "",
+        "uriPrevPageMERGED": "",
+        "DECLINEDSize": "",
+        "DECLINED": [],
+        DECLINEDPullRequests: [],
+        DECLINEDallFinalData: [],
+        uriNextPageDECLINED: "",
+        uriPrevPageDECLINED: "",
+      },
+      // reposData: {
+      //   aui: {
+      //     open: [],
+      //     openSize: "",
+      //     merged: [],
+      //     mergedSize: "",
+      //     allDataMerged: [],
+      //     declined: [],
+      //     declinedSize: "",
+      //     allDataDeclined: [],
+      //     uriNextPage: '',
+      //     uriPrevPage: '',
+
+      //   },
+      //   applicationlink: {
+      //     open: [],
+      //     openSize: "",
+      //     merged: [],
+      //     mergedSize: "",
+      //     allDataMerged: [],
+      //     declined: [],
+      //     declinedSize: "",
+      //     allDataDeclined: [],
+      //     uriNextPage: '',
+      //     uriPrevPage: '',
+      //   },
+      //   ekergy: {
+      //     open: [],
+      //     openSize: "",
+      //     merged: [],
+      //     mergedSize: "",
+      //     allDataMerged: [],
+      //     declined: [],
+      //     declinedSize: "",
+      //     allDataDeclined: [],
+      //     uriNextPage: '',
+      //     uriPrevPage: '',
+      //   },
+      //},
       value: "aui",
       tab: "OPEN",
       token: '',
@@ -21,9 +77,9 @@ class App extends Component {
       refresh_token: '',
       uriNextPage: '',
       uriPrevPage: '',
-      uriNextPage2: '',
-      uriPrevPage2: '',
-      allDataFromPagination: [],
+      //uriNextPage2: '',
+      // uriPrevPage2: '',
+      //allDataFromPagination: [],
       availablesRepos: [
         {
           name: "aui",
@@ -48,17 +104,21 @@ class App extends Component {
 
   handleTab(tab) {
     this.setState({
-       tab: tab,
-       isLoading: true
-       })
-       this.getAlldatafromPagination()
-       //this.getRepository1();
+      tab: tab,
+      isLoading: true
+    })
+    //this.getAlldatafromPagination()
+    //this.getRepository1();
   }
 
 
   componentDidMount() {
-    this.getRepository();
-    this.getRepository1();
+
+    //this.getRepository1();
+
+    this.getRepository(null, "OPEN");
+    this.getRepository(null, "MERGED");
+    this.getRepository(null, "DECLINED");
 
     this.getToken();
   }
@@ -107,18 +167,15 @@ class App extends Component {
     });
   }
 
-  getAlldatafromPagination(){
-    const {allDataFromPagination, uriNextPage2} = this.state
-    console.log('this.state.uriNextPage',uriNextPage2)
-    // while(uriNextPage !== ""){
-    //   this.getRepository();
-    //   allDataFromPagination.push(allFinalData)
-    // }
-    //necesito el array con todos los reviewers pero de todas las peticiones
-    //allFinalData: prWithReviewers, en allFinalData estan todos los datos pero solo de 1 peticion
-    //quiero un array con todos los allFinalData
-    console.log('all date in the state expected',allDataFromPagination)
-  }
+  // getAlldatafromPagination(){
+  //   const {allDataFromPagination, uriNextPage2} = this.state
+  //   console.log('this.state.uriNextPage',uriNextPage2)
+
+  //necesito el array con todos los reviewers pero de todas las peticiones
+  //allFinalData: prWithReviewers, en allFinalData estan todos los datos pero solo de 1 peticion
+  //quiero un array con todos los allFinalData
+  //   console.log('all date in the state expected',allDataFromPagination)
+  // }
 
 
   componentDidUpdate(prevProps, prevState) {
@@ -130,136 +187,175 @@ class App extends Component {
     }
     if (this.state.token && this.state.token !== prevState.token) {
     }
-
-    if (this.state.uriNextPage2 !== "" && this.state.uriNextPage2 !== prevState.uriNextPage2) {
-      this.getRepository1(this.state.uriNextPage2)
-      this.state.allDataFromPagination.push(this.state.allFinalData2)
-    }
-    if(this.state.uriNextPage2 === "" && this.state.uriPrevPage2 !== "" &&
-    (((this.state.allDataFromPagination.length - 1) * 50) < this.state.size)){
-      console.log('size',this.state.size)
-      this.state.allDataFromPagination.push(this.state.allFinalData2)
-    }
-    console.log('this-state-alldatapagitnacion',this.state.allDataFromPagination)
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
+
+
+    console.log('this state reposelected',this.state.repoSelected)
+    if (this.state.repoSelected.uriNextPageMERGED !== "" &&
+     this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
+     ((this.state.repoSelected.MERGED.length - 1) * 50) < this.state.repoSelected.MERGEDSize){
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED,"MERGED")
+      this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    }
+
+    console.log( 'this.state.repoSelected.MERGED', this.state.repoSelected.MERGED)
+    if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
+    this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
+    ((this.state.repoSelected.DECLINED.length - 1) * 50) < this.state.repoSelected.DECLINEDSize){
+     this.getRepository(this.state.repoSelected.uriNextPageDECLINED,"DECLINED")
+     this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
+   }
+
+   console.log( 'this.state.repoSelected.DECLINED', this.state.repoSelected.DECLINED)
+
+    //este si
+    // console.log('this state reposelected',this.state.repoSelected)
+    // if (this.state.repoSelected.uriNextPageMERGED !== "" && this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED) {
+    //   this.getRepository(this.state.repoSelected.uriNextPageMERGED,"MERGED")
+    //   this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    // }
+    // if (this.state.repoSelected.uriNextPageMERGED === "" && this.state.repoSelected.uriPrevPageMERGED !== "" &&
+    //   (((this.state.repoSelected.MERGED.length - 1) * 50) < this.state.repoSelected.MERGEDSize)) {
+    //     this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    // }
+    // console.log( 'this.state.repoSelected.MERGED', this.state.repoSelected.MERGED)
+
+    //este no
+    // if (this.state.uriNextPage2 !== "" && this.state.uriNextPage2 !== prevState.uriNextPage2) {
+    //   this.getRepository1(this.state.uriNextPage2)
+    //   this.state.allDataFromPagination.push(this.state.allFinalData2)
+    // }
+    // if (this.state.uriNextPage2 === "" && this.state.uriPrevPage2 !== "" &&
+    //   (((this.state.allDataFromPagination.length - 1) * 50) < this.state.size)) {
+    //   console.log('size', this.state.size)
+    //   this.state.allDataFromPagination.push(this.state.allFinalData2)
+    // }
+    // console.log('this-state-alldatapagitnacion', this.state.allDataFromPagination)
+    // if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
+    // }
   }
 
   getNextPullRequests() {
-    const {uriNextPage}= this.state;
-    if (uriNextPage !== ""){
+    const { uriNextPage } = this.state;
+    if (uriNextPage !== "") {
       this.getRepository(uriNextPage)
     }
   }
 
-  getPreviousPullRequests(){
-    const{uriPrevPage} = this.state;
-    if (uriPrevPage){
+  getPreviousPullRequests() {
+    const { uriPrevPage } = this.state;
+    if (uriPrevPage) {
       this.getRepository(uriPrevPage)
     }
   }
 
-  getRepository1(nextUri) {
+  // getRepository1(nextUri,status) {
+  //   let repositoryName = this.state.value;
+  //   const isPrivate = this.checkIfSelectedRepoIsPrivate();
+  //   const headerAuthorization = "Bearer " + this.state.token;
+
+  //   const prEndpoint = nextUri ||
+  //     `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagelen=50&state=DECLINED`;
+
+  //   const privateEndPoint = nextUri ||
+  //     `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=MERGED`;
+
+  //   fetch(
+  //     isPrivate ? privateEndPoint : prEndpoint,
+  //     isPrivate
+  //       ? {
+  //         headers: {
+  //           Authorization: headerAuthorization
+  //         }
+  //       }
+  //       : { headers: {} }
+  //   )
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw response
+  //       }
+  //       return response.json()
+  //     })
+  //     .then(data => {
+  //       console.log('data',data.values)
+  //       if( data.next){
+  //         nextUri = data.next;
+  //       }else{
+  //         nextUri = "";
+  //       }
+
+  //       const prevUri = data.previous;
+
+  //       const onePullRequest = data.values.map(item => {
+  //         return {
+  //           id: item.id,
+  //           uriReviewer: isPrivate
+  //             ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=50&state=DECLINED`
+  //             : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=50&state=DECLINED`
+  //         };
+  //       });
+
+  //       this.setState({
+  //         pullRequests2: onePullRequest,
+  //         uriNextPage2: nextUri,
+  //         uriPrevPage2: prevUri,
+  //         size: data.size
+  //       });
+
+
+
+  //       const urisForFetchReviewers = this.state.pullRequests2.map(pullrequest => {
+  //         return pullrequest.uriReviewer;
+  //       }
+  //       );
+
+  //       const prWithReviewers = [];
+  //       urisForFetchReviewers.map(uri => {
+  //         return (
+  //           fetch(
+  //             uri,
+  //             isPrivate
+  //               ? {
+  //                 headers: {
+  //                   Authorization: headerAuthorization
+  //                 }
+  //               }
+  //               : { headers: {} }
+  //           )
+  //             .then(response => response.json())
+  //             .then(dataWithReviewers => {
+  //               prWithReviewers.push(dataWithReviewers);
+  //               return this.setState({
+  //                 allFinalData2: prWithReviewers,
+  //                 isLoading: false
+  //               })
+  //             })
+  //         )
+  //       });
+  //     })
+  //     .catch(function (error) {
+  //       if (error.status === 401) {
+  //         this.getToken("true");
+  //       }
+  //     })
+  // }
+
+  getRepository(nextUri, status) {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
+    const selectedPullRequest = status+"PullRequests";
+    const selectedNextPage = "uriNextPage"+status;
+    const selectedPrevPage = "uriPrevPage"+status;
+    const selectedSize  = status+"Size";
+    const selectedallFinalData = status+"allFinalData"
 
     const prEndpoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagelen=50&state=DECLINED`;
+      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagelen=50&state=${status}`;
 
     const privateEndPoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=MERGED`;
-
-    fetch(
-      isPrivate ? privateEndPoint : prEndpoint,
-      isPrivate
-        ? {
-          headers: {
-            Authorization: headerAuthorization
-          }
-        }
-        : { headers: {} }
-    )
-      .then(response => {
-        if (!response.ok) {
-          throw response
-        }
-        return response.json()
-      })
-      .then(data => {
-        console.log('data',data.values)
-        if( data.next){
-          nextUri = data.next;
-        }else{
-          nextUri = "";
-        }
-
-        const prevUri = data.previous;
-
-        const onePullRequest = data.values.map(item => {
-          return {
-            id: item.id,
-            uriReviewer: isPrivate
-              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=50&state=DECLINED`
-              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=50&state=DECLINED`
-          };
-        });
-
-        this.setState({
-          pullRequests2: onePullRequest,
-          uriNextPage2: nextUri,
-          uriPrevPage2: prevUri,
-          size: data.size
-        });
-
-
-
-        const urisForFetchReviewers = this.state.pullRequests2.map(pullrequest => {
-          return pullrequest.uriReviewer;
-        }
-        );
-
-        const prWithReviewers = [];
-        urisForFetchReviewers.map(uri => {
-          return (
-            fetch(
-              uri,
-              isPrivate
-                ? {
-                  headers: {
-                    Authorization: headerAuthorization
-                  }
-                }
-                : { headers: {} }
-            )
-              .then(response => response.json())
-              .then(dataWithReviewers => {
-                prWithReviewers.push(dataWithReviewers);
-                return this.setState({
-                  allFinalData2: prWithReviewers,
-                  isLoading: false
-                })
-              })
-          )
-        });
-      })
-      .catch(function (error) {
-        if (error.status === 401) {
-          this.getToken("true");
-        }
-      })
-  }
-
-  getRepository(nextUri) {
-    let repositoryName = this.state.value;
-    const isPrivate = this.checkIfSelectedRepoIsPrivate();
-    const headerAuthorization = "Bearer " + this.state.token;
-
-    const prEndpoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagination=50&state=${this.state.tab}`;
-
-    const privateEndPoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=${this.state.tab}`;
+      `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/??pagelen=50&state=${status}`;
 
     fetch(
       isPrivate ? privateEndPoint : prEndpoint,
@@ -280,22 +376,66 @@ class App extends Component {
       .then(data => {
         const nextUri = data.next;
         const prevUri = data.previous;
-
+        const size = data.size;
         const onePullRequest = data.values.map(item => {
           return {
             id: item.id,
             uriReviewer: isPrivate
-              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagination=50&state=${this.state.tab}`
-              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagination=50&state=${this.state.tab}`
+              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=50&state=${status}`
+              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=50&state=${status}`
           };
         });
 
-        this.setState({
+
+        this.setState(prevState => ({
           pullRequests: onePullRequest,
           uriNextPage: nextUri,
-          uriPrevPage: prevUri
-        });
+          uriPrevPage: prevUri,
+          repoSelected: {
+            ...prevState.repoSelected,
+        [selectedNextPage]: nextUri,
+        [selectedPrevPage]: prevUri,
+        [selectedPullRequest]: onePullRequest,
+        [selectedSize]: size
+          },
+        }));
 
+
+
+
+        const urisForFetchReviewers2 = this.state.repoSelected[selectedPullRequest].map(pullrequest => {
+          return pullrequest.uriReviewer;
+        }
+        );
+
+        const prWithReviewers2 = [];
+        urisForFetchReviewers2.map(uri => {
+          return (
+            fetch(
+              uri,
+              isPrivate
+                ? {
+                  headers: {
+                    Authorization: headerAuthorization
+                  }
+                }
+                : { headers: {} }
+            )
+              .then(response => response.json())
+              .then(dataWithReviewers => {
+                prWithReviewers2.push(dataWithReviewers);
+                return  this.setState(prevState => ({
+                  //allFinalData: prWithReviewers,
+                  //isLoading: false,
+                  repoSelected: {
+                    ...prevState.repoSelected,
+                [selectedallFinalData] : prWithReviewers2,
+                  },
+
+                }))
+              })
+          )
+        });
 
 
         const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
@@ -321,7 +461,12 @@ class App extends Component {
                 prWithReviewers.push(dataWithReviewers);
                 return this.setState({
                   allFinalData: prWithReviewers,
-                  isLoading: false
+                  isLoading: false,
+                  //repoSelected: {
+                    //...prevState.repoSelected,
+                //selectedFinalData: prWithReviewers,
+                 // },
+
                 })
               })
           )
@@ -355,15 +500,15 @@ class App extends Component {
               render={() => {
                 return (
                   <DetailsContainer
-                  getNextPullRequests = {this.getNextPullRequests}
-                  getPreviousPullRequests = {this.getPreviousPullRequests}
-                  uriNextPage={uriNextPage}
-                  uriPrevPage={uriPrevPage}
-                  pullRequests={allFinalData}
-                  value={value}
-                  isLoading={isLoading}
-                  handleTab={this.handleTab}
-                  tab={tab}
+                    getNextPullRequests={this.getNextPullRequests}
+                    getPreviousPullRequests={this.getPreviousPullRequests}
+                    uriNextPage={uriNextPage}
+                    uriPrevPage={uriPrevPage}
+                    pullRequests={allFinalData}
+                    value={value}
+                    isLoading={isLoading}
+                    handleTab={this.handleTab}
+                    tab={tab}
                   />
                 );
               }}
