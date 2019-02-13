@@ -41,7 +41,10 @@ class App extends Component {
   }
 
   handleTab(tab) {
-    this.setState({ tab: tab })
+    this.setState({
+      tab: tab,
+      isLoading: true
+    })
   }
 
   componentDidMount() {
@@ -163,7 +166,6 @@ class App extends Component {
 
         this.setState({
           pullRequests: onePullRequest,
-          isLoading: false,
           uriNextPage: nextUri,
           uriPrevPage: prevUri
         });
