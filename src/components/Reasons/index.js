@@ -3,6 +3,20 @@ import User from "../User";
 import "./Reasons.scss";
 
 class Reasons extends Component {
+  constructor(props) {
+    super(props);
+    this.state= {
+      show: false,
+    };
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick(event) {
+  const { show } = this.state;
+  this.setState( { show : !show } )
+
+}
+
   render() {
     const { reason, state, avatar, author, date } = this.props;
     if (state === "DECLINED") {
@@ -10,15 +24,16 @@ class Reasons extends Component {
       <Fragment>
         {reason && (
         <div className="reasons__container">
-          <div className="showreasons__title">
+          <button className="showreasons__title" onClick={this.onClick}>
             Show reasons <i className="fas fa-angle-down" />
-          </div>
-          <div className={`reason_info ${this.onClick}`}>
+          </button>
+          {this.state.show && (
+          <div>
           <User avatar={avatar} author={author} date={date} reasonClass="reason__user" />
           <div>
             <h3 className="reason__title">REASONS: {reason}</h3>
           </div>
-          </div>
+          </div>)}
         </div>)}
       </Fragment>
     );
