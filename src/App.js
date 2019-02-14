@@ -14,14 +14,14 @@ class App extends Component {
       allFinalData: [],
       // pullRequests2: [],
       // allFinalData2: [],
-      repoSelected : {
+      repoSelected: {
         //open: [],
         "OPENPullRequests": [],
         "OPENallFinalData": [],
         "MERGEDSize": "",
         "MERGED": [],
         "MERGEDPullRequests": [],
-       "MERGEDallFinalData": [],
+        "MERGEDallFinalData": [],
         "uriNextPageMERGED": "",
         "uriPrevPageMERGED": "",
         "DECLINEDSize": "",
@@ -107,15 +107,11 @@ class App extends Component {
       tab: tab,
       isLoading: true
     })
-    //this.getAlldatafromPagination()
-    //this.getRepository1();
   }
 
 
   componentDidMount() {
-
-    //this.getRepository1();
-
+    console.log('windo-location-href', window.location.href)
     this.getRepository(null, "OPEN");
     this.getRepository(null, "MERGED");
     this.getRepository(null, "DECLINED");
@@ -167,16 +163,6 @@ class App extends Component {
     });
   }
 
-  // getAlldatafromPagination(){
-  //   const {allDataFromPagination, uriNextPage2} = this.state
-  //   console.log('this.state.uriNextPage',uriNextPage2)
-
-  //necesito el array con todos los reviewers pero de todas las peticiones
-  //allFinalData: prWithReviewers, en allFinalData estan todos los datos pero solo de 1 peticion
-  //quiero un array con todos los allFinalData
-  //   console.log('all date in the state expected',allDataFromPagination)
-  // }
-
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
@@ -191,23 +177,23 @@ class App extends Component {
     }
 
 
-    console.log('this state reposelected',this.state.repoSelected)
+    console.log('this state reposelected', this.state.repoSelected)
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
-     this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
-     ((this.state.repoSelected.MERGED.length - 1) * 50) < this.state.repoSelected.MERGEDSize){
-      this.getRepository(this.state.repoSelected.uriNextPageMERGED,"MERGED")
+      this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
+      ((this.state.repoSelected.MERGED.length - 1) * 50) < this.state.repoSelected.MERGEDSize) {
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED")
       this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
     }
 
-    console.log( 'this.state.repoSelected.MERGED', this.state.repoSelected.MERGED)
+    console.log('this.state.repoSelected.MERGED', this.state.repoSelected.MERGED)
     if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
-    this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
-    ((this.state.repoSelected.DECLINED.length - 1) * 50) < this.state.repoSelected.DECLINEDSize){
-     this.getRepository(this.state.repoSelected.uriNextPageDECLINED,"DECLINED")
-     this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
-   }
+      this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) < this.state.repoSelected.DECLINEDSize) {
+      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED")
+      this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
+    }
 
-   console.log( 'this.state.repoSelected.DECLINED', this.state.repoSelected.DECLINED)
+    console.log('this.state.repoSelected.DECLINED', this.state.repoSelected.DECLINED)
 
     //este si
     // console.log('this state reposelected',this.state.repoSelected)
@@ -345,11 +331,11 @@ class App extends Component {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-    const selectedPullRequest = status+"PullRequests";
-    const selectedNextPage = "uriNextPage"+status;
-    const selectedPrevPage = "uriPrevPage"+status;
-    const selectedSize  = status+"Size";
-    const selectedallFinalData = status+"allFinalData"
+    const selectedPullRequest = status + "PullRequests";
+    const selectedNextPage = "uriNextPage" + status;
+    const selectedPrevPage = "uriPrevPage" + status;
+    const selectedSize = status + "Size";
+    const selectedallFinalData = status + "allFinalData"
 
     const prEndpoint = nextUri ||
       `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagelen=50&state=${status}`;
@@ -393,10 +379,10 @@ class App extends Component {
           uriPrevPage: prevUri,
           repoSelected: {
             ...prevState.repoSelected,
-        [selectedNextPage]: nextUri,
-        [selectedPrevPage]: prevUri,
-        [selectedPullRequest]: onePullRequest,
-        [selectedSize]: size
+            [selectedNextPage]: nextUri,
+            [selectedPrevPage]: prevUri,
+            [selectedPullRequest]: onePullRequest,
+            [selectedSize]: size
           },
         }));
 
@@ -424,12 +410,12 @@ class App extends Component {
               .then(response => response.json())
               .then(dataWithReviewers => {
                 prWithReviewers2.push(dataWithReviewers);
-                return  this.setState(prevState => ({
+                return this.setState(prevState => ({
                   //allFinalData: prWithReviewers,
                   //isLoading: false,
                   repoSelected: {
                     ...prevState.repoSelected,
-                [selectedallFinalData] : prWithReviewers2,
+                    [selectedallFinalData]: prWithReviewers2,
                   },
 
                 }))
@@ -462,11 +448,6 @@ class App extends Component {
                 return this.setState({
                   allFinalData: prWithReviewers,
                   isLoading: false,
-                  //repoSelected: {
-                    //...prevState.repoSelected,
-                //selectedFinalData: prWithReviewers,
-                 // },
-
                 })
               })
           )
