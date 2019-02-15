@@ -196,14 +196,22 @@ class App extends Component {
       this.fullData()
     }
 
+//  console.log('full open summary',this.state.repoSelected.fullDeclinedSummary === true )
 
-    if(this.state.repoSelected.fullOpenSummary === true &&
+if (this.state.repoSelected.fullOpenSummary && this.state.repoSelected.fullOpenSummary !== prevState.repoSelected.fullOpenSummary){
+  console.log ('open', this.state.repoSelected.fullOpenSummary )
+}
+console.log('prueba1', this.state.repoSelected.fullOpenSummary);
+console.log('prueba2', this.state.repoSelected.fullMergedSummary);
+console.log('prueba3', this.state.repoSelected.fullDeclinedSummary);
+console.log('prueba4', this.state.summaryData.ready);
+
+if(this.state.repoSelected.fullOpenSummary === true &&
       this.state.repoSelected.fullMergedSummary === true &&
       this.state.repoSelected.fullDeclinedSummary === true &&
       this.state.summaryData.ready === false
       ){
         this.createSummaryData();
-        console.log('data summary',this.state.summaryData)
       }
 
 
