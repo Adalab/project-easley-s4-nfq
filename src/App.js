@@ -13,25 +13,26 @@ class App extends Component {
       pullRequests: [],
       allFinalData: [],
       summaryData : {
-        open: [],
-        merged: [],
-        declined:[],
+        open: "",
+        merged: "",
+        declined:"",
         ready: false
       },
       repoSelected: {
         "OPENPullRequests": [],
         "OPENallFinalData": [],
-        fullOpenSummary: false,
+        "OPENSize": "",
+        "fullOpenSummary": false,
         "MERGEDSize": "",
         "MERGED": [],
-        fullMergedSummary: false,
+        "fullMergedSummary": false,
         "MERGEDPullRequests": [],
         "MERGEDallFinalData": [],
         "uriNextPageMERGED": "",
         "uriPrevPageMERGED": "",
         "DECLINEDSize": "",
         "DECLINED": [],
-        fullDeclinedSummary: false,
+        "fullDeclinedSummary": false,
         DECLINEDPullRequests: [],
         DECLINEDallFinalData: [],
         uriNextPageDECLINED: "",
@@ -133,6 +134,29 @@ class App extends Component {
     });
   }
 
+  createSummaryData(){
+    this.setState({
+    summaryData : {
+      open: this.state.repoSelected.OPENSize,
+      merged: this.state.repoSelected.MERGEDSize,
+      declined:this.state.repoSelected.DECLINEDSize,
+      ready: true
+    }
+  });
+  }
+
+  fullData(){
+    this.setState(prevState => ({
+      repoSelected: {
+        ...prevState.repoSelected,
+        fullOpenSummary: true,
+        fullMergedSummary: true,
+        fullDeclinedSummary: true
+      },
+    }))
+  }
+
+
 
   componentDidUpdate(prevProps, prevState) {
     //si false de open y marged y declined true y summarydata false se construye
@@ -148,28 +172,39 @@ class App extends Component {
     }
 
     console.log('this state reposelected', this.state.repoSelected)
+    //console.log("length",this.state.repoSelected.MERGED.length)
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
       this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
-      ((this.state.repoSelected.MERGED.length - 1) * 50) < this.state.repoSelected.MERGEDSize) {
+      ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
       this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED","summary")
       this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
-    }
-
-    if(((this.state.repoSelected.MERGED.length - 1) * 50) >= this.state.repoSelected.MERGEDSize){
-      //setstate fullMergedSummary: true,
     }
 
 
     if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
       this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
-      ((this.state.repoSelected.DECLINED.length - 1) * 50) < this.state.repoSelected.DECLINEDSize) {
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
       this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED","summary")
       this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
     }
 
-    if(((this.state.repoSelected.DECLINED.length - 1) * 50) >= this.state.repoSelected.DECLINEDSize){
-      //setstate fullDeclinedSummary: true,
+
+    if(((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
+    ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
+    ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
+    this.state.repoSelected.fullOpenSummary === false){
+      this.fullData()
     }
+
+
+    if(this.state.repoSelected.fullOpenSummary === true &&
+      this.state.repoSelected.fullMergedSummary === true &&
+      this.state.repoSelected.fullDeclinedSummary === true &&
+      this.state.summaryData.ready === false
+      ){
+        this.createSummaryData();
+        console.log('data summary',this.state.summaryData)
+      }
 
 
   }
