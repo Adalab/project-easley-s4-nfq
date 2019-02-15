@@ -6,10 +6,11 @@ import { handleDate } from "../../Utils/handleDate";
 import moment from "moment";
 import PropTypes from 'prop-types';
 import Loader from '../Loader';
+import Reasons from "../Reasons";
 
 class PRcard extends Component {
   render() {
-    const { avatar, author, branch, date, isLoading, reviewers } = this.props;
+    const { avatar, author, branch, date, isLoading, reviewers, reason, state, declined } = this.props;
     return (
       <div className="prcard__container">
         {this.props.isLoading ? (
@@ -70,6 +71,15 @@ class PRcard extends Component {
                 <Reviewers
                   reviewers={reviewers}
                   destinationbranch={this.props.destinationbranch}
+                />
+              </div>
+              <div>
+                <Reasons
+                reason={reason}
+                state={state}
+                avatar={avatar}
+                author={author}
+                date={declined}
                 />
               </div>
             </Fragment>

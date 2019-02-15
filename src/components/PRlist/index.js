@@ -23,6 +23,9 @@ class PRlist extends Component {
               reviewers = {item.reviewers}
               destinationbranch = {item.destination.branch.name}
               isLoading={isLoading}
+              reason={item.reason}
+              state={item.state}
+              declined={item.updated_on}
               />
             </li>
           )

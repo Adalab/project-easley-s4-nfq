@@ -97,7 +97,7 @@ class App extends Component {
     } else {
       body = "grant_type=client_credentials";
     }
-    const bt = btoa("TUTYrqhpFN5Tg29dpe:XGJgEeD7j8bdGJyDYLfT3VmU9RN3ZxQw");
+    const bt = btoa(process.env.REACT_APP_CONSUMER);
     const auth = `Basic ${bt}`;
 
     fetch(`https://bitbucket.org/site/oauth2/access_token`, {

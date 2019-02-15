@@ -1,27 +1,46 @@
 import React, { Component, Fragment } from "react";
-import PropTypes from 'prop-types';
 import User from "../User";
 import "./Reasons.scss";
 
 class Reasons extends Component {
+  constructor(props) {
+    super(props);
+    this.state= {
+      show: false,
+    };
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick(event) {
+  const { show } = this.state;
+  this.setState( { show : !show } )
+
+}
+
   render() {
-    return (
+    const { reason, state, avatar, author, date } = this.props;
+    if (state === "DECLINED") {
+      return (
       <Fragment>
+        {reason && (
         <div className="reasons__container">
-          <div className="showreasons__title">
+          <button className="showreasons__title" onClick={this.onClick}>
             Show reasons <i className="fas fa-angle-down" />
-          </div>
+          </button>
+          {this.state.show && (
           <div>
-            <h3 className="reason__title">REASONS:</h3>
-            <User pullRequests={this.props.pullRequests} />
-            <p />
+          <User avatar={avatar} author={author} date={date} reasonClass="reason__user" />
+          <div>
+            <h3 className="reason__title">REASONS: {reason}</h3>
           </div>
-        </div>
+          </div>)}
+        </div>)}
       </Fragment>
     );
+    } else {
+      return null
+    }
   }
 }
-Reasons.propTypes = {
-  pullRequests: PropTypes.arrayOf(PropTypes.object).isRequired
-}
+
 export default Reasons;
