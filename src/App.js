@@ -79,10 +79,8 @@ class App extends Component {
 
   componentDidMount() {
     if(window.location.href.includes("details")){
-      console.log('windo-location-if', window.location.href)
       this.getRepository(null, "OPEN");
     }else{
-      console.log('windo-location else', window.location.href)
       this.getRepository(null, "OPEN","summary");
       this.getRepository(null, "MERGED","summary");
       this.getRepository(null, "DECLINED","summary");
@@ -171,8 +169,6 @@ class App extends Component {
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
 
-    console.log('this state reposelected', this.state.repoSelected)
-    //console.log("length",this.state.repoSelected.MERGED.length)
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
       this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
       ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
@@ -196,15 +192,9 @@ class App extends Component {
       this.fullData()
     }
 
-//  console.log('full open summary',this.state.repoSelected.fullDeclinedSummary === true )
 
 if (this.state.repoSelected.fullOpenSummary && this.state.repoSelected.fullOpenSummary !== prevState.repoSelected.fullOpenSummary){
-  console.log ('open', this.state.repoSelected.fullOpenSummary )
 }
-console.log('prueba1', this.state.repoSelected.fullOpenSummary);
-console.log('prueba2', this.state.repoSelected.fullMergedSummary);
-console.log('prueba3', this.state.repoSelected.fullDeclinedSummary);
-console.log('prueba4', this.state.summaryData.ready);
 
 if(this.state.repoSelected.fullOpenSummary === true &&
       this.state.repoSelected.fullMergedSummary === true &&
@@ -384,7 +374,7 @@ if(this.state.repoSelected.fullOpenSummary === true &&
   }
 
   render() {
-    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage } = this.state;
+    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage, summaryData } = this.state;
     const changeRepository = this.changeRepository;
     return (
       <div className="App">
@@ -396,6 +386,7 @@ if(this.state.repoSelected.fullOpenSummary === true &&
               path="/"
               render={() => {
                 return <Summary
+                summaryData = {summaryData}
                 getRepository={this.getRepository}
                 getToken={this.getToken}
                 />;
