@@ -82,9 +82,9 @@ class App extends Component {
       this.getRepository(null, "OPEN");
     }else{
       console.log('windo-location else', window.location.href)
-      this.getRepository(null, "OPEN");
-      this.getRepository(null, "MERGED");
-      this.getRepository(null, "DECLINED");
+      this.getRepository(null, "OPEN","summary");
+      this.getRepository(null, "MERGED","summary");
+      this.getRepository(null, "DECLINED","summary");
     }
     this.getToken();
   }
@@ -147,21 +147,28 @@ class App extends Component {
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
 
-
     console.log('this state reposelected', this.state.repoSelected)
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
       this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
       ((this.state.repoSelected.MERGED.length - 1) * 50) < this.state.repoSelected.MERGEDSize) {
-      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED")
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED","summary")
       this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    }
+
+    if(((this.state.repoSelected.MERGED.length - 1) * 50) >= this.state.repoSelected.MERGEDSize){
+      //setstate fullMergedSummary: true,
     }
 
 
     if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
       this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
       ((this.state.repoSelected.DECLINED.length - 1) * 50) < this.state.repoSelected.DECLINEDSize) {
-      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED")
+      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED","summary")
       this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
+    }
+
+    if(((this.state.repoSelected.DECLINED.length - 1) * 50) >= this.state.repoSelected.DECLINEDSize){
+      //setstate fullDeclinedSummary: true,
     }
 
 
@@ -191,7 +198,7 @@ class App extends Component {
       updated ="";
     }else{
       pagelen = 50;
-      updated ="/?sort=-updated_on";
+      updated ="&sort=-updated_on";
     }
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
