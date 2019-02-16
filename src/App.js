@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import "./App.scss";
 import Header from "./components/Header";
 import Summary from "./components/Summary";
@@ -14,10 +14,17 @@ class App extends Component {
       allFinalData: [],
       value: "aui",
       tab: "OPEN",
-      token: '',
-      refresh_token: '',
-      uriNextPage: '',
-      uriPrevPage: '',
+      token: "",
+      refresh_token: "",
+      uriNextPage: "",
+      uriPrevPage: "",
+      summary: {
+        pullrequests: [],
+        callsCount: "",
+        loading: true,
+        uriNextPage: "",
+        uriPrevPage: "",
+      },
       availablesRepos: [
         {
           name: "aui",
@@ -94,6 +101,8 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const {location } = this.props
+
     if (this.state.value !== prevState.value) {
       this.getRepository();
     }
@@ -105,6 +114,8 @@ class App extends Component {
 
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
+    if (location.pathname !== prevProps.location.pathname) {}
+
   }
 
   getNextPullRequests() {
@@ -152,7 +163,7 @@ class App extends Component {
         const nextUri = data.next;
         const prevUri = data.previous;
 
-        const onePullRequest = data.values.map(item => {
+        const onePRPage = data.values.map(item => {
           return {
             id: item.id,
             uriReviewer: isPrivate
@@ -162,7 +173,6 @@ class App extends Component {
         });
 
         this.setState({
-          pullRequests: onePullRequest,
           isLoading: false,
           uriNextPage: nextUri,
           uriPrevPage: prevUri
@@ -170,7 +180,7 @@ class App extends Component {
 
 
 
-        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+        const urisForFetchReviewers = onePRPage.map(pullrequest => {
           return pullrequest.uriReviewer;
         }
         );
@@ -248,4 +258,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App)
