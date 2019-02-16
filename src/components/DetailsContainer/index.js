@@ -6,8 +6,9 @@ import ButtonPagination from "../ButtonPagination";
 import PropTypes from "prop-types";
 
 class DetailsContainer extends Component {
+
   componentDidMount() {
-    this.props.getRepository(null, "OPEN");
+    this.props.getRepository(null, "OPEN", "details");
     this.props.getToken();
   }
   render() {

@@ -146,11 +146,18 @@ class App extends Component {
     }))
   }
 
-
-
   componentDidUpdate(prevProps, prevState) {
     const { value, tab, token, refresh_token, summaryData} = this.state;
-    const { uriNextPageMERGED, MERGED, MERGEDallFinalData, uriNextPageDECLINED, DECLINED, DECLINEDallFinalData, OPENallFinalData, fullOpenSummary, fullMergedSummary, fullDeclinedSummary, } = this.state.repoSelected;
+    const { uriNextPageMERGED,
+            MERGED,
+            MERGEDallFinalData,
+            uriNextPageDECLINED,
+            DECLINED,
+            DECLINEDallFinalData,
+            OPENallFinalData,
+            fullOpenSummary,
+            fullMergedSummary,
+            fullDeclinedSummary } = this.state.repoSelected;
 
     if (value !== prevState.value) {
       this.getRepository();
@@ -166,16 +173,16 @@ class App extends Component {
     if (uriNextPageMERGED !== ""
         && uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED
         && ((MERGED.length - 1) * 50) < 200)    {
-      this.getRepository(uriNextPageMERGED, "MERGED", "summary")
-      MERGED.push(MERGEDallFinalData)
+      this.getRepository(uriNextPageMERGED, "MERGED", "summary");
+      MERGED.push(MERGEDallFinalData);
     }
 
 
     if (uriNextPageDECLINED !== ""
       && uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED
       && ((DECLINED.length - 1) * 50) < 200) {
-      this.getRepository(uriNextPageDECLINED, "DECLINED", "summary")
-      DECLINED.push(DECLINEDallFinalData)
+      this.getRepository(uriNextPageDECLINED, "DECLINED", "summary");
+      DECLINED.push(DECLINEDallFinalData);
     }
 
 
@@ -216,6 +223,7 @@ class App extends Component {
   getRepository(nextUri, status, route) {
     let pagelen = "";
     let updated = "";
+
     if (route !== "summary") {
       status = this.state.tab
       pagelen = 10;
@@ -224,6 +232,7 @@ class App extends Component {
       pagelen = 50;
       updated = "&sort=-updated_on";
     }
+
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
@@ -285,20 +294,16 @@ class App extends Component {
               [selectedSize]: size
             },
           }));
-
         }
 
-
-
-
         if (route !== "summary") {
-
           const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
             return pullrequest.uriReviewer;
           }
           );
 
           const prWithReviewers = [];
+
           urisForFetchReviewers.map(uri => {
             return (
               fetch(
@@ -326,6 +331,7 @@ class App extends Component {
             return pullrequest.uriReviewer;
           }
           );
+
           const prWithReviewers2 = [];
           urisForFetchReviewers2.map(uri => {
             return (
@@ -343,19 +349,15 @@ class App extends Component {
                 .then(dataWithReviewers => {
                   prWithReviewers2.push(dataWithReviewers);
                   return this.setState(prevState => ({
-                    //allFinalData: prWithReviewers,
-                    //isLoading: false,
                     repoSelected: {
                       ...prevState.repoSelected,
                       [selectedallFinalData]: prWithReviewers2,
                     },
-
                   }))
                 })
             )
           });
         }
-
       })
       .catch(function (error) {
         if (error.status === 401) {
