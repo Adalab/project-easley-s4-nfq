@@ -12,27 +12,30 @@ class App extends Component {
     this.state = {
       pullRequests: [],
       allFinalData: [],
-      summaryData : {
+      summaryData: {
         open: "",
         merged: "",
-        declined:"",
-        ready: false
+        declined: "",
+        ready: false,
+        totalOpen: "",
+        totalMerged: "",
+        totalDeclined: ""
       },
       repoSelected: {
-        "OPENPullRequests": [],
-        "OPENallFinalData": [],
-        "OPENSize": "",
-        "fullOpenSummary": false,
-        "MERGEDSize": "",
-        "MERGED": [],
-        "fullMergedSummary": false,
-        "MERGEDPullRequests": [],
-        "MERGEDallFinalData": [],
-        "uriNextPageMERGED": "",
-        "uriPrevPageMERGED": "",
-        "DECLINEDSize": "",
-        "DECLINED": [],
-        "fullDeclinedSummary": false,
+        OPENPullRequests: [],
+        OPENallFinalData: [],
+        OPENSize: "",
+        fullOpenSummary: false,
+        MERGEDSize: "",
+        MERGED: [],
+        fullMergedSummary: false,
+        MERGEDPullRequests: "",
+        MERGEDallFinalData: "",
+        uriNextPageMERGED: "",
+        uriPrevPageMERGED: "",
+        DECLINEDSize: "",
+        DECLINED: [],
+        fullDeclinedSummary: false,
         DECLINEDPullRequests: [],
         DECLINEDallFinalData: [],
         uriNextPageDECLINED: "",
@@ -78,14 +81,14 @@ class App extends Component {
 
 
   componentDidMount() {
-    if(window.location.href.includes("details")){
+    if (window.location.href.includes("details")) {
       console.log('windo-location-if', window.location.href)
       this.getRepository(null, "OPEN");
-    }else{
+    } else {
       console.log('windo-location else', window.location.href)
-      this.getRepository(null, "OPEN","summary");
-      this.getRepository(null, "MERGED","summary");
-      this.getRepository(null, "DECLINED","summary");
+      this.getRepository(null, "OPEN", "summary");
+      this.getRepository(null, "MERGED", "summary");
+      this.getRepository(null, "DECLINED", "summary");
     }
     this.getToken();
   }
@@ -134,18 +137,21 @@ class App extends Component {
     });
   }
 
-  createSummaryData(){
+  createSummaryData() {
     this.setState({
-    summaryData : {
-      open: this.state.repoSelected.OPENSize,
-      merged: this.state.repoSelected.MERGEDSize,
-      declined:this.state.repoSelected.DECLINEDSize,
-      ready: true
-    }
-  });
+      summaryData: {
+        open: this.state.repoSelected.OPENSize,
+        merged: this.state.repoSelected.MERGEDSize,
+        declined: this.state.repoSelected.DECLINEDSize,
+        ready: true,
+        totalOpen: this.state.repoSelected.OPENallFinalData,
+        totalMerged: this.state.repoSelected.MERGED,
+        totalDeclined: this.state.repoSelected.DECLINED
+      }
+    });
   }
 
-  fullData(){
+  fullData() {
     this.setState(prevState => ({
       repoSelected: {
         ...prevState.repoSelected,
@@ -176,7 +182,7 @@ class App extends Component {
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
       this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
       ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
-      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED","summary")
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED", "summary")
       this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
     }
 
@@ -184,29 +190,30 @@ class App extends Component {
     if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
       this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
       ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
-      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED","summary")
+      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED", "summary")
       this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
     }
 
 
-    if(((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
-    ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
-    ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
-    this.state.repoSelected.fullOpenSummary === false){
+    if (((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
+      this.state.repoSelected.fullOpenSummary === false) {
       this.fullData()
     }
 
 
-if(this.state.repoSelected.fullOpenSummary === true &&
+    if (this.state.repoSelected.fullOpenSummary === true &&
       this.state.repoSelected.fullMergedSummary === true &&
       this.state.repoSelected.fullDeclinedSummary === true &&
       this.state.summaryData.ready === false
-      ){
-        this.createSummaryData();
-      }
+    ) {
+      this.createSummaryData();
+    }
 
 
   }
+
 
   getNextPullRequests() {
     const { uriNextPage } = this.state;
@@ -223,16 +230,16 @@ if(this.state.repoSelected.fullOpenSummary === true &&
   }
 
 
-  getRepository(nextUri, status,route) {
+  getRepository(nextUri, status, route) {
     let pagelen = "";
     let updated = "";
-    if(route !=="summary"){
+    if (route !== "summary") {
       status = this.state.tab
       pagelen = 10;
-      updated ="";
-    }else{
+      updated = "";
+    } else {
       pagelen = 50;
-      updated ="&sort=-updated_on";
+      updated = "&sort=-updated_on";
     }
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
@@ -279,13 +286,13 @@ if(this.state.repoSelected.fullOpenSummary === true &&
           };
         });
 
-        if(route !== "summary"){
+        if (route !== "summary") {
           this.setState({
             pullRequests: onePullRequest,
             uriNextPage: nextUri,
             uriPrevPage: prevUri,
           });
-        }else{
+        } else {
           this.setState(prevState => ({
             repoSelected: {
               ...prevState.repoSelected,
@@ -301,37 +308,37 @@ if(this.state.repoSelected.fullOpenSummary === true &&
 
 
 
-        if(route !== "summary"){
+        if (route !== "summary") {
 
-        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
-          return pullrequest.uriReviewer;
-        }
-        );
+          const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+            return pullrequest.uriReviewer;
+          }
+          );
 
-        const prWithReviewers = [];
-        urisForFetchReviewers.map(uri => {
-          return (
-            fetch(
-              uri,
-              isPrivate
-                ? {
-                  headers: {
-                    Authorization: headerAuthorization
+          const prWithReviewers = [];
+          urisForFetchReviewers.map(uri => {
+            return (
+              fetch(
+                uri,
+                isPrivate
+                  ? {
+                    headers: {
+                      Authorization: headerAuthorization
+                    }
                   }
-                }
-                : { headers: {} }
-            )
-              .then(response => response.json())
-              .then(dataWithReviewers => {
-                prWithReviewers.push(dataWithReviewers);
-                return this.setState({
-                  allFinalData: prWithReviewers,
-                  isLoading: false,
+                  : { headers: {} }
+              )
+                .then(response => response.json())
+                .then(dataWithReviewers => {
+                  prWithReviewers.push(dataWithReviewers);
+                  return this.setState({
+                    allFinalData: prWithReviewers,
+                    isLoading: false,
+                  })
                 })
-              })
-          )
-        });
-        }else{
+            )
+          });
+        } else {
           const urisForFetchReviewers2 = this.state.repoSelected[selectedPullRequest].map(pullrequest => {
             return pullrequest.uriReviewer;
           }
@@ -387,8 +394,11 @@ if(this.state.repoSelected.fullOpenSummary === true &&
               path="/"
               render={() => {
                 return <Summary
-                getRepository={this.getRepository}
-                getToken={this.getToken}
+                  getRepository={this.getRepository}
+                  getToken={this.getToken}
+                  mergedData={this.state.repoSelected.MERGED}
+                  declinedData={this.state.repoSelected.DECLINED}
+                  openData={this.state.repoSelected.OPENallFinalData}
                 />;
               }}
             />
