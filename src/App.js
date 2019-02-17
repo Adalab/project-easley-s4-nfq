@@ -82,12 +82,12 @@ class App extends Component {
 
 
   componentDidMount() {
-    if(window.location.href.includes("details")){
+    if (window.location.href.includes("details")) {
       this.getRepository(null, "OPEN");
-    }else{
-      this.getRepository(null, "OPEN","summary");
-      this.getRepository(null, "MERGED","summary");
-      this.getRepository(null, "DECLINED","summary");
+    } else {
+      this.getRepository(null, "OPEN", "summary");
+      this.getRepository(null, "MERGED", "summary");
+      this.getRepository(null, "DECLINED", "summary");
     }
     this.getToken();
   }
@@ -130,7 +130,7 @@ class App extends Component {
   }
 
   changeRepository(event) {
-    this.setState( {
+    this.setState({
       value: event.target.value,
       isLoading: true,
       summaryData: {
@@ -142,7 +142,8 @@ class App extends Component {
         totalMerged: [],
         totalDeclined: []
       }
-  })}
+    })
+  }
 
   createSummaryData() {
     this.setState({
@@ -173,7 +174,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
-      if(window.location.href.includes("details")){
+      if (window.location.href.includes("details")) {
         this.getRepository();
       } else {
         this.getRepository(null, "OPEN", "summary");
@@ -213,7 +214,7 @@ class App extends Component {
     }
 
 
-if(this.state.repoSelected.fullOpenSummary === true &&
+    if (this.state.repoSelected.fullOpenSummary === true &&
       this.state.repoSelected.fullMergedSummary === true &&
       this.state.repoSelected.fullDeclinedSummary === true &&
       this.state.summaryData.ready === false
@@ -404,7 +405,7 @@ if(this.state.repoSelected.fullOpenSummary === true &&
                 return <Summary
                   getRepository={this.getRepository}
                   getToken={this.getToken}
-                  summaryData = {summaryData}
+                  summaryData={summaryData}
                 />;
               }}
             />
