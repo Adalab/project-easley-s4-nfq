@@ -24,27 +24,19 @@ class Summary extends Component {
     if(status === "open"){
       data = this.props.summaryData.totalOpen.flat()
     }
-    else if(status === "merged"){
+    else if(status === "declined"){
       data = this.props.summaryData.totalMerged.flat()
     }
-    else if(status === "declined"){
+    else if(status === "merged"){
       data = this.props.summaryData.totalDeclined.flat()
-      console.log('declined',data)
     }
 
-    const namesData = data.map(user =>{
-      if(user.author){
-        return user.author.display_name
-      }
-    })
+    const namesData = data.map(user =>
+     user.author ?
+     user.author.display_name : ""
+    )
 
-    console.log('reducebyname',namesData)
     const countedName = countBy(namesData);
-    console.log('counted',countedName)
-    const newCounted = {}
-    newCounted.forEach(element => {
-
-    });
     return countedName
   }
 
