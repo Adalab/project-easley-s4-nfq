@@ -37,7 +37,16 @@ class Summary extends Component {
     )
 
     const countedName = countBy(namesData);
-    return countedName
+
+    const newobject = Object.keys(countedName).map(objectKey => {
+      let key = objectKey
+      let value = countedName[objectKey];
+      return {
+        name: key,
+        value: value
+      }
+  });
+    return newobject
   }
 
   render() {
