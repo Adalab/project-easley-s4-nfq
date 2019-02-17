@@ -395,7 +395,7 @@ if(this.state.repoSelected.fullOpenSummary === true &&
                   mergedData={this.state.repoSelected.MERGED}
                   declinedData={this.state.repoSelected.DECLINED}
                   openData={this.state.repoSelected.OPENallFinalData}
-                summaryData = {summaryData}
+                  summaryData = {summaryData}
                 />;
               }}
             />
