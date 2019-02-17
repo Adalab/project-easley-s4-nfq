@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import countBy from "lodash.countby";
 import "./Summary.scss";
 import {
@@ -11,10 +11,11 @@ import {
   Legend,
   PieChart,
   Pie,
+  Sector,
   Cell
 } from "recharts";
 
-class Summary extends Component {
+class Summary extends PureComponent {
   componentDidMount() {
     this.props.getRepository(null, "OPEN", "summary");
     this.props.getRepository(null, "MERGED", "summary");
@@ -46,16 +47,17 @@ class Summary extends Component {
         value: value
       };
     });
-    console.log("newobject", newobject);
     return newobject;
   }
 
   render() {
     const openForChart = this.getDataforChart("open");
+    console.log("openForChart", openForChart);
     const mergedForChart = this.getDataforChart("merged");
     const declinedForChart = this.getDataforChart("declined");
-//pie chart
-    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+    //pie chart
+    const COLORS = ["#0088FE", "#00C49F"];
 
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({
@@ -64,8 +66,7 @@ class Summary extends Component {
       midAngle,
       innerRadius,
       outerRadius,
-      percent,
-      index
+      percent, index,
     }) => {
       const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
       const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -75,7 +76,7 @@ class Summary extends Component {
         <text
           x={x}
           y={y}
-          fill="white"
+          fill="black"
           textAnchor={x > cx ? "start" : "end"}
           dominantBaseline="central"
         >
@@ -85,56 +86,63 @@ class Summary extends Component {
     };
 
     return (
-      <div className="summary-firstGraph">
-
-        <BarChart
-          width={800}
-          height={600}
-          data={[
-            {
-              name: "Open",
-              qty: this.props.summaryData.open
-            },
-            {
-              name: "Merged",
-              qty: this.props.summaryData.merged
-            },
-            {
-              name: "Decline",
-              qty: this.props.summaryData.declined
-            }
-          ]}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar
-            minPointSize={10}
-            label={{ fill: "#979797", fontSize: 20, position: "right" }}
-            stroke="#8884d8"
-            barSize={50}
-            dataKey="qty"
-            fill="#82ca9d"
-          />
-        </BarChart>
-        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
-          <Pie
-            openForChart={openForChart}
-            cx={300}
-            cy={200}
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={80}
-            fill="#8884d8"
+      <div className="allGraphs">
+        <div className="summary-firstGraph">
+          <BarChart
+            width={800}
+            height={600}
+            data={[
+              {
+                name: "Open",
+                qty: this.props.summaryData.open
+              },
+              {
+                name: "Merged",
+                qty: this.props.summaryData.merged
+              },
+              {
+                name: "Decline",
+                qty: this.props.summaryData.declined
+              }
+            ]}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
-            {openForChart.map(index => (
-              <Cell fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-        </PieChart>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar
+              minPointSize={10}
+              label={{ fill: "#979797", fontSize: 20, position: "right" }}
+              stroke="#8884d8"
+              barSize={50}
+              dataKey="qty"
+              fill="#82ca9d"
+            />
+          </BarChart>
+        </div>
+        <div className="summary-secondGraph">
+          <PieChart width={800} height={400}>
+            <Pie
+              openForChart={openForChart}
+              cx={400}
+              cy={500}
+              outerRadius={80}
+              labelLine={false}
+              label={renderCustomizedLabel}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {openForChart.map((entry, index) => (
+                <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]} />
+                )
+              )}
+            </Pie>
+          </PieChart>
+        </div>
       </div>
     );
   }
