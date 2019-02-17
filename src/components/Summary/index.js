@@ -22,35 +22,36 @@ class Summary extends Component {
   getDataforChart(status){
     let data="";
     if(status === "open"){
-      data = this.props.openData.flat()
+      data = this.props.summaryData.totalOpen.flat()
     }
     else if(status === "merged"){
-      data = this.props.mergedData.flat()
+      data = this.props.summaryData.totalMerged.flat()
     }
     else if(status === "declined"){
-      console.log('data declined',this.props.data)
-      data = this.props.declinedData.flat()
+      data = this.props.summaryData.totalDeclined.flat()
+      console.log('declined',data)
     }
 
     const namesData = data.map(user =>{
-      if(user !== ""){
+      if(user.author){
         return user.author.display_name
       }
-      else{
-        return ""
-      }
-
     })
-    console.log('data',data)
+
     console.log('reducebyname',namesData)
     const countedName = countBy(namesData);
     console.log('counted',countedName)
+    const newCounted = {}
+    newCounted.forEach(element => {
+
+    });
     return countedName
   }
 
   render() {
     const openForChart = this.getDataforChart("open")
     const mergedForChart = this.getDataforChart("merged")
+    const declinedForChart = this.getDataforChart("declined")
 
     return (
       <div className="summary-firstGraph">

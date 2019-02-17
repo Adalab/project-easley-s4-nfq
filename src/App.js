@@ -17,9 +17,9 @@ class App extends Component {
         merged: "",
         declined: "",
         ready: false,
-        totalOpen: "",
-        totalMerged: "",
-        totalDeclined: ""
+        totalOpen: [],
+        totalMerged: [],
+        totalDeclined: []
       },
       repoSelected: {
         OPENPullRequests: [],
@@ -392,10 +392,7 @@ if(this.state.repoSelected.fullOpenSummary === true &&
                 return <Summary
                   getRepository={this.getRepository}
                   getToken={this.getToken}
-                  mergedData={this.state.repoSelected.MERGED}
-                  declinedData={this.state.repoSelected.DECLINED}
-                  openData={this.state.repoSelected.OPENallFinalData}
-                summaryData = {summaryData}
+                  summaryData = {summaryData}
                 />;
               }}
             />
