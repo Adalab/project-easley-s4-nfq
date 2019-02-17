@@ -81,14 +81,12 @@ class App extends Component {
 
 
   componentDidMount() {
-    if (window.location.href.includes("details")) {
-      console.log('windo-location-if', window.location.href)
+    if(window.location.href.includes("details")){
       this.getRepository(null, "OPEN");
-    } else {
-      console.log('windo-location else', window.location.href)
-      this.getRepository(null, "OPEN", "summary");
-      this.getRepository(null, "MERGED", "summary");
-      this.getRepository(null, "DECLINED", "summary");
+    }else{
+      this.getRepository(null, "OPEN","summary");
+      this.getRepository(null, "MERGED","summary");
+      this.getRepository(null, "DECLINED","summary");
     }
     this.getToken();
   }
@@ -177,8 +175,6 @@ class App extends Component {
     if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
 
-    console.log('this state reposelected', this.state.repoSelected)
-    //console.log("length",this.state.repoSelected.MERGED.length)
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
       this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
       ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
@@ -203,7 +199,7 @@ class App extends Component {
     }
 
 
-    if (this.state.repoSelected.fullOpenSummary === true &&
+if(this.state.repoSelected.fullOpenSummary === true &&
       this.state.repoSelected.fullMergedSummary === true &&
       this.state.repoSelected.fullDeclinedSummary === true &&
       this.state.summaryData.ready === false
@@ -382,7 +378,7 @@ class App extends Component {
   }
 
   render() {
-    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage } = this.state;
+    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage, summaryData } = this.state;
     const changeRepository = this.changeRepository;
     return (
       <div className="App">
@@ -399,6 +395,7 @@ class App extends Component {
                   mergedData={this.state.repoSelected.MERGED}
                   declinedData={this.state.repoSelected.DECLINED}
                   openData={this.state.repoSelected.OPENallFinalData}
+                summaryData = {summaryData}
                 />;
               }}
             />
