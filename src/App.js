@@ -223,7 +223,7 @@ class App extends Component {
     const { uriNextPage } = this.state;
     this.setState(prevState => ({
       ...prevState,
-      isLoading:true
+      isLoading: true
     }))
 
     if (uriNextPage !== "") {
@@ -235,9 +235,9 @@ class App extends Component {
     const { uriPrevPage } = this.state;
     this.setState(prevState => ({
       ...prevState,
-      isLoading:true
+      isLoading: true
     }))
-    
+
     if (uriPrevPage) {
       this.getRepository(uriPrevPage)
     }
@@ -309,36 +309,29 @@ class App extends Component {
         //FETCH SINGLES PULLREQUEST
 
         const urisForFetchReviewers = values.map(item => {
-          return prEndpointStart + item.id + prEndpointEnd;
+          return fetch(
+            prEndpointStart + item.id + prEndpointEnd,
+            fetchInitData
+          )
+            .then(response => response.json())
         });
 
-        const prWithReviewers = [];
-        urisForFetchReviewers.map(uri => {
-          return (
-            fetch(
-              uri,
-              fetchInitData
-            )
-              .then(response => response.json())
-              .then(dataWithReviewers => {
-                prWithReviewers.push(dataWithReviewers);
-                if (route !== "summary") {
-                  return this.setState({
-                    allFinalData: prWithReviewers,
-                    isLoading: false,
-                  })
-                } else {
-                  return this.setState(prevState => ({
-                    repoSelected: {
-                      ...prevState.repoSelected,
-                      [selectedallFinalData]: prWithReviewers,
-                    },
-
-                  }));
-                }
+        Promise.all(urisForFetchReviewers)
+          .then(dataWithReviewers => {
+            if (route !== "summary") {
+              this.setState({
+                allFinalData: dataWithReviewers,
+                isLoading: false,
               })
-          );
-        });
+            } else {
+              this.setState(prevState => ({
+                repoSelected: {
+                  ...prevState.repoSelected,
+                  [selectedallFinalData]: dataWithReviewers,
+                },
+              }));
+            }
+          })
       })
       .catch(function (error) {
         if (error.status === 401) {
