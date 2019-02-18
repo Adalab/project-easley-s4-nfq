@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import "./App.scss";
 import Header from "./components/Header";
 import Summary from "./components/Summary";
@@ -74,7 +74,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (window.location.href.includes("details")) {
+    console.log(this.props.location)
+    if (this.props.location.pathname.includes("details")) {
       this.getRepository(null, "OPEN");
     } else {
       this.getRepository(null, "OPEN", "summary");
@@ -87,7 +88,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.value !== prevState.value) {
-      if (window.location.href.includes("details")) {
+      if (this.props.location.pathname.includes("details")) {
         this.getRepository();
       } else {
         this.getRepository(null, "OPEN", "summary");
@@ -437,4 +438,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
