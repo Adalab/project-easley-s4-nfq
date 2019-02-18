@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import User from "../User";
+import PropTypes from 'prop-types';
 import "./Reasons.scss";
 
 class Reasons extends Component {
@@ -42,5 +43,13 @@ class Reasons extends Component {
     }
   }
 }
+
+Reasons.propTypes = {
+  avatar: PropTypes.string,
+  author: PropTypes.string,
+  date: PropTypes.string,
+  isLoading: PropTypes.bool
+}
+
 
 export default Reasons;
