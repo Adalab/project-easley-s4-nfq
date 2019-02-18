@@ -299,18 +299,11 @@ class App extends Component {
 
         //FETCH SINGLES PULLREQUEST
 
-        const onePullRequest = values.map(item => {
-          return {
-            id: item.id,
-            uriReviewer: prEndpointStart + item.id + prEndpointEnd
-          };
+        const urisForFetchReviewers = values.map(item => {
+          return prEndpointStart + item.id + prEndpointEnd;
         });
 
         if (route !== "summary") {
-          const urisForFetchReviewers = onePullRequest.map(pullrequest => {
-            return pullrequest.uriReviewer;
-          }
-          );
 
           const prWithReviewers = [];
           urisForFetchReviewers.map(uri => {
@@ -330,12 +323,8 @@ class App extends Component {
             )
           });
         } else {
-          const urisForFetchReviewers2 = onePullRequest.map(pullrequest => {
-            return pullrequest.uriReviewer;
-          }
-          );
           const prWithReviewers2 = [];
-          urisForFetchReviewers2.map(uri => {
+          urisForFetchReviewers.map(uri => {
             return (
               fetch(
                 uri,
