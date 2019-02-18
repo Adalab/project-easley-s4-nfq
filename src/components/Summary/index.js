@@ -59,31 +59,31 @@ class Summary extends PureComponent {
     //pie chart
     const COLORS = ["#0088FE", "#00C49F"];
 
-    const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({
-      cx,
-      cy,
-      midAngle,
-      innerRadius,
-      outerRadius,
-      percent, index,
-    }) => {
-      const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-      const x = cx + radius * Math.cos(-midAngle * RADIAN);
-      const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    // const RADIAN = Math.PI / 180;
+    // const renderCustomizedLabel = ({
+    //   cx,
+    //   cy,
+    //   midAngle,
+    //   innerRadius,
+    //   outerRadius,
+    //   percent, index,
+    // }) => {
+    //   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    //   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    //   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-      return (
-        <text
-          x={x}
-          y={y}
-          fill="black"
-          textAnchor={x > cx ? "start" : "end"}
-          dominantBaseline="central"
-        >
-          {`${(percent * 100).toFixed(0)}%`}
-        </text>
-      );
-    };
+    //   return (
+    //     <text
+    //       x={x}
+    //       y={y}
+    //       fill="black"
+    //       textAnchor={x > cx ? "start" : "end"}
+    //       dominantBaseline="central"
+    //     >
+    //       {`${(percent * 100).toFixed(0)}%`}
+    //     </text>
+    //   );
+    // };
 
     return (
       <div className="allGraphs">
@@ -123,16 +123,16 @@ class Summary extends PureComponent {
           </BarChart>
         </div>
         <div className="summary-secondGraph">
-          <PieChart width={800} height={400}>
+          <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
             <Pie
               openForChart={openForChart}
+              // dataKey="value"
               cx={400}
               cy={500}
               outerRadius={80}
               labelLine={false}
-              label={renderCustomizedLabel}
+              // label={renderCustomizedLabel}
               fill="#8884d8"
-              dataKey="value"
             >
               {openForChart.map((entry, index) => (
                 <Cell
