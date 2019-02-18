@@ -26,7 +26,6 @@ User.propTypes = {
   avatar: PropTypes.string,
   author: PropTypes.string,
   branch: PropTypes.string,
-  isLoading: PropTypes.bool
 }
 
 export default User;

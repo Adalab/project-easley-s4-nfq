@@ -47,8 +47,7 @@ class Reasons extends Component {
 Reasons.propTypes = {
   avatar: PropTypes.string,
   author: PropTypes.string,
-  date: PropTypes.string,
-  isLoading: PropTypes.bool
+  date: PropTypes.string
 }
 
 
