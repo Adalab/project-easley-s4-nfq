@@ -81,7 +81,7 @@ class Summary extends Component {
     const mergedForChart = this.getDataforChart("merged");
     const declinedForChart = this.getDataforChart("declined");
 
-    const COLORS = ["#5be4f0", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
+    const COLORS = ["#2F80ED", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
     "#f158bf", "#e145ba", "#ee91e3", "#05d371", "#5426e0", "#4834d0", "#802234",
     "#6749e8", "#0971f0", "#8fb413", "#b2b4f0", "#c3c89d", "#c9a941", "#41d158",
     "#fb21a3", "#51aed9", "#5bb32d", "#807fb", "#21538e", "#89d534", "#d36647",
@@ -122,13 +122,13 @@ class Summary extends Component {
             <Legend />
             <Bar
               minPointSize={10}
-              label={{ fill: "#979797", fontSize: 20, position: "right" }}
-              stroke="#8884d8"
+              label={{ fill: "#2F80ED", fontSize: 20, position: "right" }}
+              stroke="#2F80ED"
               isAnimationActive={true}
               animationDuration={500}
               barSize={50}
               dataKey="qty"
-              fill="#82ca9d"
+              fill="#2F80ED"
             />
           </BarChart>
         </div>
