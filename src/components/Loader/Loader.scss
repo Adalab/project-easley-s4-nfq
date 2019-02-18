@@ -1,22 +1,19 @@
-p {
+.loader__container--text {
   width: 120px;
   margin-left: auto;
   margin-right: auto;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 16px;
   text-align: center;
 }
 
-img {
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .loader__container{
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-.pulse-loader {
+.loader__container--animation {
   height: 50px;
   margin: auto 0;
   text-align: center;

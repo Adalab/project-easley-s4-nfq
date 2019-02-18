@@ -6,8 +6,8 @@ class Loader extends Component {
     return (
       <Fragment>
         <div className="loader__container">
-        <p>Loading...</p>
-        <div class="pulse-loader"></div>
+        <p className="loader__container--text">Loading...</p>
+        <div className="loader__container--animation"></div>
         </div>
       </Fragment>
     )

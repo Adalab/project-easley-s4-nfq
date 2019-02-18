@@ -369,8 +369,6 @@ class App extends Component {
                 .then(dataWithReviewers => {
                   prWithReviewers2.push(dataWithReviewers);
                   return this.setState(prevState => ({
-                    //allFinalData: prWithReviewers,
-                    //isLoading: false,
                     repoSelected: {
                       ...prevState.repoSelected,
                       [selectedallFinalData]: prWithReviewers2,
