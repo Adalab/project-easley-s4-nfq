@@ -12,7 +12,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pullRequests: [],
       allFinalData: [],
       summaryData: {
         open: "",
@@ -24,21 +23,18 @@ class App extends Component {
         totalDeclined: []
       },
       repoSelected: {
-        OPENPullRequests: [],
         OPENallFinalData: [],
         OPENSize: "",
         fullOpenSummary: false,
         MERGEDSize: "",
         MERGED: [],
         fullMergedSummary: false,
-        MERGEDPullRequests: "",
         MERGEDallFinalData: "",
         uriNextPageMERGED: "",
         uriPrevPageMERGED: "",
         DECLINEDSize: "",
         DECLINED: [],
         fullDeclinedSummary: false,
-        DECLINEDPullRequests: [],
         DECLINEDallFinalData: [],
         uriNextPageDECLINED: "",
         uriPrevPageDECLINED: "",
@@ -282,16 +278,11 @@ class App extends Component {
         const {next, previous, size, values} = data;
         const prEndpointStart = `${uriBase}${repoPath}/pullrequests/`;
         const prEndpointEnd = `/?pagelen=${pagelen}&state=${status}${updated}`;
-        const onePullRequest = values.map(item => {
-          return {
-            id: item.id,
-            uriReviewer: prEndpointStart + item.id + prEndpointEnd
-          };
-        });
+
+        //PAGINATION
 
         if (route !== "summary") {
           this.setState({
-            pullRequests: onePullRequest,
             uriNextPage: next,
             uriPrevPage: previous,
           });
@@ -301,19 +292,22 @@ class App extends Component {
               ...prevState.repoSelected,
               [selectedNextPage]: next,
               [selectedPrevPage]: previous,
-              [selectedPullRequest]: onePullRequest,
               [selectedSize]: size
             },
           }));
-
         }
 
+        //FETCH SINGLES PULLREQUEST
 
-
+        const onePullRequest = values.map(item => {
+          return {
+            id: item.id,
+            uriReviewer: prEndpointStart + item.id + prEndpointEnd
+          };
+        });
 
         if (route !== "summary") {
-
-          const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
+          const urisForFetchReviewers = onePullRequest.map(pullrequest => {
             return pullrequest.uriReviewer;
           }
           );
@@ -336,7 +330,7 @@ class App extends Component {
             )
           });
         } else {
-          const urisForFetchReviewers2 = this.state.repoSelected[selectedPullRequest].map(pullrequest => {
+          const urisForFetchReviewers2 = onePullRequest.map(pullrequest => {
             return pullrequest.uriReviewer;
           }
           );
@@ -345,13 +339,7 @@ class App extends Component {
             return (
               fetch(
                 uri,
-                isPrivate
-                  ? {
-                    headers: {
-                      Authorization: headerAuthorization
-                    }
-                  }
-                  : { headers: {} }
+                fetchInitData
               )
                 .then(response => response.json())
                 .then(dataWithReviewers => {
