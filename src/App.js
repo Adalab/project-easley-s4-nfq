@@ -226,6 +226,11 @@ class App extends Component {
 
   getNextPullRequests() {
     const { uriNextPage } = this.state;
+    this.setState(prevState => ({
+      ...prevState,
+      isLoading:true
+    }))
+
     if (uriNextPage !== "") {
       this.getRepository(uriNextPage)
     }
@@ -233,6 +238,11 @@ class App extends Component {
 
   getPreviousPullRequests() {
     const { uriPrevPage } = this.state;
+    this.setState(prevState => ({
+      ...prevState,
+      isLoading:true
+    }))
+    
     if (uriPrevPage) {
       this.getRepository(uriPrevPage)
     }
