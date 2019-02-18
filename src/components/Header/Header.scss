@@ -78,7 +78,10 @@
 .header_selector-items {
   font-size: 18px;
   height: 45px;
-  background-color: #ffffff;
+  background-color:rgba(255, 255, 255, 0.075);
+  border: 1px solid white;
+  color: white;
+  text-transform: lowercase;
   border-radius: 10px;
   text-transform: uppercase;
 }
@@ -120,5 +123,15 @@
   display: flex;
   align-items: center;
   width: 153px;
+
+}
+.header_selector-items {
+  font-size: 18px;
+  height: 45px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  background-color: white;
+  color:black;
+  border: 1px solid black;
 }
 }
