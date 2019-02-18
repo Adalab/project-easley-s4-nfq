@@ -23,7 +23,7 @@ class DetailsContainer extends Component {
       uriPrevPage
     } = this.props;
     return (
-      <Fragment>
+      <div className="details">
         <h2 className="details__title">{value}</h2>
         <select className="details__select">
           <option>OPEN</option>
@@ -68,7 +68,7 @@ class DetailsContainer extends Component {
           uriPrevPage={uriPrevPage}
         />
 
-      </Fragment>
+      </div>
     );
   }
 }
