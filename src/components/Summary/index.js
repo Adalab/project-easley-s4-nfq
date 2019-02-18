@@ -81,21 +81,88 @@ class Summary extends Component {
     const mergedForChart = this.getDataforChart("merged");
     const declinedForChart = this.getDataforChart("declined");
 
-    const COLORS = ["#5be4f0", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
-    "#f158bf", "#e145ba", "#ee91e3", "#05d371", "#5426e0", "#4834d0", "#802234",
-    "#6749e8", "#0971f0", "#8fb413", "#b2b4f0", "#c3c89d", "#c9a941", "#41d158",
-    "#fb21a3", "#51aed9", "#5bb32d", "#807fb", "#21538e", "#89d534", "#d36647",
-    "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
-    "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
-    "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#21538e", "#89d534", "#d36647",
-    "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
-    "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
-    "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#9cb64a", "#996c48", "#9ab9b7",
+    const COLORS = [
+      "#2F80ED",
+      "#67d9ff",
+      "#a4d17a",
+      "#225b8",
+      "#be608b",
+      "#96b00c",
+      "#088baf",
+      "#f158bf",
+      "#e145ba",
+      "#ee91e3",
+      "#05d371",
+      "#5426e0",
+      "#4834d0",
+      "#802234",
+      "#6749e8",
+      "#0971f0",
+      "#8fb413",
+      "#b2b4f0",
+      "#c3c89d",
+      "#c9a941",
+      "#41d158",
+      "#fb21a3",
+      "#51aed9",
+      "#5bb32d",
+      "#807fb",
+      "#21538e",
+      "#89d534",
+      "#d36647",
+      "#7fb411",
+      "#0023b8",
+      "#3b8c2a",
+      "#986b53",
+      "#f50422",
+      "#983f7a",
+      "#ea24a3",
+      "#79352c",
+      "#521250",
+      "#c79ed2",
+      "#d6dd92",
+      "#e33e52",
+      "#b2be57",
+      "#fa06ec",
+      "#1bb699",
+      "#6b2e5f",
+      "#64820f",
+      "#1c271",
+      "#21538e",
+      "#89d534",
+      "#d36647",
+      "#7fb411",
+      "#0023b8",
+      "#3b8c2a",
+      "#986b53",
+      "#f50422",
+      "#983f7a",
+      "#ea24a3",
+      "#79352c",
+      "#521250",
+      "#c79ed2",
+      "#d6dd92",
+      "#e33e52",
+      "#b2be57",
+      "#fa06ec",
+      "#1bb699",
+      "#6b2e5f",
+      "#64820f",
+      "#1c271",
+      "#9cb64a",
+      "#996c48",
+      "#9ab9b7"
     ];
     return (
       <div className="summary-allGraphs">
         <div className="summary-firstGraph">
-        Pull Requests
+          <h3 className="summary-firstGraphTitle">Pull Requests</h3>
+          <h3 className="summary-firstGraphSubtitle">
+            Total number of Pull Requests:{" "}
+            {this.props.summaryData.open +
+              this.props.summaryData.merged +
+              this.props.summaryData.declined}
+          </h3>
           <BarChart
             width={800}
             height={600}
@@ -122,90 +189,96 @@ class Summary extends Component {
             <Legend />
             <Bar
               minPointSize={10}
-              label={{ fill: "#979797", fontSize: 20, position: "right" }}
-              stroke="#8884d8"
+              label={{ fontFamily: 'Poppins',  fill: "#2F80ED", fontSize: 20, position: "right" }}
+              stroke="#2F80ED"
               isAnimationActive={true}
               animationDuration={500}
               barSize={50}
               dataKey="qty"
-              fill="#82ca9d"
+              fill="#2F80ED"
             />
           </BarChart>
         </div>
+        <div className="summary-secondGraphTitle">
+        <h4 className="summary-secondGraphTitle">Users for open PR</h4>
+        <h4 className="summary-secondGraphTitle">Users for merged PR</h4>
+        <h4 className="summary-secondGraphTitle">Users for declined PR</h4>
+        </div>
         <div className="summary-secondGraph">
-        <div className="summary-secondGraphOpen">
-          <PieChart
-            width={800}
-            height={400}
-            onMouseEnter={this.onPieEnter}
-            dataKey="open"
-          >
-            <Pie className="summary-secondGraphOpenPie"
-              data={openForChart}
-              dataKey="value"
-              cx={500}
-              cy={200}
-              labelLine={false}
-              isAnimationActive={false}
-              label={renderCustomizedLabel}
-              outerRadius={190}
-              fill="#8884d8"
+          <div className="summary-secondGraphOpen">
+            <PieChart
+              width={800}
+              height={400}
+              onMouseEnter={this.onPieEnter}
+              dataKey="open"
             >
-              {openForChart.map((entry, index) => (
-                <Cell fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-          </PieChart>
-        </div>
-        <div>
-          <PieChart
-            width={800}
-            height={400}
-            onMouseEnter={this.onPieEnter}
-            dataKey="merged"
-          >
-            <Pie
-              data={mergedForChart}
-              dataKey="value"
-              cx={400}
-              cy={200}
-              labelLine={false}
-              label={renderCustomizedLabel}
-              isAnimationActive={false}
-              outerRadius={190}
-              fill="#8884d8"
+              <Pie
+                className="summary-secondGraphOpenPie"
+                data={openForChart}
+                dataKey="value"
+                cx={500}
+                cy={200}
+                labelLine={false}
+                isAnimationActive={false}
+                label={renderCustomizedLabel}
+                outerRadius={190}
+                fill="#8884d8"
+              >
+                {openForChart.map((entry, index) => (
+                  <Cell fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </div>
+          <div>
+            <PieChart
+              width={800}
+              height={400}
+              onMouseEnter={this.onPieEnter}
+              dataKey="merged"
             >
-              {mergedForChart.map((entry, index) => (
-                <Cell fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-          </PieChart>
-        </div>
-        <div>
-          <PieChart
-            width={800}
-            height={400}
-            onMouseEnter={this.onPieEnter}
-            dataKey="declined"
-          >
-            <Pie
-              data={declinedForChart}
-              dataKey="value"
-              cx={200}
-              cy={200}
-              labelLine={true}
-              label={renderCustomizedLabel}
-              outerRadius={190}
-              isAnimationActive={false}
-              fill="#8884d8"
+              <Pie
+                data={mergedForChart}
+                dataKey="value"
+                cx={400}
+                cy={200}
+                labelLine={false}
+                label={renderCustomizedLabel}
+                isAnimationActive={false}
+                outerRadius={190}
+                fill="#8884d8"
+              >
+                {mergedForChart.map((entry, index) => (
+                  <Cell fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </div>
+          <div>
+            <PieChart
+              width={800}
+              height={400}
+              onMouseEnter={this.onPieEnter}
+              dataKey="declined"
             >
-              {declinedForChart.map((entry, index) => (
-                <Cell fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-          </PieChart>
+              <Pie
+                data={declinedForChart}
+                dataKey="value"
+                cx={200}
+                cy={200}
+                labelLine={true}
+                label={renderCustomizedLabel}
+                outerRadius={190}
+                isAnimationActive={false}
+                fill="#8884d8"
+              >
+                {declinedForChart.map((entry, index) => (
+                  <Cell fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </div>
         </div>
-      </div>
       </div>
     );
   }
