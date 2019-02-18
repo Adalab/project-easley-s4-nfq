@@ -248,7 +248,6 @@ class App extends Component {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-    const selectedPullRequest = status + "PullRequests";
     const selectedNextPage = "uriNextPage" + status;
     const selectedPrevPage = "uriPrevPage" + status;
     const selectedSize = status + "Size";
@@ -275,7 +274,7 @@ class App extends Component {
         return response.json()
       })
       .then(data => {
-        const {next, previous, size, values} = data;
+        const { next, previous, size, values } = data;
         const prEndpointStart = `${uriBase}${repoPath}/pullrequests/`;
         const prEndpointEnd = `/?pagelen=${pagelen}&state=${status}${updated}`;
 
@@ -303,48 +302,33 @@ class App extends Component {
           return prEndpointStart + item.id + prEndpointEnd;
         });
 
-        if (route !== "summary") {
-
-          const prWithReviewers = [];
-          urisForFetchReviewers.map(uri => {
-            return (
-              fetch(
-                uri,
-                fetchInitData
-              )
-                .then(response => response.json())
-                .then(dataWithReviewers => {
-                  prWithReviewers.push(dataWithReviewers);
+        const prWithReviewers = [];
+        urisForFetchReviewers.map(uri => {
+          return (
+            fetch(
+              uri,
+              fetchInitData
+            )
+              .then(response => response.json())
+              .then(dataWithReviewers => {
+                prWithReviewers.push(dataWithReviewers);
+                if (route !== "summary") {
                   return this.setState({
                     allFinalData: prWithReviewers,
                     isLoading: false,
                   })
-                })
-            )
-          });
-        } else {
-          const prWithReviewers2 = [];
-          urisForFetchReviewers.map(uri => {
-            return (
-              fetch(
-                uri,
-                fetchInitData
-              )
-                .then(response => response.json())
-                .then(dataWithReviewers => {
-                  prWithReviewers2.push(dataWithReviewers);
+                } else {
                   return this.setState(prevState => ({
                     repoSelected: {
                       ...prevState.repoSelected,
-                      [selectedallFinalData]: prWithReviewers2,
+                      [selectedallFinalData]: prWithReviewers,
                     },
 
-                  }))
-                })
-            )
-          });
-        }
-
+                  }));
+                }
+              })
+          );
+        });
       })
       .catch(function (error) {
         if (error.status === 401) {
