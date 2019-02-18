@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import "./App.scss";
 import Header from "./components/Header";
 import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 import DetailsContainer from "./components/DetailsContainer";
 
+const uriBase = 'https://api.bitbucket.org/2.0/repositories/';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pullRequests: [],
       allFinalData: [],
       summaryData: {
         open: "",
@@ -22,21 +23,18 @@ class App extends Component {
         totalDeclined: []
       },
       repoSelected: {
-        OPENPullRequests: [],
         OPENallFinalData: [],
         OPENSize: "",
         fullOpenSummary: false,
         MERGEDSize: "",
         MERGED: [],
         fullMergedSummary: false,
-        MERGEDPullRequests: "",
         MERGEDallFinalData: "",
         uriNextPageMERGED: "",
         uriPrevPageMERGED: "",
         DECLINEDSize: "",
         DECLINED: [],
         fullDeclinedSummary: false,
-        DECLINEDPullRequests: [],
         DECLINEDallFinalData: [],
         uriNextPageDECLINED: "",
         uriPrevPageDECLINED: "",
@@ -73,16 +71,8 @@ class App extends Component {
     this.getToken = this.getToken.bind(this);
   }
 
-  handleTab(tab) {
-    this.setState({
-      tab: tab,
-      isLoading: true
-    })
-  }
-
-
   componentDidMount() {
-    if (window.location.href.includes("details")) {
+    if (this.props.location.pathname.includes("details")) {
       this.getRepository(null, "OPEN");
     } else {
       this.getRepository(null, "OPEN", "summary");
@@ -90,6 +80,61 @@ class App extends Component {
       this.getRepository(null, "DECLINED", "summary");
     }
     this.getToken();
+  }
+
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.value !== prevState.value) {
+      if (this.props.location.pathname.includes("details")) {
+        this.getRepository();
+      } else {
+        this.getRepository(null, "OPEN", "summary");
+        this.getRepository(null, "MERGED", "summary");
+        this.getRepository(null, "DECLINED", "summary");
+      }
+    }
+    if (this.state.tab !== prevState.tab) {
+      this.getRepository();
+    }
+
+    if (this.state.repoSelected.uriNextPageMERGED !== "" &&
+      this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
+      ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED", "summary")
+      this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    }
+
+
+    if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
+      this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
+      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED", "summary")
+      this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
+    }
+
+
+    if (((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
+      this.state.repoSelected.fullOpenSummary === false) {
+      this.fullData()
+    }
+
+
+    if (this.state.repoSelected.fullOpenSummary === true &&
+      this.state.repoSelected.fullMergedSummary === true &&
+      this.state.repoSelected.fullDeclinedSummary === true &&
+      this.state.summaryData.ready === false
+    ) {
+      this.createSummaryData();
+    }
+  }
+
+  handleTab(tab) {
+    this.setState({
+      tab: tab,
+      isLoading: true
+    })
   }
 
   getToken(refreshToken) {
@@ -172,56 +217,6 @@ class App extends Component {
 
 
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.value !== prevState.value) {
-      if (window.location.href.includes("details")) {
-        this.getRepository();
-      } else {
-        this.getRepository(null, "OPEN", "summary");
-        this.getRepository(null, "MERGED", "summary");
-        this.getRepository(null, "DECLINED", "summary");
-      }
-    }
-    if (this.state.tab !== prevState.tab) {
-      this.getRepository();
-    }
-    if (this.state.token && this.state.token !== prevState.token) {
-    }
-    if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
-    }
-
-    if (this.state.repoSelected.uriNextPageMERGED !== "" &&
-      this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
-      ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
-      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED", "summary")
-      this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
-    }
-
-
-    if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
-      this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
-      ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
-      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED", "summary")
-      this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
-    }
-
-
-    if (((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
-      ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
-      ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
-      this.state.repoSelected.fullOpenSummary === false) {
-      this.fullData()
-    }
-
-
-    if (this.state.repoSelected.fullOpenSummary === true &&
-      this.state.repoSelected.fullMergedSummary === true &&
-      this.state.repoSelected.fullDeclinedSummary === true &&
-      this.state.summaryData.ready === false
-    ) {
-      this.createSummaryData();
-    }
-  }
 
 
   getNextPullRequests() {
@@ -263,28 +258,24 @@ class App extends Component {
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-    const selectedPullRequest = status + "PullRequests";
     const selectedNextPage = "uriNextPage" + status;
     const selectedPrevPage = "uriPrevPage" + status;
     const selectedSize = status + "Size";
-    const selectedallFinalData = status + "allFinalData"
-
-
-    const prEndpoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
-
-    const privateEndPoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
+    const selectedallFinalData = status + "allFinalData";
+    const repoPath = isPrivate ? 'ekergy/adalab-easley' : `atlassian/${repositoryName}`;
+    const prPageEndpoint = nextUri ||
+      `${uriBase}${repoPath}/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
+    const fetchInitData = isPrivate
+      ? {
+        headers: {
+          Authorization: headerAuthorization
+        }
+      }
+      : { headers: {} };
 
     fetch(
-      isPrivate ? privateEndPoint : prEndpoint,
-      isPrivate
-        ? {
-          headers: {
-            Authorization: headerAuthorization
-          }
-        }
-        : { headers: {} }
+      prPageEndpoint,
+      fetchInitData
     )
       .then(response => {
         if (!response.ok) {
@@ -293,103 +284,61 @@ class App extends Component {
         return response.json()
       })
       .then(data => {
-        const nextUri = data.next;
-        const prevUri = data.previous;
-        const size = data.size;
-        const onePullRequest = data.values.map(item => {
-          return {
-            id: item.id,
-            uriReviewer: isPrivate
-              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
-              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
-          };
-        });
+        const { next, previous, size, values } = data;
+        const prEndpointStart = `${uriBase}${repoPath}/pullrequests/`;
+        const prEndpointEnd = `/?pagelen=${pagelen}&state=${status}${updated}`;
+
+        //PAGINATION
 
         if (route !== "summary") {
           this.setState({
-            pullRequests: onePullRequest,
-            uriNextPage: nextUri,
-            uriPrevPage: prevUri,
+            uriNextPage: next,
+            uriPrevPage: previous,
           });
         } else {
           this.setState(prevState => ({
             repoSelected: {
               ...prevState.repoSelected,
-              [selectedNextPage]: nextUri,
-              [selectedPrevPage]: prevUri,
-              [selectedPullRequest]: onePullRequest,
+              [selectedNextPage]: next,
+              [selectedPrevPage]: previous,
               [selectedSize]: size
             },
           }));
-
         }
 
+        //FETCH SINGLES PULLREQUEST
 
+        const urisForFetchReviewers = values.map(item => {
+          return prEndpointStart + item.id + prEndpointEnd;
+        });
 
-
-        if (route !== "summary") {
-
-          const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
-            return pullrequest.uriReviewer;
-          }
-          );
-
-          const prWithReviewers = [];
-          urisForFetchReviewers.map(uri => {
-            return (
-              fetch(
-                uri,
-                isPrivate
-                  ? {
-                    headers: {
-                      Authorization: headerAuthorization
-                    }
-                  }
-                  : { headers: {} }
-              )
-                .then(response => response.json())
-                .then(dataWithReviewers => {
-                  prWithReviewers.push(dataWithReviewers);
+        const prWithReviewers = [];
+        urisForFetchReviewers.map(uri => {
+          return (
+            fetch(
+              uri,
+              fetchInitData
+            )
+              .then(response => response.json())
+              .then(dataWithReviewers => {
+                prWithReviewers.push(dataWithReviewers);
+                if (route !== "summary") {
                   return this.setState({
                     allFinalData: prWithReviewers,
                     isLoading: false,
                   })
-                })
-            )
-          });
-        } else {
-          const urisForFetchReviewers2 = this.state.repoSelected[selectedPullRequest].map(pullrequest => {
-            return pullrequest.uriReviewer;
-          }
-          );
-          const prWithReviewers2 = [];
-          urisForFetchReviewers2.map(uri => {
-            return (
-              fetch(
-                uri,
-                isPrivate
-                  ? {
-                    headers: {
-                      Authorization: headerAuthorization
-                    }
-                  }
-                  : { headers: {} }
-              )
-                .then(response => response.json())
-                .then(dataWithReviewers => {
-                  prWithReviewers2.push(dataWithReviewers);
+                } else {
                   return this.setState(prevState => ({
                     repoSelected: {
                       ...prevState.repoSelected,
-                      [selectedallFinalData]: prWithReviewers2,
+                      [selectedallFinalData]: prWithReviewers,
                     },
 
-                  }))
-                })
-            )
-          });
-        }
-
+                  }));
+                }
+              })
+          );
+        });
       })
       .catch(function (error) {
         if (error.status === 401) {
@@ -446,4 +395,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
