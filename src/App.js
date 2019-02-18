@@ -73,14 +73,6 @@ class App extends Component {
     this.getToken = this.getToken.bind(this);
   }
 
-  handleTab(tab) {
-    this.setState({
-      tab: tab,
-      isLoading: true
-    })
-  }
-
-
   componentDidMount() {
     if (window.location.href.includes("details")) {
       this.getRepository(null, "OPEN");
@@ -90,6 +82,65 @@ class App extends Component {
       this.getRepository(null, "DECLINED", "summary");
     }
     this.getToken();
+  }
+
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.value !== prevState.value) {
+      if (window.location.href.includes("details")) {
+        this.getRepository();
+      } else {
+        this.getRepository(null, "OPEN", "summary");
+        this.getRepository(null, "MERGED", "summary");
+        this.getRepository(null, "DECLINED", "summary");
+      }
+    }
+    if (this.state.tab !== prevState.tab) {
+      this.getRepository();
+    }
+    if (this.state.token && this.state.token !== prevState.token) {
+    }
+    if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
+    }
+
+    if (this.state.repoSelected.uriNextPageMERGED !== "" &&
+      this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
+      ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED", "summary")
+      this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    }
+
+
+    if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
+      this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
+      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED", "summary")
+      this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
+    }
+
+
+    if (((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
+      this.state.repoSelected.fullOpenSummary === false) {
+      this.fullData()
+    }
+
+
+    if (this.state.repoSelected.fullOpenSummary === true &&
+      this.state.repoSelected.fullMergedSummary === true &&
+      this.state.repoSelected.fullDeclinedSummary === true &&
+      this.state.summaryData.ready === false
+    ) {
+      this.createSummaryData();
+    }
+  }
+
+  handleTab(tab) {
+    this.setState({
+      tab: tab,
+      isLoading: true
+    })
   }
 
   getToken(refreshToken) {
@@ -172,56 +223,6 @@ class App extends Component {
 
 
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.value !== prevState.value) {
-      if (window.location.href.includes("details")) {
-        this.getRepository();
-      } else {
-        this.getRepository(null, "OPEN", "summary");
-        this.getRepository(null, "MERGED", "summary");
-        this.getRepository(null, "DECLINED", "summary");
-      }
-    }
-    if (this.state.tab !== prevState.tab) {
-      this.getRepository();
-    }
-    if (this.state.token && this.state.token !== prevState.token) {
-    }
-    if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
-    }
-
-    if (this.state.repoSelected.uriNextPageMERGED !== "" &&
-      this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
-      ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
-      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED", "summary")
-      this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
-    }
-
-
-    if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
-      this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
-      ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
-      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED", "summary")
-      this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
-    }
-
-
-    if (((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
-      ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
-      ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
-      this.state.repoSelected.fullOpenSummary === false) {
-      this.fullData()
-    }
-
-
-    if (this.state.repoSelected.fullOpenSummary === true &&
-      this.state.repoSelected.fullMergedSummary === true &&
-      this.state.repoSelected.fullDeclinedSummary === true &&
-      this.state.summaryData.ready === false
-    ) {
-      this.createSummaryData();
-    }
-  }
 
 
   getNextPullRequests() {
