@@ -36,11 +36,26 @@
 .reason__user {
   display: flex;
   flex-direction: row;
-  width: 370px;
+  text-align: left;
+  width: 40%;
   height: 10px;
-  padding: 20px;
   min-height: 100px;
-  margin-bottom: 20px;
+  box-shadow: none;
+  .app--card-image{
+    max-width: 30px;
+    height: 30px;
+  }
+  .app--card-name{
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 200;
+    color: black;
+  }
+  .app--card-branch{
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+  }
 }
 
 @media all and (min-width: 1200px) {
