@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class PRlist extends Component {
   render() {
     const { pullRequests, handleDate, isLoading } = this.props;
- console.log("pullRequests", pullRequests);
+  console.log("pullRequests", pullRequests);
     return (
       <Fragment>
       {!pullRequests ? (<p>No available</p>):(
