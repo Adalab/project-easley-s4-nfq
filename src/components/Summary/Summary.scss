@@ -6,6 +6,7 @@ body > #root > div {
 .summary-allGraphs{
   max-height: 100%;
   max-width: 100%;
+  overflow: hidden;
 
 }
 .summary-firstGraph {
@@ -29,10 +30,8 @@ body > #root > div {
 }
 
 .recharts-wrapper {
-  .summary-secondGraphOpenPie {
-  width: 100px;
-  height: 50px;
-}}
+  width: 400px;
+}
 
 .summary-secondGraphOpenPie{
   width: 100px;

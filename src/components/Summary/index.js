@@ -95,6 +95,7 @@ class Summary extends Component {
     return (
       <div className="summary-allGraphs">
         <div className="summary-firstGraph">
+        Pull Requests
           <BarChart
             width={800}
             height={600}
