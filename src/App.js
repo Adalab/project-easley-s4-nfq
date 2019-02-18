@@ -60,7 +60,7 @@ class App extends Component {
           isPrivate: true
         }
       ],
-      isLoading: true
+      isLoading: true,
     };
 
     this.changeRepository = this.changeRepository.bind(this);

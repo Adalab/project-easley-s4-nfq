@@ -1,14 +1,14 @@
 
 .details__title {
-  font-size: 60px;
+  font-size: 45px;
   text-align: center;
   color:white;
   padding-top: 60px;
   padding-bottom: 20px;
   font-family: 'Poppins', sans-serif;
-  @media all and (min-width:1280px) {
+  @media all and (min-width:768px) {
     padding-top: 80px;
-    font-size: 45px;
+    font-size: 60px;
   }
 }
 

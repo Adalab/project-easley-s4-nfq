@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component,  Fragment } from 'react';
 import PRcard from '../PRcard';
 import PropTypes from 'prop-types';
 
 class PRlist extends Component {
   render() {
     const { pullRequests, handleDate, isLoading } = this.props;
+  console.log("pullRequests", pullRequests);
     return (
+      <Fragment>
+      {!pullRequests ? (<p>No available</p>):(
       <ul>
         {pullRequests.map((item, index) => {
           return (
@@ -30,8 +33,8 @@ class PRlist extends Component {
             </li>
           )
         })}
-      </ul>
-
+      </ul>)}
+      </Fragment>
 
     );
   }

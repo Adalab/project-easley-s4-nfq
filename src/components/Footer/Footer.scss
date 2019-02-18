@@ -4,8 +4,11 @@
     background-color: white;
     display: flex;
     justify-content: space-around;
-    margin: 40px auto 0 auto;
+    margin-top: 40px;
     box-shadow:  0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: absolute;
+    bottom: 0;
+
 }
 
 .app__footer-logo {
