@@ -258,7 +258,7 @@ class App extends Component {
     const selectedSize = status + "Size";
     const selectedallFinalData = status + "allFinalData";
     const repoPath = isPrivate ? 'ekergy/adalab-easley' : `atlassian/${repositoryName}`;
-    const prEndpoint = nextUri ||
+    const prPageEndpoint = nextUri ||
       `${uriBase}${repoPath}/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
     const fetchInitData = isPrivate
       ? {
@@ -269,7 +269,7 @@ class App extends Component {
       : { headers: {} };
 
     fetch(
-      prEndpoint,
+      prPageEndpoint,
       fetchInitData
     )
       .then(response => {
@@ -279,30 +279,28 @@ class App extends Component {
         return response.json()
       })
       .then(data => {
-        const nextUri = data.next;
-        const prevUri = data.previous;
-        const size = data.size;
-        const onePullRequest = data.values.map(item => {
+        const {next, previous, size, values} = data;
+        const prEndpointStart = `${uriBase}${repoPath}/pullrequests/`;
+        const prEndpointEnd = `/?pagelen=${pagelen}&state=${status}${updated}`;
+        const onePullRequest = values.map(item => {
           return {
             id: item.id,
-            uriReviewer: isPrivate
-              ? `${uriBase}ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
-              : `${uriBase}atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
+            uriReviewer: prEndpointStart + item.id + prEndpointEnd
           };
         });
 
         if (route !== "summary") {
           this.setState({
             pullRequests: onePullRequest,
-            uriNextPage: nextUri,
-            uriPrevPage: prevUri,
+            uriNextPage: next,
+            uriPrevPage: previous,
           });
         } else {
           this.setState(prevState => ({
             repoSelected: {
               ...prevState.repoSelected,
-              [selectedNextPage]: nextUri,
-              [selectedPrevPage]: prevUri,
+              [selectedNextPage]: next,
+              [selectedPrevPage]: previous,
               [selectedPullRequest]: onePullRequest,
               [selectedSize]: size
             },
