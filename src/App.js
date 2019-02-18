@@ -6,6 +6,8 @@ import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 import DetailsContainer from "./components/DetailsContainer";
 
+const uriBase = 'https://api.bitbucket.org/2.0/repositories/';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +76,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location)
     if (this.props.location.pathname.includes("details")) {
       this.getRepository(null, "OPEN");
     } else {
@@ -98,10 +99,6 @@ class App extends Component {
     }
     if (this.state.tab !== prevState.tab) {
       this.getRepository();
-    }
-    if (this.state.token && this.state.token !== prevState.token) {
-    }
-    if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
     }
 
     if (this.state.repoSelected.uriNextPageMERGED !== "" &&
@@ -259,24 +256,21 @@ class App extends Component {
     const selectedNextPage = "uriNextPage" + status;
     const selectedPrevPage = "uriPrevPage" + status;
     const selectedSize = status + "Size";
-    const selectedallFinalData = status + "allFinalData"
-
-
+    const selectedallFinalData = status + "allFinalData";
+    const repoPath = isPrivate ? 'ekergy/adalab-easley' : `atlassian/${repositoryName}`;
     const prEndpoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
-
-    const privateEndPoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
+      `${uriBase}${repoPath}/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
+    const fetchInitData = isPrivate
+      ? {
+        headers: {
+          Authorization: headerAuthorization
+        }
+      }
+      : { headers: {} };
 
     fetch(
-      isPrivate ? privateEndPoint : prEndpoint,
-      isPrivate
-        ? {
-          headers: {
-            Authorization: headerAuthorization
-          }
-        }
-        : { headers: {} }
+      prEndpoint,
+      fetchInitData
     )
       .then(response => {
         if (!response.ok) {
@@ -292,8 +286,8 @@ class App extends Component {
           return {
             id: item.id,
             uriReviewer: isPrivate
-              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
-              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
+              ? `${uriBase}ekergy/adalab-easley/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
+              : `${uriBase}atlassian/${repositoryName}/pullrequests/` + item.id + `/?pagelen=${pagelen}&state=${status}${updated}`
           };
         });
 
@@ -331,13 +325,7 @@ class App extends Component {
             return (
               fetch(
                 uri,
-                isPrivate
-                  ? {
-                    headers: {
-                      Authorization: headerAuthorization
-                    }
-                  }
-                  : { headers: {} }
+                fetchInitData
               )
                 .then(response => response.json())
                 .then(dataWithReviewers => {
