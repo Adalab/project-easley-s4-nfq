@@ -14,6 +14,19 @@ import {
   Cell
 } from "recharts";
 
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+ 	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
+    	{`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+}
+
 class Summary extends Component {
 
   componentDidMount() {
@@ -54,18 +67,18 @@ class Summary extends Component {
     return newobject
   }
 
-  renderCustomizedLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
-    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+  // renderCustomizedLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) {
+  //   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  //   const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+  //   const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
 
-    ///AQUI PINTA EL PORCENTAJE QUE REPRESENTA, PERO QUERRIAMOS LOS NOMBRES
-    return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
+  //   ///AQUI PINTA EL PORCENTAJE QUE REPRESENTA, PERO QUERRIAMOS LOS NOMBRES
+  //   return (
+  //     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+  //       {`${(percent * 100).toFixed(0)}%`}
+  //     </text>
+  //   );
+  // };
   render() {
     const openForChart = this.getDataforChart("open")
     const mergedForChart = this.getDataforChart("merged")
@@ -110,10 +123,12 @@ class Summary extends Component {
         <PieChart width={800} height={400} onMouseEnter={this.onPieEnter} dataKey="open">
           <Pie
             data={openForChart}
+            dataKey="value"
             cx={300}
             cy={200}
             labelLine={false}
-            label={this.renderCustomizedLabel(300, 200)}
+            isAnimationActive={false}
+            label={renderCustomizedLabel}
             outerRadius={190}
             fill="#8884d8"
           >
@@ -127,10 +142,12 @@ class Summary extends Component {
         <PieChart width={800} height={400} onMouseEnter={this.onPieEnter} dataKey="merged">
           <Pie
             data={mergedForChart}
+            dataKey="value"
             cx={300}
             cy={200}
             labelLine={false}
-            label={this.renderCustomizedLabel(300, 200)}
+            label={renderCustomizedLabel}
+            isAnimationActive={false}
             outerRadius={190}
             fill="#8884d8"
           >
@@ -144,11 +161,13 @@ class Summary extends Component {
         <PieChart width={800} height={400} onMouseEnter={this.onPieEnter} dataKey="declined">
           <Pie
             data={declinedForChart}
+            dataKey="value"
             cx={300}
             cy={200}
             labelLine={true}
-            label={this.renderCustomizedLabel(300, 200)}
+            label={renderCustomizedLabel}
             outerRadius={190}
+            isAnimationActive={false}
             fill="#8884d8"
           >
 
