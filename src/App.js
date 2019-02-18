@@ -151,9 +151,9 @@ class App extends Component {
       summaryData: {
         open: repoSelected.OPENSize,
         merged: repoSelected.MERGEDSize,
-        declined:repoSelected.DECLINEDSize,
+        declined: repoSelected.DECLINEDSize,
         ready: true,
-        totalOpen:repoSelected.OPENallFinalData,
+        totalOpen: repoSelected.OPENallFinalData,
         totalMerged: repoSelected.MERGED,
         totalDeclined: repoSelected.DECLINED
       }
@@ -174,7 +174,7 @@ class App extends Component {
 
 
   componentDidUpdate(prevProps, prevState) {
-    const { value, tab, token, refresh_token, repoSelected, summaryData} = this.state;
+    const { value, tab, token, refresh_token, repoSelected, summaryData } = this.state;
     if (value !== prevState.value) {
       if (window.location.href.includes("details")) {
         this.getRepository();

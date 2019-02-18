@@ -36,8 +36,9 @@ class Summary extends Component {
     }
 
     const namesData = data.map(user =>
-      user.author ?
-        user.author.display_name : ""
+      user.author
+      ? user.author.display_name
+      : ""
     )
 
     const countedName = countBy(namesData);
@@ -58,6 +59,7 @@ class Summary extends Component {
     const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
     const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
 
+    ///AQUI PINTA EL PORCENTAJE QUE REPRESENTA, PERO QUERRIAMOS LOS NOMBRES
     return (
       <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
         {`${(percent * 100).toFixed(0)}%`}
@@ -105,7 +107,7 @@ class Summary extends Component {
             dataKey="qty" fill="#82ca9d" />
         </BarChart>
 
-        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
+        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter} dataKey="open">
           <Pie
             data={openForChart}
             cx={300}
@@ -117,12 +119,12 @@ class Summary extends Component {
           >
 
             {
-              openForChart.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
+              openForChart.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
             }
           </Pie>
         </PieChart>
 
-        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
+        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter} dataKey="merged">
           <Pie
             data={mergedForChart}
             cx={300}
@@ -139,7 +141,7 @@ class Summary extends Component {
           </Pie>
         </PieChart>
 
-        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
+        <PieChart width={800} height={400} onMouseEnter={this.onPieEnter} dataKey="declined">
           <Pie
             data={declinedForChart}
             cx={300}
