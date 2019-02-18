@@ -6,6 +6,10 @@ import ButtonPagination from "../ButtonPagination";
 import PropTypes from "prop-types";
 
 class DetailsContainer extends Component {
+  componentDidMount() {
+    this.props.getRepository(null, "OPEN");
+    this.props.getToken();
+  }
   render() {
     const {
       value,
@@ -19,7 +23,7 @@ class DetailsContainer extends Component {
       uriPrevPage
     } = this.props;
     return (
-      <Fragment>
+      <div className="details">
         <h2 className="details__title">{value}</h2>
         <select className="details__select">
           <option>OPEN</option>
@@ -28,43 +32,43 @@ class DetailsContainer extends Component {
         </select>
         <div className="details__wrapper--tab">
           <StatusTab
-          tab="OPEN"
-          handleTab={handleTab}
-          selectedTab={tab}
-          position="details__tab--left"
+            tab="OPEN"
+            handleTab={handleTab}
+            selectedTab={tab}
+            position="details__tab--left"
           />
 
           <StatusTab
-          tab="MERGED"
-          handleTab={handleTab}
-          selectedTab={tab}
+            tab="MERGED"
+            handleTab={handleTab}
+            selectedTab={tab}
           />
 
           <StatusTab
-          tab="DECLINED"
-          handleTab={handleTab}
-          selectedTab={tab}
-          position= "details__tab--right"
+            tab="DECLINED"
+            handleTab={handleTab}
+            selectedTab={tab}
+            position="details__tab--right"
           />
         </div>
 
         <ButtonPagination
           getNextPullRequests={getNextPullRequests}
           getPreviousPullRequests={getPreviousPullRequests}
-          uriNextPage = {uriNextPage}
+          uriNextPage={uriNextPage}
           uriPrevPage={uriPrevPage}
         />
 
-        <PRlist pullRequests={pullRequests} isLoading={isLoading} />
+        <PRlist pullRequests={pullRequests} isLoading={isLoading}/>
 
         <ButtonPagination
           getNextPullRequests={getNextPullRequests}
           getPreviousPullRequests={getPreviousPullRequests}
-          uriNextPage = {uriNextPage}
+          uriNextPage={uriNextPage}
           uriPrevPage={uriPrevPage}
         />
 
-      </Fragment>
+      </div>
     );
   }
 }

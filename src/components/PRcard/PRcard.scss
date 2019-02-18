@@ -4,9 +4,12 @@
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  padding: 50px;
+  padding:40px 10px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  @media all and (min-width: 768px) {
+    padding: 50px;
+  }
 }
 
 .dateandcomments__container {
@@ -59,16 +62,23 @@
     }
 }
 
-.fa-arrow-right{
-  font-size: 45px;
-  padding-top: 65px;
-  color: #757575;
-
-}
-
-.far {
+.fa-comment {
   padding-left: 5px;
 }
+
+.fa-arrow-right{
+  font-size: 30px;
+  padding-top: 170px;
+  color: #757575;
+  padding-left: 10px;
+  @media all and (min-width: 768px) {
+    font-size: 45px;
+    padding-top: 80px;
+    padding-left: 5px;
+  }
+
+}
+
 
 .users__container {
     display: flex;

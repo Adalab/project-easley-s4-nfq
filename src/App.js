@@ -1,23 +1,51 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import "./App.scss";
 import Header from "./components/Header";
 import Summary from "./components/Summary";
 import Footer from "./components/Footer";
 import DetailsContainer from "./components/DetailsContainer";
 
+const uriBase = 'https://api.bitbucket.org/2.0/repositories/';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pullRequests: [],
       allFinalData: [],
+      summaryData: {
+        open: "",
+        merged: "",
+        declined: "",
+        ready: false,
+        totalOpen: [],
+        totalMerged: [],
+        totalDeclined: []
+      },
+      repoSelected: {
+        OPENallFinalData: [],
+        OPENSize: "",
+        fullOpenSummary: false,
+        MERGEDSize: "",
+        MERGED: [],
+        fullMergedSummary: false,
+        MERGEDallFinalData: "",
+        uriNextPageMERGED: "",
+        uriPrevPageMERGED: "",
+        DECLINEDSize: "",
+        DECLINED: [],
+        fullDeclinedSummary: false,
+        DECLINEDallFinalData: [],
+        uriNextPageDECLINED: "",
+        uriPrevPageDECLINED: "",
+      },
+
       value: "aui",
       tab: "OPEN",
       token: '',
+      size: "",
       refresh_token: '',
       uriNextPage: '',
-      uriPrevPage: '',
       availablesRepos: [
         {
           name: "aui",
@@ -32,21 +60,81 @@ class App extends Component {
           isPrivate: true
         }
       ],
-      isLoading: true
+      isLoading: true,
     };
+
     this.changeRepository = this.changeRepository.bind(this);
     this.handleTab = this.handleTab.bind(this);
     this.getNextPullRequests = this.getNextPullRequests.bind(this);
     this.getPreviousPullRequests = this.getPreviousPullRequests.bind(this);
-  }
-
-  handleTab(tab) {
-    this.setState({ tab: tab })
+    this.getRepository = this.getRepository.bind(this);
+    this.getToken = this.getToken.bind(this);
   }
 
   componentDidMount() {
-    this.getRepository();
+    if (this.props.location.pathname.includes("details")) {
+      this.getRepository(null, "OPEN");
+    } else {
+      this.getRepository(null, "OPEN", "summary");
+      this.getRepository(null, "MERGED", "summary");
+      this.getRepository(null, "DECLINED", "summary");
+    }
     this.getToken();
+  }
+
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.value !== prevState.value) {
+      if (this.props.location.pathname.includes("details")) {
+        this.getRepository();
+      } else {
+        this.getRepository(null, "OPEN", "summary");
+        this.getRepository(null, "MERGED", "summary");
+        this.getRepository(null, "DECLINED", "summary");
+      }
+    }
+    if (this.state.tab !== prevState.tab) {
+      this.getRepository();
+    }
+
+    if (this.state.repoSelected.uriNextPageMERGED !== "" &&
+      this.state.repoSelected.uriNextPageMERGED !== prevState.repoSelected.uriNextPageMERGED &&
+      ((this.state.repoSelected.MERGED.length - 1) * 50) < 200) {
+      this.getRepository(this.state.repoSelected.uriNextPageMERGED, "MERGED", "summary")
+      this.state.repoSelected.MERGED.push(this.state.repoSelected.MERGEDallFinalData)
+    }
+
+
+    if (this.state.repoSelected.uriNextPageDECLINED !== "" &&
+      this.state.repoSelected.uriNextPageDECLINED !== prevState.repoSelected.uriNextPageDECLINED &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) < 200) {
+      this.getRepository(this.state.repoSelected.uriNextPageDECLINED, "DECLINED", "summary")
+      this.state.repoSelected.DECLINED.push(this.state.repoSelected.DECLINEDallFinalData)
+    }
+
+
+    if (((this.state.repoSelected.MERGED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.DECLINED.length - 1) * 50) >= 200 &&
+      ((this.state.repoSelected.OPENallFinalData.length - 1) * 50) >= 50 &&
+      this.state.repoSelected.fullOpenSummary === false) {
+      this.fullData()
+    }
+
+
+    if (this.state.repoSelected.fullOpenSummary === true &&
+      this.state.repoSelected.fullMergedSummary === true &&
+      this.state.repoSelected.fullDeclinedSummary === true &&
+      this.state.summaryData.ready === false
+    ) {
+      this.createSummaryData();
+    }
+  }
+
+  handleTab(tab) {
+    this.setState({
+      tab: tab,
+      isLoading: true
+    })
   }
 
   getToken(refreshToken) {
@@ -89,58 +177,102 @@ class App extends Component {
   changeRepository(event) {
     this.setState({
       value: event.target.value,
-      isLoading: true
+      isLoading: true,
+      summaryData: {
+        open: "",
+        merged: "",
+        declined: "",
+        ready: false,
+        totalOpen: [],
+        totalMerged: [],
+        totalDeclined: []
+      }
+    })
+  }
+
+  createSummaryData() {
+    const { repoSelected } = this.state;
+    this.setState({
+      summaryData: {
+        open: repoSelected.OPENSize,
+        merged: repoSelected.MERGEDSize,
+        declined: repoSelected.DECLINEDSize,
+        ready: true,
+        totalOpen: repoSelected.OPENallFinalData,
+        totalMerged: repoSelected.MERGED,
+        totalDeclined: repoSelected.DECLINED
+      }
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.value !== prevState.value) {
-      this.getRepository();
-    }
-    if (this.state.tab !== prevState.tab) {
-      this.getRepository();
-    }
-    if (this.state.token && this.state.token !== prevState.token) {
-    }
-
-    if (this.state.refresh_token && this.state.refresh_token !== prevState.refresh_token) {
-    }
+  fullData() {
+    this.setState(prevState => ({
+      repoSelected: {
+        ...prevState.repoSelected,
+        fullOpenSummary: true,
+        fullMergedSummary: true,
+        fullDeclinedSummary: true
+      },
+    }))
   }
 
   getNextPullRequests() {
-    const {uriNextPage}= this.state;
-    if (uriNextPage !== ""){
+    const { uriNextPage } = this.state;
+    this.setState(prevState => ({
+      ...prevState,
+      isLoading: true
+    }))
+
+    if (uriNextPage !== "") {
       this.getRepository(uriNextPage)
     }
   }
 
-  getPreviousPullRequests(){
-    const{uriPrevPage} = this.state;
-    if (uriPrevPage){
+  getPreviousPullRequests() {
+    const { uriPrevPage } = this.state;
+    this.setState(prevState => ({
+      ...prevState,
+      isLoading: true
+    }))
+
+    if (uriPrevPage) {
       this.getRepository(uriPrevPage)
     }
   }
 
-  getRepository(nextUri) {
+
+  getRepository(nextUri, status, route) {
+    let pagelen = "";
+    let updated = "";
+    if (route !== "summary") {
+      status = this.state.tab
+      pagelen = 10;
+      updated = "";
+    } else {
+      pagelen = 50;
+      updated = "&sort=-updated_on";
+    }
     let repositoryName = this.state.value;
     const isPrivate = this.checkIfSelectedRepoIsPrivate();
     const headerAuthorization = "Bearer " + this.state.token;
-
-    const prEndpoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/?state=${this.state.tab}`;
-
-    const privateEndPoint = nextUri ||
-      `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/?state=${this.state.tab}`;
+    const selectedNextPage = "uriNextPage" + status;
+    const selectedPrevPage = "uriPrevPage" + status;
+    const selectedSize = status + "Size";
+    const selectedallFinalData = status + "allFinalData";
+    const repoPath = isPrivate ? 'ekergy/adalab-easley' : `atlassian/${repositoryName}`;
+    const prPageEndpoint = nextUri ||
+      `${uriBase}${repoPath}/pullrequests/?pagelen=${pagelen}&state=${status}${updated}`;
+    const fetchInitData = isPrivate
+      ? {
+        headers: {
+          Authorization: headerAuthorization
+        }
+      }
+      : { headers: {} };
 
     fetch(
-      isPrivate ? privateEndPoint : prEndpoint,
-      isPrivate
-        ? {
-          headers: {
-            Authorization: headerAuthorization
-          }
-        }
-        : { headers: {} }
+      prPageEndpoint,
+      fetchInitData
     )
       .then(response => {
         if (!response.ok) {
@@ -149,55 +281,54 @@ class App extends Component {
         return response.json()
       })
       .then(data => {
-        const nextUri = data.next;
-        const prevUri = data.previous;
+        const { next, previous, size, values } = data;
+        const prEndpointStart = `${uriBase}${repoPath}/pullrequests/`;
+        const prEndpointEnd = `/?pagelen=${pagelen}&state=${status}${updated}`;
 
-        const onePullRequest = data.values.map(item => {
-          return {
-            id: item.id,
-            uriReviewer: isPrivate
-              ? `https://api.bitbucket.org/2.0/repositories/ekergy/adalab-easley/pullrequests/` + item.id + `/?state=${this.state.tab}`
-              : `https://api.bitbucket.org/2.0/repositories/atlassian/${repositoryName}/pullrequests/` + item.id + `/?state=${this.state.tab}`
-          };
-        });
+        //PAGINATION
 
-        this.setState({
-          pullRequests: onePullRequest,
-          isLoading: false,
-          uriNextPage: nextUri,
-          uriPrevPage: prevUri
-        });
-
-
-
-        const urisForFetchReviewers = this.state.pullRequests.map(pullrequest => {
-          return pullrequest.uriReviewer;
+        if (route !== "summary") {
+          this.setState({
+            uriNextPage: next,
+            uriPrevPage: previous,
+          });
+        } else {
+          this.setState(prevState => ({
+            repoSelected: {
+              ...prevState.repoSelected,
+              [selectedNextPage]: next,
+              [selectedPrevPage]: previous,
+              [selectedSize]: size
+            },
+          }));
         }
-        );
 
-        const prWithReviewers = [];
-        urisForFetchReviewers.map(uri => {
-          return (
-            fetch(
-              uri,
-              isPrivate
-                ? {
-                  headers: {
-                    Authorization: headerAuthorization
-                  }
-                }
-                : { headers: {} }
-            )
-              .then(response => response.json())
-              .then(dataWithReviewers => {
-                prWithReviewers.push(dataWithReviewers);
-                return this.setState({
-                  allFinalData: prWithReviewers,
-                  isLoading: false
-                })
-              })
+        //FETCH SINGLES PULLREQUEST
+
+        const urisForFetchReviewers = values.map(item => {
+          return fetch(
+            prEndpointStart + item.id + prEndpointEnd,
+            fetchInitData
           )
+            .then(response => response.json())
         });
+
+        Promise.all(urisForFetchReviewers)
+          .then(dataWithReviewers => {
+            if (route !== "summary") {
+              this.setState({
+                allFinalData: dataWithReviewers,
+                isLoading: false,
+              })
+            } else {
+              this.setState(prevState => ({
+                repoSelected: {
+                  ...prevState.repoSelected,
+                  [selectedallFinalData]: dataWithReviewers,
+                },
+              }));
+            }
+          })
       })
       .catch(function (error) {
         if (error.status === 401) {
@@ -207,7 +338,7 @@ class App extends Component {
   }
 
   render() {
-    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage } = this.state;
+    const { allFinalData, value, isLoading, tab, uriNextPage, uriPrevPage, summaryData } = this.state;
     const changeRepository = this.changeRepository;
     return (
       <div className="App">
@@ -218,7 +349,11 @@ class App extends Component {
               exact
               path="/"
               render={() => {
-                return <Summary />;
+                return <Summary
+                  getRepository={this.getRepository}
+                  getToken={this.getToken}
+                  summaryData={summaryData}
+                />;
               }}
             />
             <Route
@@ -227,15 +362,17 @@ class App extends Component {
               render={() => {
                 return (
                   <DetailsContainer
-                  getNextPullRequests = {this.getNextPullRequests}
-                  getPreviousPullRequests = {this.getPreviousPullRequests}
-                  uriNextPage={uriNextPage}
-                  uriPrevPage={uriPrevPage}
-                  pullRequests={allFinalData}
-                  value={value}
-                  isLoading={isLoading}
-                  handleTab={this.handleTab}
-                  tab={tab}
+                    getNextPullRequests={this.getNextPullRequests}
+                    getPreviousPullRequests={this.getPreviousPullRequests}
+                    uriNextPage={uriNextPage}
+                    uriPrevPage={uriPrevPage}
+                    pullRequests={allFinalData}
+                    value={value}
+                    isLoading={isLoading}
+                    handleTab={this.handleTab}
+                    tab={tab}
+                    getRepository={this.getRepository}
+                    getToken={this.getToken}
                   />
                 );
               }}
@@ -248,4 +385,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
