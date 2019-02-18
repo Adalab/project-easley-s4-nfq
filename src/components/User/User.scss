@@ -29,7 +29,6 @@
   margin-top: 5px;
   font-size: 18px;
   text-transform: capitalize;
-
   font-weight: 100;
 }
 
@@ -54,17 +53,23 @@
   }
   .app--card-branch{
     font-family: 'Poppins', sans-serif;
-    font-size: 10px;
+    font-size: 14px;
+    color:gray;
+
   }
 }
 
 @media all and (min-width: 1200px) {
+.reason__user{
+  margin-left: 50px;
+}
 .app--card-user{
   border-radius: 20px;
   padding: 9px;
 }
 
 .app--card-image{
+  margin-left:10px;
   max-width: 70px;
   height: 70px;
 }
@@ -73,6 +78,6 @@
 }
 .app--card-branch{
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 14px;
 }
 }
