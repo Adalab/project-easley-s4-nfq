@@ -1,7 +1,55 @@
+.summary-allGraphs{
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+
+}
 .summary-firstGraph {
   background-color:white;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 40px;
+}
+
+.summary-secondGraph {
+  background-color:white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.recharts-wrapper {
+  width: 400px;
+}
+
+.summary-secondGraphOpenPie{
+  width: 100px;
+  height: 10px;
+}
+
+.summary-firstGraphTitle{
+    font-size: 50px;
+    text-align: center;
+    color: black;
+    padding-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+
+.summary-firstGraphSubtitle{
+font-family: 'Poppins', sans-serif;
+height: 60px;
+}
+
+.summary-secondGraphTitle{
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  font-family: 'Poppins', sans-serif;
+  width: 100vw;
+  padding-top: 40px;
+  padding-bottom: 18px;
+  font-size: 30px;
 }

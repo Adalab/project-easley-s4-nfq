@@ -191,15 +191,16 @@ class App extends Component {
   }
 
   createSummaryData() {
+    const { repoSelected } = this.state;
     this.setState({
       summaryData: {
-        open: this.state.repoSelected.OPENSize,
-        merged: this.state.repoSelected.MERGEDSize,
-        declined: this.state.repoSelected.DECLINEDSize,
+        open: repoSelected.OPENSize,
+        merged: repoSelected.MERGEDSize,
+        declined: repoSelected.DECLINEDSize,
         ready: true,
-        totalOpen: this.state.repoSelected.OPENallFinalData,
-        totalMerged: this.state.repoSelected.MERGED,
-        totalDeclined: this.state.repoSelected.DECLINED
+        totalOpen: repoSelected.OPENallFinalData,
+        totalMerged: repoSelected.MERGED,
+        totalDeclined: repoSelected.DECLINED
       }
     });
   }
@@ -214,10 +215,6 @@ class App extends Component {
       },
     }))
   }
-
-
-
-
 
   getNextPullRequests() {
     const { uriNextPage } = this.state;
