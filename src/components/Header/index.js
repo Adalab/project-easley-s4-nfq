@@ -28,7 +28,7 @@ class Header extends Component {
             >
               <option value="aui">aui</option>
               <option value="application-links">application-links</option>
-              <option value="ekergy">ekergy</option>
+              <option value="adalab-easley">adalab-easley</option>
             </select>
           </div>
         </div>

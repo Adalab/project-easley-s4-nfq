@@ -56,7 +56,7 @@ class App extends Component {
           isPrivate: false
         },
         {
-          name: "ekergy",
+          name: "adalab-easley",
           isPrivate: true
         }
       ],
@@ -353,6 +353,7 @@ class App extends Component {
                   getRepository={this.getRepository}
                   getToken={this.getToken}
                   summaryData={summaryData}
+                  isLoading={isLoading}
                 />;
               }}
             />
