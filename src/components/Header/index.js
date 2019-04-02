@@ -19,6 +19,9 @@ class Header extends Component {
             <Link className="header_details" to="/details">
               Details
             </Link>
+            <Link className="header_details" to="/details">
+              Monitor
+            </Link>
           </nav>
           <div className="header_selector-container">
             <select
