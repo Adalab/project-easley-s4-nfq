@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,6 +37,23 @@ const styles = theme => ({
 
 
 class Slider extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      arrayRepos: [
+        {"name":"atlassian-aws-deployment",
+          "url":"https://bitbucket.org/atlassian/atlassian-aws-deployment/pull-requests"},
+        {"name":"atlaskit-mk-2",
+          "url":"https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests"},
+        {"name":"atlassian-johnson",
+          "url":"https://bitbucket.org/atlassian/atlassian-johnson/pull-requests"},
+        {"name":"almond-intellij-plugin",
+          "url":"https://bitbucket.org/atlassian/almond-intellij-plugin/pull-requests"},
+
+      ]
+    }
+  };
+
   render() {
     const {classes} = this.props;
       return (
@@ -44,12 +62,23 @@ class Slider extends Component {
             <MuiThemeProvider theme={themeSlider}>
               <Grid container className={classes.root} justify="center" alignItems="center" spacing={16}>
                 <Grid item xs={12}>
-                  <Typography variant="h1" color="primary" className={classes.title}>
-                    Nombre del repositorio
-                  </Typography>
+                  {/* <Typography variant="h1" color="primary" className={classes.title}>
+                    
+                  </Typography> */}
                 </Grid>
-              
-              
+                <Grid item xs={12}>
+                 
+                    <ul>
+                      {this.state.arrayRepos.map((item,index) =>{
+                        return(
+                          <li key={index}>
+                            {item.url}
+                  
+                          </li>
+                      )})}
+                    </ul> 
+   
+                </Grid>
               </Grid>
             </MuiThemeProvider>
           </CssBaseline>
