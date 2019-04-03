@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import './index.scss';
-import App from './App';
+import Slider from './components/Monitor/Slider';
 
 ReactDOM.render(
     <HashRouter>
-        <App />
+        <Slider />
     </HashRouter>,
-    document.getElementById('root'));
+document.getElementById('root'));
 
