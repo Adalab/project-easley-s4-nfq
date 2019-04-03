@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
+import {fetchRepos} from '../../Services/RepoServices';
 
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -40,6 +41,7 @@ class Slider extends Component {
   constructor(props){
     super(props);
     this.state = {
+      results: [],
       arrayRepos: [
         {"name":"atlassian-aws-deployment",
           "url":"https://bitbucket.org/atlassian/atlassian-aws-deployment/pull-requests"},
@@ -51,29 +53,38 @@ class Slider extends Component {
           "url":"https://bitbucket.org/atlassian/almond-intellij-plugin/pull-requests"},
 
       ]
+    };
+ 
+    getPullRequest(){
+      fetchRepos().then(data => {
+        this.setState({
+          results: data
+        })
+      })
     }
   };
 
   render() {
     const {classes} = this.props;
+    const {results} = this.state;
       return (
         <React.Fragment>
           <CssBaseline>
             <MuiThemeProvider theme={themeSlider}>
               <Grid container className={classes.root} justify="center" alignItems="center" spacing={16}>
                 <Grid item xs={12}>
-                  {/* <Typography variant="h1" color="primary" className={classes.title}>
-                    
-                  </Typography> */}
+                  <Typography variant="h1" color="primary" className={classes.title}>
+                    {arrayRepos[0].name}
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                  
                     <ul>
-                      {this.state.arrayRepos.map((item,index) =>{
+                      {this.state.results.map((item,index) =>{
                         return(
                           <li key={index}>
+                            {item.name}<br/>
                             {item.url}
-                  
                           </li>
                       )})}
                     </ul> 
