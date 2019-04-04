@@ -11,6 +11,7 @@ import {Typography} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const themeSlider = createMuiTheme({
@@ -33,7 +34,8 @@ const themeSlider = createMuiTheme({
 });
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    height: "100vh"
   }, 
   title: {
     textAlign: "center"
@@ -42,6 +44,7 @@ const styles = theme => ({
     height: "100px",
     margin: "10px",
     backgroundColor: "lightGreen",
+    border: "1px solid black"
     
   },
   avatar: {
@@ -54,7 +57,6 @@ const styles = theme => ({
     flexDirection: "row"
   }
 });
-
 
 class Slider extends Component {
   constructor(props){
@@ -72,9 +74,9 @@ class Slider extends Component {
   getPullRequest(){
     fetchRepos().then(data => {
       console.log(data);
-      console.log(data.author.username);
+      console.log(data.values);
       this.setState({
-        results: data
+        results: data.values
       })
     })
   }
@@ -89,63 +91,59 @@ class Slider extends Component {
           <CssBaseline>
             <MuiThemeProvider theme={themeSlider}>
               <Grid container className={classes.root} justify="center" alignItems="center" spacing={16}>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <Typography variant="h2" color="primary" className={classes.title}>
                     {results.source.repository.name}
                   </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Card className={classes.card}>
-                    <CardContent className={classes.content}>
-                      <Grid item xs={1}>
-                        <Avatar alt="Remy Sharp" src={results.author.links.avatar.href} className={classes.avatar} />
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="h6" gutterBottom>
-                          {results.title}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="h6" gutterBottom>
-                          {results.author.display_name}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="p" gutterBottom>
-                          {results.source.branch.name} -> 
-                          {results.destination.branch.name} 
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Typography variant="p" gutterBottom>
-                          Comentarios: {results.comment_count}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="p" gutterBottom>
-                          Revisores: {results.reviewers[0].display_name}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Avatar alt="" src={results.reviewers[0].links.avatar.href}/>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="p" gutterBottom>
-                          {results.created_on}
-                        </Typography>
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                </Grid> */}
+                {results.map(item =>{
+                  return(
+                  <Grid item xs={12}>
+                    <Card className={classes.card}>
+                      <CardContent className={classes.content}>
+                        <Grid item xs={1}>
+                          <Avatar alt="Remy Sharp" src={item.author.links.avatar.href} className={classes.avatar}/>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="subtitle2">
+                            {item.title}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="subtitle2">
+                            {item.author.username}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="subtitle2">
+                            {item.destination.branch.name}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="subtitle2">
+                            Comentarios: {item.comment_count}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="subtitle2">
+                            {item.created_on}
+                          </Typography>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  )
+                })}
+                
               </Grid>
             </MuiThemeProvider>
           </CssBaseline>
         </React.Fragment>
-    
+   
       );}
       else {
         return(
-        <div>No hay datos</div>
+        <div><CircularProgress className={classes.progress} color="secondary"/></div>
         )}
     }
 }
