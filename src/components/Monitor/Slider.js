@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import {fetchRepos} from '../../Services/RepoServices';
 
-
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
@@ -35,26 +34,49 @@ const themeSlider = createMuiTheme({
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: "100vh"
+    textAlign: "center"
+   
   }, 
   title: {
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: "10px"
   },
   card: {
-    height: "100px",
+    height: "120px",
     margin: "10px",
     backgroundColor: "lightGreen",
     border: "1px solid black"
     
   },
+  contentAvatar: {
+    maxWidth: "90px",
+
+  },
   avatar: {
     margin: "10px",
     width: "60px",
-    height: "60px",
+    height: "60px"
+
   },
   content: {
     display: "flex",
     flexDirection: "row"
+  },
+  namePr:{
+    textAlign: "left",
+    flexBasis: "unset"
+  },
+  nameAuthor:{
+    textAlign: "left",
+    textTransform: "uppercase",
+  },
+  repos:{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  comments:{
+    width: "50px"
   }
 });
 
@@ -90,7 +112,14 @@ class Slider extends Component {
         <React.Fragment>
           <CssBaseline>
             <MuiThemeProvider theme={themeSlider}>
-              <Grid container className={classes.root} justify="center" alignItems="center" spacing={16}>
+              <Grid container className={classes.root} justify="center" alignItems="center" spacing={5}>
+                <Grid item xs={12}>
+                    <Typography variant="h2" color="primary" className={classes.title}>
+                    Atlassian-aws-deployment
+                    </Typography>
+                </Grid> 
+
+
                 {/* <Grid item xs={12}>
                   <Typography variant="h2" color="primary" className={classes.title}>
                     {results.source.repository.name}
@@ -101,34 +130,46 @@ class Slider extends Component {
                   <Grid item xs={12}>
                     <Card className={classes.card}>
                       <CardContent className={classes.content}>
-                        <Grid item xs={1}>
+                        <Grid item xs={1} className={classes.contentAvatar}>
                           <Avatar alt="Remy Sharp" src={item.author.links.avatar.href} className={classes.avatar}/>
                         </Grid>
-                        <Grid item xs={2}>
-                          <Typography variant="subtitle2">
+
+                        <Grid item xs={3}>
+                          <Typography variant="subtitle1" className={classes.namePr}>
                             {item.title}
                           </Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Typography variant="subtitle2">
-                            {item.author.username}
+                          <Typography variant="subtitle2" className={classes.nameAuthor}>
+                            {item.author.display_name}
                           </Typography>
                         </Grid>
-                        <Grid item xs={2}>
+
+                        <Grid item xs={2} className={classes.repos}>
+                          <Typography variant="subtitle2">
+                            {item.source.branch.name}
+                          </Typography> <i class="fas fa-arrow-down "></i>
                           <Typography variant="subtitle2">
                             {item.destination.branch.name}
                           </Typography>
                         </Grid>
-                        <Grid item xs={2}>
+                     
+                        <Grid item xs={2} className={classes.comments}>
                           <Typography variant="subtitle2">
-                            Comentarios: {item.comment_count}
+                          <i className="far fa-comment-dots fa-2x"></i> <br/> {item.comment_count}
                           </Typography>
                         </Grid>
+
+                        <Grid item xs={2}>
+                          <Typography variant="subtitle2">
+                            revisores: <br/> -.-
+                          </Typography>
+                        </Grid>
+
                         <Grid item xs={2}>
                           <Typography variant="subtitle2">
                             {item.created_on}
                           </Typography>
                         </Grid>
+
                       </CardContent>
                     </Card>
                   </Grid>
