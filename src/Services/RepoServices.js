@@ -2,4 +2,4 @@ const ENPOINT = `https://api.bitbucket.org/2.0/repositories/atlassian/atlassian-
 
 const fetchRepos = () => fetch(ENPOINT).then(response => response.json());
 
-export { fetchRepos};
+export {fetchRepos};
