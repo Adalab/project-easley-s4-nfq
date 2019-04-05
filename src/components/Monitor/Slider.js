@@ -11,6 +11,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// import { promised } from "q";
 
 
 const themeSlider = createMuiTheme({
@@ -94,16 +95,26 @@ class Slider extends Component {
   };
 
   getPullRequest(){
-    fetchRepos().then(data => {
-      console.log(data);
-      console.log(data.values);
-      this.setState({
-        results: data.values
-      })
-    })
-  }
-
-  render() {
+    fetchRepos()
+      .then(data => {
+        let apiResults = data.values.map(item => fetch(item.links.self.href));
+        console.log('soy api results',apiResults)
+        Promise.all(apiResults)
+          .then(response => {
+            
+            const res = response.map(response => response.json())
+            Promise.all(res)
+              .then(urlReviewers =>{
+                console.log('¿?',urlReviewers)
+                this.setState({
+                  results:urlReviewers
+                })
+              })
+            })
+           })
+          }  
+    
+   render() {
     const {classes} = this.props;
     const {results} = this.state;
 
@@ -112,75 +123,73 @@ class Slider extends Component {
         <React.Fragment>
           <CssBaseline>
             <MuiThemeProvider theme={themeSlider}>
-              <Grid container className={classes.root} justify="center" alignItems="center" spacing={5}>
+              <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
                 <Grid item xs={12}>
                     <Typography variant="h2" color="primary" className={classes.title}>
-                    Atlassian-aws-deployment
+                    {results[0].source.repository.name}
                     </Typography>
-                </Grid> 
+                </Grid>
 
+                {results.map(item => {
+                  return (
+                    <Grid key={item.id} item xs={12}>
+                      <Card className={classes.card}>
+                        <CardContent className={classes.content}>
+                          <Grid item xs={1} className={classes.contentAvatar}>
+                            <Avatar alt="Remy Sharp" src={item.author.links.avatar.href} className={classes.avatar}/>
+                          </Grid>
 
-                {/* <Grid item xs={12}>
-                  <Typography variant="h2" color="primary" className={classes.title}>
-                    {results.source.repository.name}
-                  </Typography>
-                </Grid> */}
-                {results.map(item =>{
-                  return(
-                  <Grid item xs={12}>
-                    <Card className={classes.card}>
-                      <CardContent className={classes.content}>
-                        <Grid item xs={1} className={classes.contentAvatar}>
-                          <Avatar alt="Remy Sharp" src={item.author.links.avatar.href} className={classes.avatar}/>
-                        </Grid>
+                          <Grid item xs={3}>
+                            <Typography variant="subtitle1" className={classes.namePr}>
+                              {item.title}
+                            </Typography>
+                            <Typography variant="subtitle2" className={classes.nameAuthor}>
+                              {item.author.display_name}
+                            </Typography>
+                          </Grid>
 
-                        <Grid item xs={3}>
-                          <Typography variant="subtitle1" className={classes.namePr}>
-                            {item.title}
-                          </Typography>
-                          <Typography variant="subtitle2" className={classes.nameAuthor}>
-                            {item.author.display_name}
-                          </Typography>
-                        </Grid>
+                          <Grid item xs={2} className={classes.repos}>
+                            <Typography variant="subtitle2">
+                              {item.source.branch.name}
+                            </Typography> <i className="fas fa-arrow-down "></i>
+                            <Typography variant="subtitle2">
+                              {item.destination.branch.name}
+                            </Typography>
+                          </Grid>
 
-                        <Grid item xs={2} className={classes.repos}>
-                          <Typography variant="subtitle2">
-                            {item.source.branch.name}
-                          </Typography> <i class="fas fa-arrow-down "></i>
-                          <Typography variant="subtitle2">
-                            {item.destination.branch.name}
-                          </Typography>
-                        </Grid>
-                     
-                        <Grid item xs={2} className={classes.comments}>
-                          <Typography variant="subtitle2">
-                          <i className="far fa-comment-dots fa-2x"></i> <br/> {item.comment_count}
-                          </Typography>
-                        </Grid>
+                          <Grid item xs={2} className={classes.comments}>
+                            <Typography variant="subtitle2">
+                            <i className="far fa-comment-dots fa-2x"></i> <br/> {item.comment_count}
+                            </Typography>
+                          </Grid>
 
-                        <Grid item xs={2}>
-                          <Typography variant="subtitle2">
-                            revisores: <br/> -.-
-                          </Typography>
-                        </Grid>
+                          <Grid item xs={2}>
+                            {
+                              item.reviewers.map(item => {
+                                return(
+                                  <Avatar alt="Remy Sharp" src={item.links.avatar.href}/>
+                                )
+                              })
+                            }
+                          </Grid> 
 
-                        <Grid item xs={2}>
-                          <Typography variant="subtitle2">
-                            {item.created_on}
-                          </Typography>
-                        </Grid>
+                          <Grid item xs={2}>
+                            <Typography variant="subtitle2">
+                              {item.created_on}
+                            </Typography>
+                          </Grid>
 
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
                   )
                 })}
-                
+
               </Grid>
             </MuiThemeProvider>
           </CssBaseline>
         </React.Fragment>
-   
+
       );}
       else {
         return(
