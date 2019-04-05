@@ -42,12 +42,18 @@ const styles = theme => ({
     textAlign: "center",
     marginTop: "10px"
   },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    margin: "10px",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   card: {
     height: "120px",
     margin: "10px",
     backgroundColor: "lightGreen",
     border: "1px solid black"
-    
   },
   contentAvatar: {
     maxWidth: "90px",
@@ -78,6 +84,22 @@ const styles = theme => ({
   },
   comments:{
     width: "50px"
+  },
+  reviewrsContainer:{
+    display: "flex",
+    flexDirection: "row",
+  },
+  avatarReviewrs: {
+    margin: "5px"
+  },
+  size: {
+    backgroundColor: "blue",
+    color: "white",
+    maxWidth: "100px",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
@@ -86,6 +108,8 @@ class Slider extends Component {
     super(props);
     this.state = {
       results: null,
+      dataSize: "",
+      repoNames: ["atlassian-aws-deployment", "atlassian-azure-deployment", "atlasboard-atlassian-package"]
     };
      this.getPullRequest = this.getPullRequest.bind(this);
   };
@@ -97,17 +121,22 @@ class Slider extends Component {
   getPullRequest(){
     fetchRepos()
       .then(data => {
-        let apiResults = data.values.map(item => fetch(item.links.self.href));
-        console.log('soy api results',apiResults)
-        Promise.all(apiResults)
-          .then(response => {
+        let size= data.size;
+        this.setState({
+          dataSize: size
+        })
+
+        let apiResults = data.values.map(item =>
+          fetch(item.links.self.href));
+          
+            Promise.all(apiResults)
+            .then(url => {
             
-            const res = response.map(response => response.json())
-            Promise.all(res)
-              .then(urlReviewers =>{
-                console.log('¿?',urlReviewers)
+            const responseUrl = url.map(response => response.json())
+            Promise.all(responseUrl)
+              .then(urlId =>{
                 this.setState({
-                  results:urlReviewers
+                  results:urlId
                 })
               })
             })
@@ -116,7 +145,7 @@ class Slider extends Component {
     
    render() {
     const {classes} = this.props;
-    const {results} = this.state;
+    const {results, dataSize} = this.state;
 
     if(results){
       return (
@@ -124,10 +153,14 @@ class Slider extends Component {
           <CssBaseline>
             <MuiThemeProvider theme={themeSlider}>
               <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
-                <Grid item xs={12}>
-                    <Typography variant="h2" color="primary" className={classes.title}>
-                    {results[0].source.repository.name}
-                    </Typography>
+                
+                <Grid container>
+                  <Grid item xs={12} className={classes.titleContainer}>
+                      <Typography variant="h2" color="primary" className={classes.title}>
+                      {results[0].source.repository.name}
+                      </Typography>
+                      <Grid item xs={12} className={classes.size}>{dataSize}</Grid>
+                  </Grid>
                 </Grid>
 
                 {results.map(item => {
@@ -157,17 +190,17 @@ class Slider extends Component {
                             </Typography>
                           </Grid>
 
-                          <Grid item xs={2} className={classes.comments}>
+                          <Grid item xs={1} className={classes.comments}>
                             <Typography variant="subtitle2">
                             <i className="far fa-comment-dots fa-2x"></i> <br/> {item.comment_count}
                             </Typography>
                           </Grid>
 
-                          <Grid item xs={2}>
+                          <Grid item xs={2} className={classes.reviewrsContainer}>
                             {
                               item.reviewers.map(item => {
                                 return(
-                                  <Avatar alt="Remy Sharp" src={item.links.avatar.href}/>
+                                  <Avatar alt="Remy Sharp" src={item.links.avatar.href} className={classes.avatarReviewrs}/>
                                 )
                               })
                             }
