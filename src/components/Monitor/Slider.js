@@ -153,6 +153,7 @@ class Slider extends Component {
             })
       };
 
+      showRepo();
       setInterval(showRepo, 5000);
     }
 
