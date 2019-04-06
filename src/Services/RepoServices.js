@@ -1,5 +1,5 @@
-const ENPOINT = 'https://api.bitbucket.org/2.0/repositories/atlassian/atlassian-aws-deployment/pullrequests/'
+let endPoint = (repoName) => `https://api.bitbucket.org/2.0/repositories/atlassian/${repoName}/pullrequests/`
 
-const fetchRepos = () => fetch(ENPOINT).then(response => response.json());
+const fetchRepos = (repoName) => fetch(endPoint(repoName)).then(response => response.json());
 
 export {fetchRepos};

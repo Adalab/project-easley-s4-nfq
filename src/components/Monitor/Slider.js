@@ -36,8 +36,8 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     textAlign: "center"
-   
-  }, 
+
+  },
   title: {
     textAlign: "center",
     marginTop: "10px"
@@ -115,34 +115,47 @@ class Slider extends Component {
   };
 
   componentDidMount(){
-  this.getPullRequest()
+    this.getPullRequest();
   };
 
-  getPullRequest(){
-    fetchRepos()
-      .then(data => {
-        let size= data.size;
-        this.setState({
-          dataSize: size
-        })
+  getPullRequest() {
+    let counter = 0;
 
-        let apiResults = data.values.map(item =>
-          fetch(item.links.self.href));
-          
-            Promise.all(apiResults)
-            .then(url => {
-            
-            const responseUrl = url.map(response => response.json())
-            Promise.all(responseUrl)
-              .then(urlId =>{
-                this.setState({
-                  results:urlId
+    const showRepo = () => {
+      if (counter > this.state.repoNames.length-1){
+        counter = 0;
+      }
+
+      let repoName = this.state.repoNames[counter];
+
+      fetchRepos(repoName)
+        .then(data => {
+          let size= data.size;
+          this.setState({
+            dataSize: size
+          })
+
+          let apiResults = data.values.map(item =>
+            fetch(item.links.self.href));
+
+              Promise.all(apiResults)
+              .then(url => {
+
+              const responseUrl = url.map(response => response.json())
+              Promise.all(responseUrl)
+                .then(urlId =>{
+                  this.setState({
+                    results:urlId
+                  });
+                  counter ++;
                 })
               })
             })
-           })
-          }  
-    
+      };
+
+      setInterval(showRepo, 5000);
+    }
+
    render() {
     const {classes} = this.props;
     const {results, dataSize} = this.state;
@@ -153,13 +166,13 @@ class Slider extends Component {
           <CssBaseline>
             <MuiThemeProvider theme={themeSlider}>
               <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
-                
+
                 <Grid container>
-                  <Grid item xs={12} className={classes.titleContainer}>
+                  <Grid item xs={11} className={classes.titleContainer}>
                       <Typography variant="h2" color="primary" className={classes.title}>
                       {results[0].source.repository.name}
                       </Typography>
-                      <Grid item xs={12} className={classes.size}>{dataSize}</Grid>
+                      <Avatar className={classes.size}>{dataSize}</Avatar>
                   </Grid>
                 </Grid>
 
@@ -204,7 +217,7 @@ class Slider extends Component {
                                 )
                               })
                             }
-                          </Grid> 
+                          </Grid>
 
                           <Grid item xs={2}>
                             <Typography variant="subtitle2">
