@@ -1,39 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import {Typography} from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Avatar from '@material-ui/core/Avatar';
+
+import PullReqCard from "./PullReqCard";
 
 
-const themePullReqList = createMuiTheme({
-  palette: {
-    primary: {
-    main: '#53abe1',
-    contrastText: '#fff',
-    },
-  secondary: {
-    main: '#333333',
-    contrastText: '#fff',
-    },
-  },
-  typography: {
-    fontFamily: [
-    'Roboto',
-    'sans-serif'].join(','),
-    fontSize: 16
-    }
-});
 const styles = theme => ({
   root: {
     flexGrow: 1,
     textAlign: "center"
-
   },
   title: {
     textAlign: "center",
@@ -102,73 +79,27 @@ const styles = theme => ({
 class PullReqList extends Component {
   render() {
 
-    const {classes} = this.props;
-    const { results } = this.props;
+    const {classes , results} = this.props;
 
     return (
-      <React.Fragment>
-        <CssBaseline>
-          <MuiThemeProvider theme={themePullReqList}>
-            <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
-              {results.map((item,index) => {
-                return (
-                  <Grid key={item.id} item xs={12}>
-                    <Card className={classes.card} key={index}>
-                      <CardContent className={classes.content} key={index}>
-                      
-                        <Grid item xs={1} className={classes.contentAvatar}>
-                          <Avatar alt="Remy Sharp" src={item.author.links.avatar.href} className={classes.avatar}/>
-                        </Grid>
-
-                        <Grid item xs={3}>
-                          <Typography variant="subtitle1" className={classes.namePr}>
-                            {item.title}
-                          </Typography>
-                          <Typography variant="subtitle2" className={classes.nameAuthor}>
-                            {item.author.display_name}
-                          </Typography>
-                        </Grid>
-
-                        <Grid item xs={2} className={classes.repos}>
-                          <Typography variant="subtitle2">
-                            {item.source.branch.name}
-                          </Typography> <i className="fas fa-arrow-down "></i>
-                          <Typography variant="subtitle2">
-                            {item.destination.branch.name}
-                          </Typography>
-                        </Grid>
-
-                        <Grid item xs={1} className={classes.comments}>
-                          <Typography variant="subtitle2">
-                          <i className="far fa-comment-dots fa-2x"></i> <br/> {item.comment_count}
-                          </Typography>
-                        </Grid>
-
-                        <Grid item xs={2} className={classes.reviewrsContainer}>
-                          {
-                            item.reviewers.map((item,index) => {
-                              return(
-                                <Avatar alt="Remy Sharp" src={item.links.avatar.href} className={classes.avatarReviewrs} key={index}/>
-                              )
-                            })
-                          }
-                        </Grid>
-
-                        <Grid item xs={2}>
-                          <Typography variant="subtitle2">
-                            {item.created_on}
-                          </Typography>
-                        </Grid>
-
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                )
-            })}
-          </Grid>
-        </MuiThemeProvider>
-      </CssBaseline>
-    </React.Fragment>
+      <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
+        {results.map(item => {
+          return (
+            <Grid key={item.id} item xs={12}>
+              <PullReqCard 
+                authorAvatar={item.author.links.avatar.href}
+                title={item.title}
+                authorName={item.author.display_name}
+                fromBranch={item.source.branch.name}
+                toBranch={item.destination.branch.name}
+                comments={item.comment_count}
+                reviewers={item.reviewers}
+                date={item.created_on}
+              />
+            </Grid>
+          )
+        })}
+      </Grid>
     );
   }
 }
