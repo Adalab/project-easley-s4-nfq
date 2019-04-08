@@ -65,7 +65,7 @@ class Slider extends Component {
       });
     };
     showRepo();
-    setInterval(showRepo, 5000);
+    //setInterval(showRepo, 5000);
   }
 
   render() {
@@ -74,10 +74,10 @@ class Slider extends Component {
 
     if (results) {
       return (
-          <Grid container className={classes.animation}>
-            <Header results={results} dataSize={dataSize} />
-            <PullReqList results={results} />
-          </Grid>
+        <Grid container className={classes.animation}>
+          <Header results={results} dataSize={dataSize} />
+          <PullReqList results={results} />
+        </Grid>
       );
     } else {
       return <Loading />;

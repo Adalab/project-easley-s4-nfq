@@ -30,6 +30,7 @@ class PullReqList extends Component {
                 toBranch={item.destination.branch.name}
                 comments={item.comment_count}
                 reviewers={item.reviewers}
+                participants={item.participants}
                 date={item.created_on}
               />
             </Grid>

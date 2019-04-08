@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { handleDate } from "../../Utils/handleDate";
 import "../../components/PRcard/PRcard.scss";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -18,11 +17,9 @@ const styles = theme => ({
   },
   card: {
     height: "120px",
-    margin: "10px",
-    backgroundColor: "lightGrey"
-  },
-  red: {
-    backgroundColor: "red"
+    margin: "5px",
+    padding: "10px",
+    backgroundColor: "#e0e0e0",
   },
   contentAvatar: {
     maxWidth: "90px"
@@ -30,7 +27,8 @@ const styles = theme => ({
   avatar: {
     margin: "10px",
     width: "60px",
-    height: "60px"
+    height: "60px",
+    border: "solid 2px orange"
   },
   content: {
     display: "flex",
@@ -42,7 +40,8 @@ const styles = theme => ({
   },
   nameAuthor: {
     textAlign: "left",
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    color: "#29b6f6"
   },
   repos: {
     display: "flex",
@@ -52,7 +51,11 @@ const styles = theme => ({
   comments: {
     width: "50px"
   },
-  reviewrsContainer: {
+  reviewersContainer: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  reviewersAvatarContainer:{
     display: "flex",
     flexDirection: "row"
   },
@@ -62,6 +65,15 @@ const styles = theme => ({
 });
 
 class PullReqCard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.getDiffDates = this.getDiffDates.bind(this);
+  }
+  getDiffDates(date){
+    let test = moment().diff(moment(date), 'hours')
+  }
+
   render() {
     const {
       classes,
@@ -72,8 +84,9 @@ class PullReqCard extends Component {
       toBranch,
       comments,
       reviewers,
+      participants,
       date
-    } = this.props;
+    } = this.props; 
 
     return (
       <Card className={classes.card}>
@@ -87,11 +100,11 @@ class PullReqCard extends Component {
           </Grid>
 
           <Grid item xs={3}>
+            <Typography variant="h6" className={classes.nameAuthor}>
+              {authorName}
+            </Typography>
             <Typography variant="subtitle1" className={classes.namePr}>
               {title}
-            </Typography>
-            <Typography variant="subtitle2" className={classes.nameAuthor}>
-              {authorName}
             </Typography>
           </Grid>
 
@@ -103,51 +116,41 @@ class PullReqCard extends Component {
 
           <Grid item xs={1} className={classes.comments}>
             <Typography variant="subtitle2">
-              <i className="far fa-comment-dots fa-2x" /> <br /> {comments}
+              <i className="far fa-comment-dots fa-2x" /><br />{comments}
             </Typography>
           </Grid>
 
-          <Grid item xs={2} className={classes.reviewrsContainer}>
+          <Grid container xs={2} className={classes.reviewersContainer}>
+            <Grid item className={classes.titleReviewers}>
+              <Typography variant="subtitle2">
+                Reviewers
+              </Typography>
+            </Grid>
+            <Grid item className={classes.reviewersAvatarContainer}>
             {reviewers.map((item, index) => {
               return (
                 <Avatar
-                  alt="Remy Sharp"
+                  alt=""
                   src={item.links.avatar.href}
                   className={classes.avatarReviewrs}
                 />
               );
             })}
+            </Grid>
+          </Grid>
+          <Grid item>
+          {participants.map((item => {
+            return (
+              <div>{item.user.display_name}</div>
+            )
+          }))}
           </Grid>
 
           <Grid item xs={2}>
             <Typography variant="subtitle2">
               <div className="date__container">
-                {moment(`${date}`).fromNow() === "a day ago" ||
-                moment(`${date}`).fromNow() === "2 days ago" ? (
-                  <i className="fas fa-circle green" />
-                ) : (
-                  ""
-                )}
-
-                {moment(`${date}`).fromNow() === "3 days ago" ||
-                moment(`${date}`).fromNow() === "4 days ago" ||
-                moment(`${date}`).fromNow() === "5 days ago" ? (
-                  <i className="fas fa-circle yellow" />
-                ) : (
-                  ""
-                )}
-
-                {moment(`${date}`).fromNow() !== "a day ago" &&
-                moment(`${date}`).fromNow() !== "2 days ago" &&
-                moment(`${date}`).fromNow() !== "3 days ago" &&
-                moment(`${date}`).fromNow() !== "4 days ago" &&
-                moment(`${date}`).fromNow() !== "5 days ago" ? (
-                  <i className="fas fa-circle red" />
-                ) : (
-                  ""
-                )}
-
-                <span className="prcard__date">{handleDate(date).date}</span>
+                {moment(date).format("DD/MM/YYYY hh:mm:ss")}
+                <span className="prcard__date">{this.getDiffDates(date)}</span>
               </div>
             </Typography>
           </Grid>

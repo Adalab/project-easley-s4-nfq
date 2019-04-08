@@ -14,7 +14,8 @@ const styles = theme => ({
   },
   title: {
     textAlign: "center",
-    marginTop: "10px"
+    marginTop: "10px",
+    color: "#29b6f6",
   },
   titleContainer: {
     display: "flex",
@@ -24,8 +25,9 @@ const styles = theme => ({
     alignItems: "center"
   },
   size: {
-    backgroundColor: "blue",
+    backgroundColor: "#ff9800",
     color: "white",
+    fontSize: "25px",
     maxWidth: "100px",
     borderRadius: "50%",
     display: "flex",
@@ -45,7 +47,7 @@ class Header extends Component {
      
       <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
         <Grid item xs={11} className={classes.titleContainer}>
-              <Typography variant="h2" color="primary" className={classes.title}>
+              <Typography variant="h3" className={classes.title}>
                 {results[0].source.repository.name}
               </Typography>
               <Avatar className={classes.size}>{dataSize}</Avatar>
