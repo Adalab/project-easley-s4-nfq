@@ -7,20 +7,23 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
   progress:{
     textAlign: "center"
+  },
+  containerLoading: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
-
-
 class Loading extends Component {
 
 render(){
   const {classes} = this.props;
     return(
-      <div>
+      <div className={classes.containerLoading}>
         <CircularProgress className={classes.progress} color="primary"/>
       </div>
     )}
-  };
+  }
 
 Loading.propTypes = {
   classes: PropTypes.object.isRequired

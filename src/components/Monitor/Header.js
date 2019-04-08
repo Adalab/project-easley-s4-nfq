@@ -30,7 +30,8 @@ const styles = theme => ({
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    margin:"25px"
   }
 });
 

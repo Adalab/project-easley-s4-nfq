@@ -6,74 +6,10 @@ import Grid from '@material-ui/core/Grid';
 
 import PullReqCard from "./PullReqCard";
 
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
     textAlign: "center"
-  },
-  title: {
-    textAlign: "center",
-    marginTop: "10px"
-  },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "row",
-    margin: "10px",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  card: {
-    height: "120px",
-    margin: "10px",
-    backgroundColor: "lightGreen",
-    border: "1px solid black"
-  },
-  contentAvatar: {
-    maxWidth: "90px",
-
-  },
-  avatar: {
-    margin: "10px",
-    width: "60px",
-    height: "60px"
-
-  },
-  content: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  namePr:{
-    textAlign: "left",
-    flexBasis: "unset"
-  },
-  nameAuthor:{
-    textAlign: "left",
-    textTransform: "uppercase",
-  },
-  repos:{
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
-  comments:{
-    width: "50px"
-  },
-  reviewrsContainer:{
-    display: "flex",
-    flexDirection: "row",
-  },
-  avatarReviewrs: {
-    margin: "5px"
-  },
-  size: {
-    backgroundColor: "blue",
-    color: "white",
-    maxWidth: "100px",
-    borderRadius: "50%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
   }
 });
 class PullReqList extends Component {
@@ -103,7 +39,6 @@ class PullReqList extends Component {
     );
   }
 }
-
 
 PullReqList.propTypes = {
   classes: PropTypes.object.isRequired
