@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { fetchRepos } from "../../Services/RepoServices";
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 
 import Loading from "./Loading";
 import PullReqList from "./PullReqList";
@@ -15,10 +16,30 @@ const styles = theme => ({
     flexGrow: 1,
     textAlign: "center"
   },
-  animation: {}
 });
 
-class Slider extends Component {
+const themeApp = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#29b6f6',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#333',
+      contrastText: '#000',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Nunito Sans', 
+      'sans-serif',
+    ].join(','),
+    fontSize: 16
+  },
+});
+
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,23 +87,26 @@ class Slider extends Component {
       });
     };
     showRepo();
-    //setInterval(showRepo, 5000);
+    setInterval(showRepo, 5000);
   }
 
   render() {
-    const { classes } = this.props;
+
     const { results, dataSize } = this.state;
 
     if (results) {
       return (
-        <Grid container className={classes.animation}>
-          <header>
-            <Header results={results} dataSize={dataSize} />
-          </header>
-          <main>
-            <PullReqList results={results} />
-          </main>
-        </Grid>
+        <React.Fragment>
+          <CssBaseline />
+          <MuiThemeProvider theme={themeApp}>
+            <header>
+              <Header results={results} dataSize={dataSize} />
+            </header>
+            <main>
+              <PullReqList results={results} />
+            </main>
+          </MuiThemeProvider>
+        </React.Fragment>
       );
     } else {
       return <Loading />;
@@ -90,8 +114,8 @@ class Slider extends Component {
   }
 }
 
-Slider.propTypes = {
+App.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Slider);
+export default withStyles(styles)(App);

@@ -31,7 +31,8 @@ class PullReqList extends Component {
                 comments={item.comment_count}
                 reviewers={item.reviewers}
                 participants={item.participants}
-                date={item.created_on}
+                date={item.updated_on}
+                id={item.id}
               />
             </Grid>
           )

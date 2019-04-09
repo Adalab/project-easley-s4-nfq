@@ -8,24 +8,23 @@ import Avatar from '@material-ui/core/Avatar';
 
 
 const styles = theme => ({
- 
   titleContainer: {
     display: "flex",
     flexDirection: "row",
     margin: "10px",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   titleRepo: {
     textAlign: "center",
     marginTop: "10px",
-    color: "#29b6f6",
+    textTransform: "uppercase",
+    fontWeight: "bold"
   },
   size: {
     backgroundColor: "#ff9800",
     color: "white",
     fontSize: "25px",
-    maxWidth: "100px",
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
@@ -33,27 +32,20 @@ const styles = theme => ({
     margin:"25px"
   }
 });
-
 class Header extends Component {
   render() {
-
     const {classes} = this.props;
     const {results, dataSize} = this.props;
-
     return (
-     
-      <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
-        <Grid item xs={11} className={classes.titleContainer}>
-              <Typography variant="h3" className={classes.titleRepo}>
-                {results[0].source.repository.name}
-              </Typography>
-              <Avatar className={classes.size}>{dataSize}</Avatar>
-        </Grid>
+      <Grid item xs={12} className={classes.titleContainer}>
+        <Typography variant="h3" color="primary" className={classes.titleRepo}>
+          {results[0].source.repository.name}
+        </Typography>
+        <Avatar className={classes.size}>{dataSize}</Avatar>
       </Grid>
     );
   }
 }
-
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired
