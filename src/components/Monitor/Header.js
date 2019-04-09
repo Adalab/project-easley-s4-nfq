@@ -8,21 +8,18 @@ import Avatar from '@material-ui/core/Avatar';
 
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: "center"
-  },
-  title: {
-    textAlign: "center",
-    marginTop: "10px",
-    color: "#29b6f6",
-  },
+ 
   titleContainer: {
     display: "flex",
     flexDirection: "row",
     margin: "10px",
     justifyContent: "center",
     alignItems: "center"
+  },
+  titleRepo: {
+    textAlign: "center",
+    marginTop: "10px",
+    color: "#29b6f6",
   },
   size: {
     backgroundColor: "#ff9800",
@@ -47,7 +44,7 @@ class Header extends Component {
      
       <Grid container className={classes.root} justify="center" alignItems="center" spacing={8}>
         <Grid item xs={11} className={classes.titleContainer}>
-              <Typography variant="h3" className={classes.title}>
+              <Typography variant="h3" className={classes.titleRepo}>
                 {results[0].source.repository.name}
               </Typography>
               <Avatar className={classes.size}>{dataSize}</Avatar>

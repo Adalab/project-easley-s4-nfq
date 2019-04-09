@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import PullReqList from "./PullReqList";
 import Header from "./Header";
 
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -75,8 +76,12 @@ class Slider extends Component {
     if (results) {
       return (
         <Grid container className={classes.animation}>
-          <Header results={results} dataSize={dataSize} />
-          <PullReqList results={results} />
+          <header>
+            <Header results={results} dataSize={dataSize} />
+          </header>
+          <main>
+            <PullReqList results={results} />
+          </main>
         </Grid>
       );
     } else {

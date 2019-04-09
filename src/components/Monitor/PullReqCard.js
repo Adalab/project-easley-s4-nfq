@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "../../components/PRcard/PRcard.scss";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -8,40 +7,37 @@ import { Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
+
 import moment from "moment";
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: "center"
-  },
   card: {
     height: "120px",
     margin: "5px",
     padding: "10px",
     backgroundColor: "#e0e0e0",
   },
-  contentAvatar: {
+  cardContent: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  authorAvatarContainer: {
     maxWidth: "90px"
   },
-  avatar: {
+  authorAvatar: {
     margin: "10px",
     width: "60px",
     height: "60px",
     border: "solid 2px orange"
   },
-  content: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  namePr: {
-    textAlign: "left",
-    flexBasis: "unset"
-  },
   nameAuthor: {
     textAlign: "left",
     textTransform: "uppercase",
     color: "#29b6f6"
+  },
+  namePr: {
+    textAlign: "left",
+    flexBasis: "unset"
   },
   repos: {
     display: "flex",
@@ -57,10 +53,16 @@ const styles = theme => ({
   },
   reviewersAvatarContainer:{
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItem: "cemter"
   },
   avatarReviewrs: {
-    margin: "5px"
+    margin: "5px",
+  },
+  date: {
+    marginLeft: "100px",
+    textAlign: "center"
   }
 });
 
@@ -90,12 +92,12 @@ class PullReqCard extends Component {
 
     return (
       <Card className={classes.card}>
-        <CardContent className={classes.content}>
-          <Grid item xs={1} className={classes.contentAvatar}>
+        <CardContent className={classes.cardContent}>
+          <Grid item xs={1} className={classes.authorAvatarContainer}>
             <Avatar
               alt="Remy Sharp"
               src={authorAvatar}
-              className={classes.avatar}
+              className={classes.authorAvatar}
             />
           </Grid>
 
@@ -138,19 +140,20 @@ class PullReqCard extends Component {
             })}
             </Grid>
           </Grid>
-          <Grid item>
+
+          {/* <Grid item>
           {participants.map((item => {
             return (
               <div>{item.user.display_name}</div>
             )
           }))}
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={2}>
             <Typography variant="subtitle2">
-              <div className="date__container">
+              <div className={classes.date}>
                 {moment(date).format("DD/MM/YYYY hh:mm:ss")}
-                <span className="prcard__date">{this.getDiffDates(date)}</span>
+                <span>{this.getDiffDates(date)}</span>
               </div>
             </Typography>
           </Grid>
