@@ -7,6 +7,7 @@ import { Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
+import Badge from '@material-ui/core/Badge';
 
 import moment from "moment";
 
@@ -54,28 +55,73 @@ const styles = theme => ({
   reviewersAvatarContainer:{
     display: "flex",
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "center",
-    alignItem: "cemter"
+    alignItems: "center"
   },
   avatarReviewrs: {
     margin: "5px",
   },
-  date: {
+  dateContainer:{
     marginLeft: "100px",
-    textAlign: "center"
+    display: "flex",
+    flexDirection:"column",
+    alignItems: "center"
+  },
+  date: {
+    textAlign: "center",
+    paddingBottom:"25px"
+  },
+  badge: { 
+    top: '30%', 
+    right: -3, 
+    backgroundColor: "#29b6f6"
+  },
+  circleStatus:{
+    width: "20px",
+    height:"20px",
+    borderRadius: "50%",
+    
+  },
+  green: {
+    backgroundColor:"green"
+  },
+  yellow: {
+    backgroundColor:"yellow"
+  },
+  
+  red: {
+    backgroundColor:"red"
   }
 });
 
 class PullReqCard extends Component {
   constructor(props) {
     super(props);
+    
 
     this.getDiffDates = this.getDiffDates.bind(this);
   }
   getDiffDates(date){
-    let test = moment().diff(moment(date), 'hours')
+    let test = moment().diff(moment(date), 'hours');
+    
+    console.log(date," ",test)
+    if(test < 24){
+      return(
+        <div className={`${this.props.classes.green} ${this.props.classes.circleStatus}`}></div>
+      )
+    }
+    else if(test >= 24 && test < 48){
+      return(
+        <div className={`${this.props.classes.yellow} ${this.props.classes.circleStatus}`}></div>
+       )
+    }
+    else{
+      return(
+        <div className={`${this.props.classes.red} ${this.props.classes.circleStatus}`}></div>
+      )
+    }
   }
-
   render() {
     const {
       classes,
@@ -87,7 +133,8 @@ class PullReqCard extends Component {
       comments,
       reviewers,
       participants,
-      date
+      date,
+      id
     } = this.props; 
 
     return (
@@ -107,6 +154,9 @@ class PullReqCard extends Component {
             </Typography>
             <Typography variant="subtitle1" className={classes.namePr}>
               {title}
+            </Typography>
+            <Typography variant="subtitle1" className={classes.namePr}>
+              #{id}
             </Typography>
           </Grid>
 
@@ -141,21 +191,47 @@ class PullReqCard extends Component {
             </Grid>
           </Grid>
 
-          {/* <Grid item>
-          {participants.map((item => {
-            return (
-              <div>{item.user.display_name}</div>
-            )
-          }))}
-          </Grid> */}
+          <Grid container xs={2} className={classes.reviewersContainer}>
+            <Grid item className={classes.titleReviewers}>
+              <Typography variant="subtitle2">
+                Approved
+              </Typography>
+            </Grid>
+         
+            <Grid item className={classes.reviewersAvatarContainer}>
+            {participants.map((item => {
+              if(item.approved===true){
+                  return (
+                
+                <Badge badgeContent={"✔"} classes={{ badge: classes.badge }}>
+                  <Avatar
+                    alt=""
+                    src={item.user.links.avatar.href }
+                    className={classes.avatarReviewrs}
+                  />
+                </Badge>
+                )
+              }else{ 
+                return(
+                  ""
+                )
+              }
+            
+            }))}
+            </Grid>
+          </Grid>
 
-          <Grid item xs={2}>
-            <Typography variant="subtitle2">
-              <div className={classes.date}>
-                {moment(date).format("DD/MM/YYYY hh:mm:ss")}
-                <span>{this.getDiffDates(date)}</span>
-              </div>
-            </Typography>
+          <Grid container xs={2} className={classes.dateContainer}>
+            <Grid item>
+              <Typography variant="subtitle2">
+                <div className={classes.date}>
+                  {moment(date).format("DD/MM/YYYY hh:mm:ss")}
+                </div>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <div> {this.getDiffDates(date)} </div>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>

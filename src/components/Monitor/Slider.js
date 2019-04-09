@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { fetchRepos } from "../../Services/RepoServices";
 
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 
 import Loading from "./Loading";
 import PullReqList from "./PullReqList";
@@ -15,7 +14,6 @@ const styles = theme => ({
     flexGrow: 1,
     textAlign: "center"
   },
-  animation: {}
 });
 
 class Slider extends Component {
@@ -66,23 +64,23 @@ class Slider extends Component {
       });
     };
     showRepo();
-    //setInterval(showRepo, 5000);
+    setInterval(showRepo, 5000);
   }
 
   render() {
-    const { classes } = this.props;
+
     const { results, dataSize } = this.state;
 
     if (results) {
       return (
-        <Grid container className={classes.animation}>
+        <React.Fragment>
           <header>
             <Header results={results} dataSize={dataSize} />
           </header>
           <main>
             <PullReqList results={results} />
           </main>
-        </Grid>
+        </React.Fragment>
       );
     } else {
       return <Loading />;

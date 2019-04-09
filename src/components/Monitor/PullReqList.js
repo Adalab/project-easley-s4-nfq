@@ -32,6 +32,7 @@ class PullReqList extends Component {
                 reviewers={item.reviewers}
                 participants={item.participants}
                 date={item.created_on}
+                id={item.id}
               />
             </Grid>
           )
