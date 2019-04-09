@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import Slider from './components/Monitor/Slider';
+import App from './components/Monitor/App';
 
 ReactDOM.render(
     <HashRouter>
-        <Slider />
+        <App />
     </HashRouter>,
 document.getElementById('root'));
 

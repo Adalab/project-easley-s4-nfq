@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { fetchRepos } from "../../Services/RepoServices";
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from "@material-ui/core/styles";
 
 import Loading from "./Loading";
@@ -16,7 +18,28 @@ const styles = theme => ({
   },
 });
 
-class Slider extends Component {
+const themeApp = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#29b6f6',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#333',
+      contrastText: '#000',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Nunito Sans', 
+      'sans-serif',
+    ].join(','),
+    fontSize: 16
+  },
+});
+
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +87,7 @@ class Slider extends Component {
       });
     };
     showRepo();
-    setInterval(showRepo, 5000);
+    //setInterval(showRepo, 5000);
   }
 
   render() {
@@ -74,12 +97,15 @@ class Slider extends Component {
     if (results) {
       return (
         <React.Fragment>
-          <header>
-            <Header results={results} dataSize={dataSize} />
-          </header>
-          <main>
-            <PullReqList results={results} />
-          </main>
+          <CssBaseline />
+          <MuiThemeProvider theme={themeApp}>
+            <header>
+              <Header results={results} dataSize={dataSize} />
+            </header>
+            <main>
+              <PullReqList results={results} />
+            </main>
+          </MuiThemeProvider>
         </React.Fragment>
       );
     } else {
@@ -88,8 +114,8 @@ class Slider extends Component {
   }
 }
 
-Slider.propTypes = {
+App.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Slider);
+export default withStyles(styles)(App);

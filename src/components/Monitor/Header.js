@@ -18,7 +18,8 @@ const styles = theme => ({
   titleRepo: {
     textAlign: "center",
     marginTop: "10px",
-    color: "#29b6f6",
+    textTransform: "uppercase",
+    fontWeight: "bold"
   },
   size: {
     backgroundColor: "#ff9800",
@@ -37,7 +38,7 @@ class Header extends Component {
     const {results, dataSize} = this.props;
     return (
       <Grid item xs={12} className={classes.titleContainer}>
-        <Typography variant="h3" className={classes.titleRepo}>
+        <Typography variant="h3" color="primary" className={classes.titleRepo}>
           {results[0].source.repository.name}
         </Typography>
         <Avatar className={classes.size}>{dataSize}</Avatar>

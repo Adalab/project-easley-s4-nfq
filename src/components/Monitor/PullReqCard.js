@@ -29,33 +29,59 @@ const styles = theme => ({
     margin: "10px",
     width: "60px",
     height: "60px",
-    border: "solid 2px orange"
+  },
+  infoContainer:{
+    width: "200px"
   },
   nameAuthor: {
     textAlign: "left",
-    textTransform: "uppercase",
-    color: "#29b6f6"
+    textTransform: "capitalize",
+    fontWeight: "bold",
+    fontSize: "20px"
   },
   namePr: {
     textAlign: "left",
-    flexBasis: "unset"
+    flexBasis: "unset",
+    overflow: "hidden",
+    whiteSpace:"nowrap",
+    textOverflow: "ellipsis"
   },
-  repos: {
+  id: {
+    textAlign: "left",
+    flexBasis: "unset",
+    fontWeight: "bold"
+  },
+  branches: {
+    width: "100px",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    margin: "0 30px",
+  },
+  fromBranch :{
+    overflow: "hidden",
+    whiteSpace:"nowrap",
+    textOverflow: "ellipsis"
+  },
+  toBranch :{
+    overflow: "hidden",
+    whiteSpace:"nowrap",
+    textOverflow: "ellipsis"
   },
   comments: {
-    width: "50px"
+    width: "35px",
+    margin: "0 20px"
+  },
+  titleReviewers:{
+    fontWeight: "bold",
   },
   reviewersContainer: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    margin: "0 20px"
   },
   reviewersAvatarContainer:{
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center"
   },
@@ -70,7 +96,8 @@ const styles = theme => ({
   },
   date: {
     textAlign: "center",
-    paddingBottom:"25px"
+    paddingBottom:"10px",
+    fontWeight: "bold",
   },
   badge: { 
     top: '30%', 
@@ -81,7 +108,6 @@ const styles = theme => ({
     width: "20px",
     height:"20px",
     borderRadius: "50%",
-    
   },
   green: {
     backgroundColor:"green"
@@ -89,7 +115,6 @@ const styles = theme => ({
   yellow: {
     backgroundColor:"yellow"
   },
-  
   red: {
     backgroundColor:"red"
   }
@@ -99,13 +124,12 @@ class PullReqCard extends Component {
   constructor(props) {
     super(props);
     
-
     this.getDiffDates = this.getDiffDates.bind(this);
   }
+
   getDiffDates(date){
     let test = moment().diff(moment(date), 'hours');
     
-    console.log(date," ",test)
     if(test < 24){
       return(
         <div className={`${this.props.classes.green} ${this.props.classes.circleStatus}`}></div>
@@ -122,6 +146,7 @@ class PullReqCard extends Component {
       )
     }
   }
+
   render() {
     const {
       classes,
@@ -142,39 +167,39 @@ class PullReqCard extends Component {
         <CardContent className={classes.cardContent}>
           <Grid item xs={1} className={classes.authorAvatarContainer}>
             <Avatar
-              alt="Remy Sharp"
+              alt="Author's image"
               src={authorAvatar}
               className={classes.authorAvatar}
             />
           </Grid>
 
-          <Grid item xs={3}>
-            <Typography variant="h6" className={classes.nameAuthor}>
+          <Grid item xs={3} className={classes.infoContainer}>
+            <Typography variant="subtitle2" color="primary" className={classes.nameAuthor}>
               {authorName}
             </Typography>
-            <Typography variant="subtitle1" className={classes.namePr}>
+            <Typography variant="body2" color="secondary" className={classes.namePr}>
               {title}
             </Typography>
-            <Typography variant="subtitle1" className={classes.namePr}>
+            <Typography variant="subtitle2" color="secondary" className={classes.id}>
               #{id}
             </Typography>
           </Grid>
 
-          <Grid item xs={2} className={classes.repos}>
-            <Typography variant="subtitle2">{fromBranch}</Typography>{" "}
-            <i className="fas fa-arrow-down " />
-            <Typography variant="subtitle2">{toBranch}</Typography>
+          <Grid item xs={2} className={classes.branches}>
+            <Typography variant="subtitle2" className={classes.fromBranch} color="secondary">{fromBranch}</Typography>
+              <i className="fas fa-arrow-down"/>
+            <Typography variant="subtitle2" className={classes.toBranch} color="secondary">{toBranch}</Typography>
           </Grid>
 
           <Grid item xs={1} className={classes.comments}>
-            <Typography variant="subtitle2">
-              <i className="far fa-comment-dots fa-2x" /><br />{comments}
+            <Typography variant="subtitle2" color="secondary">
+              <i className="far fa-comment-dots fa-2x"/><br/>{comments}
             </Typography>
           </Grid>
 
           <Grid container xs={2} className={classes.reviewersContainer}>
-            <Grid item className={classes.titleReviewers}>
-              <Typography variant="subtitle2">
+            <Grid item>
+              <Typography className={classes.titleReviewers} variant="subtitle2" color="secondary">
                 Reviewers
               </Typography>
             </Grid>
@@ -182,7 +207,8 @@ class PullReqCard extends Component {
             {reviewers.map((item, index) => {
               return (
                 <Avatar
-                  alt=""
+                  key={index}
+                  alt="Reviewer's image"
                   src={item.links.avatar.href}
                   className={classes.avatarReviewrs}
                 />
@@ -192,8 +218,8 @@ class PullReqCard extends Component {
           </Grid>
 
           <Grid container xs={2} className={classes.reviewersContainer}>
-            <Grid item className={classes.titleReviewers}>
-              <Typography variant="subtitle2">
+            <Grid item>
+              <Typography className={classes.titleReviewers} variant="subtitle2" color="secondary">
                 Approved
               </Typography>
             </Grid>
@@ -223,7 +249,7 @@ class PullReqCard extends Component {
 
           <Grid container xs={2} className={classes.dateContainer}>
             <Grid item>
-              <Typography variant="subtitle2">
+              <Typography variant="subtitle2" color="secondary">
                 <div className={classes.date}>
                   {moment(date).format("DD/MM/YYYY hh:mm:ss")}
                 </div>
