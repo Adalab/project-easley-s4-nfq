@@ -33,6 +33,8 @@ class PullReqList extends Component {
                   date={item.updated_on}
                   id={item.id}
                 />
+             
+
               </Grid>
             )
           })}

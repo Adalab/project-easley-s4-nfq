@@ -2,16 +2,26 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { fetchRepos } from "../Services/RepoServices";
 
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from "@material-ui/core/styles";
 
 import Loading from "./Loading";
-import PullReqList from "./PullReqList";
 import Header from "./Header";
+import PullReqList from "./PullReqList";
+import Footer from './Footer';
 
 
 const styles = theme => ({
+  html:{
+    minHeight: "100%",
+    position: "relative"
+  },
+  body:{
+    margin: "0px",
+    marginBottom: "40px"
+  },
   root: {
     flexGrow: 1,
     textAlign: "center"
@@ -19,7 +29,8 @@ const styles = theme => ({
   mainContainer:{
     overflowX: "hidden",
     overflowY: "hidden"
-  }
+  },
+
 });
 
 const themeApp = createMuiTheme({
@@ -41,7 +52,6 @@ const themeApp = createMuiTheme({
     fontSize: 16
   },
 });
-
 
 class App extends Component {
   constructor(props) {
@@ -77,20 +87,25 @@ class App extends Component {
           dataSize: size
         });
         let apiResults = data.values.map(item => fetch(item.links.self.href));
-        Promise.all(apiResults).then(url => {
-          const responseUrl = url.map(response => response.json());
-          Promise.all(responseUrl).then(urlId => {
-            this.setState({
-              results: urlId
+        Promise.all(apiResults)
+          .then(url => {
+            const responseUrl = url.map(response => response.json());
+              Promise.all(responseUrl)
+                .then(urlId => {
+                  console.log(urlId)
+                  this.setState({
+                    results: urlId
+                  });
+                  counter++;
+              });
             });
-            counter++;
           });
-        });
-      });
-    };
-    showRepo();
-    setInterval(showRepo, 5000);
-  }
+        };
+      showRepo();
+      setInterval(showRepo, 5000);
+    }
+
+  
 
   render() {
     const { classes} = this.props
@@ -102,11 +117,14 @@ class App extends Component {
           <CssBaseline />
           <MuiThemeProvider theme={themeApp}>
             <header>
-              <Header results={results} dataSize={dataSize} />
+              <Header results={results} dataSize={dataSize}/>
             </header>
             <main className={classes.mainContainer}>
-              <PullReqList results={results} />
+              <PullReqList results={results}/>
             </main>
+            <footer>
+              <Footer/>
+            </footer>
           </MuiThemeProvider>
         </React.Fragment>
       );

@@ -5,13 +5,13 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
-import Reviewers from './Reviewers';
-import Date from './Date';
-import Branches from './Branches';
-import AuthorAvatar from './AuthorAvatar';
-import Comments from './Comments'
-import Participants from "./Participants";
-import InformationPr from "./InformationPr";
+import Reviewers from './ComponentsCard/Reviewers';
+import Date from './ComponentsCard/Date';
+import Branches from './ComponentsCard/Branches';
+import AuthorAvatar from './ComponentsCard/AuthorAvatar';
+import Comments from './ComponentsCard/Comments'
+import Participants from "./ComponentsCard/Participants";
+import InformationPr from "./ComponentsCard/InformationPr";
 
 const styles = theme => ({
   card: {
