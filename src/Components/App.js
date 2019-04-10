@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { fetchRepos } from "../../Services/RepoServices";
+import { fetchRepos } from "../Services/RepoServices";
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +16,10 @@ const styles = theme => ({
     flexGrow: 1,
     textAlign: "center"
   },
+  mainContainer:{
+    overflowX: "hidden",
+    overflowY: "hidden"
+  }
 });
 
 const themeApp = createMuiTheme({
@@ -50,9 +54,9 @@ class App extends Component {
         "atlassian-aws-deployment",
         "atlassian-azure-deployment",
         "atlasboard-atlassian-package"
-      ]
-    };
-    this.getPullRequest = this.getPullRequest.bind(this);
+        ]
+      };
+      this.getPullRequest = this.getPullRequest.bind(this);
   }
 
   componentDidMount() {
@@ -61,12 +65,10 @@ class App extends Component {
 
   getPullRequest() {
     let counter = 0;
-
     const showRepo = () => {
       if (counter > this.state.repoNames.length - 1) {
         counter = 0;
       }
-
       let repoName = this.state.repoNames[counter];
 
       fetchRepos(repoName).then(data => {
@@ -91,7 +93,7 @@ class App extends Component {
   }
 
   render() {
-
+    const { classes} = this.props
     const { results, dataSize } = this.state;
 
     if (results) {
@@ -102,7 +104,7 @@ class App extends Component {
             <header>
               <Header results={results} dataSize={dataSize} />
             </header>
-            <main>
+            <main className={classes.mainContainer}>
               <PullReqList results={results} />
             </main>
           </MuiThemeProvider>

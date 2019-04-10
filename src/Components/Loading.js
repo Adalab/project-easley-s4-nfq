@@ -17,6 +17,7 @@ const styles = theme => ({
 class Loading extends Component {
   render(){
     const {classes} = this.props;
+    
       return(
         <div className={classes.containerLoading}>
           <CircularProgress className={classes.progress} color="primary"/>

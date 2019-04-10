@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import {Typography} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 
-
 const styles = theme => ({
   titleContainer: {
     display: "flex",
@@ -36,6 +35,7 @@ class Header extends Component {
   render() {
     const {classes} = this.props;
     const {results, dataSize} = this.props;
+    
     return (
       <Grid item xs={12} className={classes.titleContainer}>
         <Typography variant="h3" color="primary" className={classes.titleRepo}>
